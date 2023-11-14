@@ -3,9 +3,11 @@ local dashboard = require("alpha.themes.dashboard")
 
 dashboard.section.header.val = require('ascii').art.text.neovim.sharp
 
-dashboard.section.terminal.command = "cat | lolcat --seed=24 "
-.. os.getenv("HOME")
-.. "/.config/nvim/static/neovim.cat"
+if vim.fn.has "win32" ~= 1 then
+    dashboard.section.terminal.command = "cat | lolcat --seed=24 "
+    .. os.getenv("HOME")
+    .. "/.config/nvim/static/neovim.cat"
+end
 
 -- Set menu
 dashboard.section.buttons.val = {
