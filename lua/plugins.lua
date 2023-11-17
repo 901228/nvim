@@ -21,7 +21,7 @@ return require("packer").startup(function()
     use 'glepnir/zephyr-nvim'
     use {
         'nvim-telescope/telescope.nvim',
-        tag = '0.1.1',
+        tag = '0.1.4',
         requires = 'nvim-lua/plenary.nvim'
     }
     use {
@@ -71,7 +71,7 @@ return require("packer").startup(function()
 
     --- enhancement ---
     -- Lua
-    use { 'folke/neodev.nvim', config = function() require('neodev').setup({}) end }
+    use 'folke/neodev.nvim'
     -- Json
     use 'b0o/schemastore.nvim'
     -- CMake

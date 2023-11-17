@@ -115,4 +115,7 @@ end
 -- cmake-tools
 map("n", "<leader>cd", ":CMakeGenerate<CR>:CMakeBuild<CR>:CMakeRun<CR>", opt)
 
+-- source
+map("n", "<leader>s", ":source $MYVIMRC<CR>", opt)
+
 return pluginKeys

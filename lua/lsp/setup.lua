@@ -10,6 +10,8 @@ if not status then
     return
 end
 
+require('neodev').setup({})
+
 local status, lspconfig = pcall(require, 'lspconfig')
 if not status then
     vim.notify("missing lspconfig")
