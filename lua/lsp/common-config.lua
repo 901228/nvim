@@ -1,11 +1,11 @@
 local M = {}
 
 M.keyAttach = function(bufnr)
-  local function buf_set_keymap(mode, lhs, rhs)
-    vim.keymap.set(mode, lhs, rhs, { noremap = true, silent = true, buffer = bufnr })
-  end
+  -- local function buf_set_keymap(mode, lhs, rhs)
+  --   vim.keymap.set(mode, lhs, rhs, { noremap = true, silent = true, buffer = bufnr })
+  -- end
   -- bind keybindings
-  require("keybindings").mapLSP(buf_set_keymap)
+  require("keybindings").mapLSP(bufnr)
 end
 
 -- disable formatiing by lsp server, let other plugins to do it

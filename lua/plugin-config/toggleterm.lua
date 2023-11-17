@@ -14,6 +14,7 @@ require('toggleterm').setup {
 }
 
 local Terminal  = require('toggleterm.terminal').Terminal
+local map = require('keybindings').Map
 
 local lazygit = Terminal:new {
     cmd = "lazygit",
@@ -26,7 +27,7 @@ local lazygit = Terminal:new {
         vim.cmd("startinsert!")
         -- q / <leader>tg 关闭 terminal
         vim.api.nvim_buf_set_keymap(term.bufnr, "n", "q", "<cmd>close<CR>", { noremap = true, silent = true })
-        vim.api.nvim_buf_set_keymap(term.bufnr, "n", "<leader>tg", "<cmd>close<CR>", { noremap = true, silent = true })
+        map("n", "<leader>tg", "<cmd>close<CR>", { noremap = true, silent = true, buffer = term.bufnr })
         -- ESC 键取消，留给lazygit
         if vim.fn.mapcheck("<Esc>", "t") ~= "" then
             vim.api.nvim_del_keymap("t", "<Esc>")
@@ -94,7 +95,14 @@ local toggleG = function()
     lazygit:toggle()
 end
 
-vim.keymap.set({ 'n', 't' }, "<leader>ta", toggleA)
-vim.keymap.set({ 'n', 't' }, "<leader>tb", toggleB)
-vim.keymap.set({ 'n', 't' }, "<leader>tc", toggleC)
-vim.keymap.set({ 'n', 't' }, "<leader>tg", toggleG)
+local set_group_hint = require('keybindings').SetGroupHint
+
+map('n', "<leader>ta", toggleA, {}, 'Float')
+map('n', "<leader>tb", toggleB, {}, 'Vertical')
+map('n', "<leader>tc", toggleC, {}, 'Horizontal')
+map('n', "<leader>tg", toggleG, {}, 'Lazygit')
+map('t', "<leader>ta", toggleA, {}, 'Float')
+map('t', "<leader>tb", toggleB, {}, 'Vertical')
+map('t', "<leader>tc", toggleC, {}, 'Horizontal')
+map('t', "<leader>tg", toggleG, {}, 'Lazygit')
+set_group_hint('<leader>t', '+ ToggleTerm')

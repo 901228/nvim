@@ -1,75 +1,119 @@
+local M = {}
+
 -- leader
 vim.g.mapleader = ","
 vim.g.maplocalleader = ","
 
-local map = vim.api.nvim_set_keymap
+local wk = require('which-key')
+
+local keymap = vim.api.nvim_set_keymap
 local keyset = vim.keymap.set
 local opt = { noremap = true, silent = true }
+function Map(mode, lhs, rhs, opts, name)
+    -- if type(rhs) == 'string' then
+    --     keymap(mode, lhs, rhs, opts)
+    -- elseif type(rhs) == 'function' then
+    --     keyset(mode, lhs, rhs, opts)
+    -- end
+
+    if name == nil then
+        if type(rhs) == 'string' then
+            name = rhs
+        else
+            name = ''
+        end
+    end
+
+    local wk_opts = {
+        mode = mode,
+        silent = opts.silent,
+        noremap = opts.noremap,
+        nowait = opts.nowait,
+        expr = opts.expr,
+        buffer = opts.buffer,
+    }
+
+    wk.register( { [lhs] = { rhs, name } }, wk_opts )
+end
+M.Map = Map
+
+function SetGroupHint(prefix, name)
+    wk.register({ [prefix] = { name = name } })
+end
+M.SetGroupHint = SetGroupHint
 
 -- map(<mode>, <lhs>, <rhs>, opts)
 -- keyset(<mode>, <lhs>, <rhs>, opts)
 -- mode => normal, visual, insert, select, command-line, terminal ...
 --  lhs => key
 --  rhs => mapping function
+--  opts => silent, noremap, expr, buffer ...
+--  name => name to show on which-key
 
 -- leader
-map("n", "<leader>w", ":w<CR>", opt)
-map("n", "<leader>q", ":q<CR>", opt)
+Map("n", "<leader>w", ":w<CR>", opt, 'save')
+Map("n", "<leader>q", ":q<CR>", opt, 'quit')
 
 -- alt + hjkl  窗口之间跳转
-map("n", "<A-h>", "<C-w>h", opt)
-map("n", "<A-j>", "<C-w>j", opt)
-map("n", "<A-k>", "<C-w>k", opt)
-map("n", "<A-l>", "<C-w>l", opt)
+Map("n", "<A-h>", "<C-w>h", opt)
+Map("n", "<A-j>", "<C-w>j", opt)
+Map("n", "<A-k>", "<C-w>k", opt)
+Map("n", "<A-l>", "<C-w>l", opt)
 
 -- nvimTree
-vim.keymap.set("n", "<leader>rt", function() return require("nvim-tree.api").tree.toggle() end, opt)
-vim.keymap.set("n", "<leader>rc", function() return require("nvim-tree.api").tree.focus() end, opt)
+Map("n", "<leader>rt", function() return require("nvim-tree.api").tree.toggle() end, opt, 'toggle NvimTree')
+Map("n", "<leader>rc", function() return require("nvim-tree.api").tree.focus() end, opt, 'focus NvimTree')
+SetGroupHint('<leader>r', '+ NvimTree')
 
 -- format by nvimtree-sitter
-map("n", "<leader>i", "gg=G``", opt);
+Map("n", "<leader>i", "gg=G``", opt, 'auto format');
 
 -- bufferline 左右Tab切换
-map("n", "<C-h>", ":BufferLineCyclePrev<CR>", opt)
-map("n", "<C-l>", ":BufferLineCycleNext<CR>", opt)
+Map("n", "<C-h>", ":BufferLineCyclePrev<CR>", opt)
+Map("n", "<C-l>", ":BufferLineCycleNext<CR>", opt)
 
 local builtin = require('telescope.builtin')
-vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
-vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
-vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
-vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
-
--- lsp
-local pluginKeys = {}
+Map('n', '<leader>ff', builtin.find_files, {}, 'find file')
+Map('n', '<leader>fg', builtin.live_grep, {}, 'find')
+Map('n', '<leader>fb', builtin.buffers, {}, 'find buffers')
+Map('n', '<leader>fh', builtin.help_tags, {}, 'helps')
+SetGroupHint('<leader>f', '+ Telescope')
 
 -- lsp 回调函数快捷键设置
-pluginKeys.maplsp = function(mapbuf)
+M.maplsp = function(bufnr)
+
+    local lsp_opt = {
+        noremap = true,
+        silen = true,
+        buffer = bufnr,
+    }
+
     -- rename
-    mapbuf('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opt)
+    Map('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', lsp_opt)
     -- code action
-    mapbuf('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opt)
+    Map('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', lsp_opt)
     -- go xx
-    mapbuf('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opt)
-    mapbuf('n', 'gh', '<cmd>lua vim.lsp.buf.hover()<CR>', opt)
-    mapbuf('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opt)
-    mapbuf('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opt)
-    mapbuf('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opt)
+    Map('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', lsp_opt)
+    Map('n', 'gh', '<cmd>lua vim.lsp.buf.hover()<CR>', lsp_opt)
+    Map('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', lsp_opt)
+    Map('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', lsp_opt)
+    Map('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', lsp_opt)
     -- diagnostic
-    mapbuf('n', 'go', '<cmd>lua vim.diagnostic.open_float()<CR>', opt)
-    mapbuf('n', 'gp', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opt)
-    mapbuf('n', 'gn', '<cmd>lua vim.diagnostic.goto_next()<CR>', opt)
-    -- mapbuf('n', '<leader>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', opt)
+    Map('n', 'go', '<cmd>lua vim.diagnostic.open_float()<CR>', lsp_opt)
+    Map('n', 'gp', '<cmd>lua vim.diagnostic.goto_prev()<CR>', lsp_opt)
+    Map('n', 'gn', '<cmd>lua vim.diagnostic.goto_next()<CR>', lsp_opt)
+    -- map('n', '<leader>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', lsp_opt)
     -- leader + =
-    mapbuf('n', '<leader>=', '<cmd>lua vim.lsp.buf.formatting()<CR>', opt)
-    -- mapbuf('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opt)
-    -- mapbuf('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opt)
-    -- mapbuf('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opt)
-    -- mapbuf('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opt)
-    -- mapbuf('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opt)
+    Map('n', '<leader>=', '<cmd>lua vim.lsp.buf.formatting()<CR>', lsp_opt)
+    -- map('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', lsp_opt)
+    -- map('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', lsp_opt)
+    -- map('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', lsp_opt)
+    -- map('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', lsp_opt)
+    -- map('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', lsp_opt)
 end
 
 -- nvim-cmp 自动补全
-pluginKeys.cmp = function(cmp)
+M.cmp = function(cmp)
     local enterBehavior = function(fallback)
         if cmp.visible() and cmp.get_active_entry() then
             cmp.confirm({ select = true, behavior = cmp.ConfirmBehavior.Replace })
@@ -113,9 +157,10 @@ pluginKeys.cmp = function(cmp)
 end
 
 -- cmake-tools
-map("n", "<leader>cd", ":CMakeGenerate<CR>:CMakeBuild<CR>:CMakeRun<CR>", opt)
+Map("n", "<leader>cd", ":CMakeGenerate<CR>:CMakeBuild<CR>:CMakeRun<CR>", opt, 'Debug')
+SetGroupHint('<leader>c', '+ CMake')
 
 -- source
-map("n", "<leader>s", ":source $MYVIMRC<CR>", opt)
+Map("n", "<leader>s", ":source $MYVIMRC<CR>", opt, 'Reload Neovim')
 
-return pluginKeys
+return M
