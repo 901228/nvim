@@ -1,24 +1,15 @@
-local colors = {
-    blue   = '#80a0ff',
-    cyan   = '#79dac8',
-    black  = '#080808',
-    white  = '#c6c6c6',
-    red    = '#ff5189',
-    violet = '#d183e8',
-    grey   = '#303030',
-    lightBlue = '#a6bcff'
-}
+local colors = require('utils').colors
 
 local bubbles_theme = {
     normal = {
-        a = { fg = colors.black, bg = colors.violet },
-        b = { fg = colors.white, bg = colors.grey },
-        c = { fg = colors.white, bg = colors.black },
+        a = { fg = colors.darkGrey, bg = colors.lightBlue },
+        b = { fg = colors.white, bg = colors.lightGrey },
+        c = { fg = colors.white, bg = colors.transparent },
     },
 
-    insert = { a = { fg = colors.black, bg = colors.lightBlue } },
-    visual = { a = { fg = colors.black, bg = colors.cyan } },
-    replace = { a = { fg = colors.black, bg = colors.red } },
+    insert = { a = { fg = colors.darkGrey, bg = colors.green } },
+    visual = { a = { fg = colors.darkGrey, bg = colors.violet } },
+    replace = { a = { fg = colors.darkGrey, bg = colors.coral } },
 
     inactive = {
         a = { fg = colors.white, bg = colors.black },
@@ -32,6 +23,7 @@ require('lualine').setup {
         theme = bubbles_theme,
         component_separators = '|',
         section_separators = { left = '', right = '' },
+        disabled_filetypes = { 'packer', 'NvimTree' }
     },
     sections = {
         lualine_a = {

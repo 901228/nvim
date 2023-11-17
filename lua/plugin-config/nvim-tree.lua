@@ -75,36 +75,38 @@ require('nvim-tree').setup {}
 local open_nvim_tree = function(data)
 
     -- buffer is a real file on the disk
-    local real_file = (vim.fn.filereadable(data.file) == 1)
+    local real_file = vim.fn.filereadable(data.file) == 1
 
     -- buffer is a [No Name]
-    local no_name = ((data.file == "") and (vim.bo[data.buf].buftype == ""))
+    local no_name = data.file == '' and vim.bo[data.buf].buftype == ''
 
     -- buffer is a directory
-    local directory = (vim.fn.isdirectory(data.file) == 1)
+    local directory = vim.fn.isdirectory(data.file) == 1
 
-    if (not real_file) and (not no_name) and (not directory) then
+    if not real_file and not no_name and not directory then
         return
-    end
-
-    -- change to the directory
-    if directory then
+    elseif not directory then
+        return
+    elseif directory
+        -- change to the directory
+    then
         vim.cmd.cd(data.file)
+        -- require('alpha').start(true, require('plugin-config.alpha').config)
     end
 
     -- open the tree but don't focus it
-    require("nvim-tree.api").tree.toggle({ focus = false })
+    require('nvim-tree.api').tree.toggle({ focus = false })
 end
 
 -- auto open when enter nvim
-vim.api.nvim_create_autocmd({ "VimEnter" }, { callback = open_nvim_tree })
+vim.api.nvim_create_autocmd('VimEnter', { callback = open_nvim_tree })
 
 -- auto close when leave nvim
--- vim.api.nvim_create_autocmd("BufEnter", {
+-- vim.api.nvim_create_autocmd('BufEnter', {
 --   nested = true,
 --   callback = function()
 --     if #vim.api.nvim_list_wins() == 1 and require("nvim-tree.utils").is_nvim_tree_buf() then
---       vim.cmd "quit"
+--       vim.cmd('quit')
 --     end
 --   end
 -- })

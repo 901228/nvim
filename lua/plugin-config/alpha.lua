@@ -15,9 +15,9 @@ dashboard.section.buttons.val = {
     dashboard.button("e", "  > New file" , "<cmd>ene<CR>"),
     dashboard.button("r", "  > Recent file"   , "<cmd>Telescope oldfiles<CR>"),
     dashboard.button("f", "  > Find file", "<cmd>Telescope find_files hidden=true path_display=smart<CR>"),
-    dashboard.button("s", "  > Search file", "<cmd>Telescope live_grep path_display=smart<CR>"),
+    dashboard.button("g", "  > Search file", "<cmd>Telescope live_grep path_display=smart<CR>"),
     dashboard.button("u", "  > Update plugins"   , "<cmd>PackerSync<CR>"),
-    -- dashboard.button("s", "  > Settings" , "<cmd>e $MYVIMRC | :cd %:p:h | split . | wincmd k | pwd<CR>"),
+    dashboard.button("s", "  > Settings" , "<cmd>e $MYVIMRC | :cd %:p:h | split . | wincmd k | pwd<CR>"),
     dashboard.button("q", "  > Quit NVIM", "<cmd>qa!<CR>"),
 }
 
@@ -58,3 +58,7 @@ alpha.setup(dashboard.opts)
 vim.cmd([[
     autocmd FileType alpha setlocal nofoldenable
 ]])
+
+return {
+    config = dashboard.opts
+}
