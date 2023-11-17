@@ -61,9 +61,9 @@ Map("n", "<A-k>", "<C-w>k", opt)
 Map("n", "<A-l>", "<C-w>l", opt)
 
 -- nvimTree
-Map("n", "<leader>rt", function() return require("nvim-tree.api").tree.toggle() end, opt, 'toggle NvimTree')
-Map("n", "<leader>rc", function() return require("nvim-tree.api").tree.focus() end, opt, 'focus NvimTree')
-SetGroupHint('<leader>r', '+ NvimTree')
+Map("n", "<leader>et", function() return require("nvim-tree.api").tree.toggle() end, opt, 'toggle NvimTree')
+Map("n", "<leader>ec", function() return require("nvim-tree.api").tree.focus() end, opt, 'focus NvimTree')
+SetGroupHint('<leader>e', '+ NvimTree')
 
 -- format by nvimtree-sitter
 Map("n", "<leader>i", "gg=G``", opt, 'auto format');
@@ -89,7 +89,7 @@ M.maplsp = function(bufnr)
     }
 
     -- rename
-    Map('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', lsp_opt)
+    -- Map('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', lsp_opt)
     -- code action
     Map('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', lsp_opt)
     -- go xx
@@ -157,10 +157,13 @@ M.cmp = function(cmp)
 end
 
 -- cmake-tools
-Map("n", "<leader>cd", ":CMakeGenerate<CR>:CMakeBuild<CR>:CMakeRun<CR>", opt, 'Debug')
+Map("n", "<leader>cd", "<CMD>CMakeGenerate<CR><CMD>CMakeBuild<CR><CMD>CMakeRun<CR>", opt, 'Debug')
 SetGroupHint('<leader>c', '+ CMake')
 
 -- source
-Map("n", "<leader>s", ":source $MYVIMRC<CR>", opt, 'Reload Neovim')
+Map("n", "<leader>s", "<CMD>source $MYVIMRC<CR>", opt, 'Reload Neovim')
+
+-- inc_rename
+Map('n', '<leader>r', function() return ':IncRename ' .. vim.fn.expand('<cword>') end, { expr = true }, 'Rename')
 
 return M

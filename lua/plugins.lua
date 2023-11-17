@@ -10,23 +10,10 @@ return require("packer").startup(function()
         opt = true,
         config = function() require'nvim-tree'.setup {} end
     }
-    use { 'akinsho/bufferline.nvim', requires = 'kyazdani42/nvim-web-devicons' }
-    use {
-        'nvim-treesitter/nvim-treesitter',
-        run = function()
-            local ts_update = require('nvim-treesitter.install').update({ with_sync = true })
-            ts_update()
-        end,
-    }
-    use 'glepnir/zephyr-nvim'
     use {
         'nvim-telescope/telescope.nvim',
         tag = '0.1.4',
         requires = 'nvim-lua/plenary.nvim'
-    }
-    use {
-        'windwp/nvim-autopairs',
-        config = function() require('nvim-autopairs').setup {} end
     }
     use {
         'numToStr/Comment.nvim',
@@ -36,15 +23,6 @@ return require("packer").startup(function()
         'kylechui/nvim-surround',
         tag = "*", -- Use for stability; omit to use `main` branch for the latest features
         config = function() require("nvim-surround").setup {} end
-    }
-    use {
-        'nvim-lualine/lualine.nvim',
-        requires = { 'nvim-tree/nvim-web-devicons', opt = true }
-    }
-    use {
-        'akinsho/toggleterm.nvim',
-        tag = '*',
-        -- config = function() require('toggleterm').setup {} end
     }
 
     ---- LSP ----
@@ -69,13 +47,20 @@ return require("packer").startup(function()
     -- lspkind
     use 'onsails/lspkind-nvim'
 
-    --- enhancement ---
+    --- language enhancement ---
     -- Lua
     use 'folke/neodev.nvim'
     -- Json
     use 'b0o/schemastore.nvim'
     -- CMake
     use 'Civitasv/cmake-tools.nvim'
+
+    --- others ---
+    -- rename
+    use {
+        'smjonas/inc-rename.nvim',
+        config = function() require('inc_rename').setup() end
+    }
 
     ---- UI ----
     -- alpha
@@ -97,6 +82,32 @@ return require("packer").startup(function()
         config = function() require('trouble').setup {} end
     }
     use 'RRethy/vim-illuminate'
+    use { 'akinsho/bufferline.nvim', requires = 'kyazdani42/nvim-web-devicons' }
+    use {
+        'nvim-treesitter/nvim-treesitter',
+        run = function()
+            local ts_update = require('nvim-treesitter.install').update({ with_sync = true })
+            ts_update()
+        end,
+    }
+    use 'glepnir/zephyr-nvim'
+    use {
+        'windwp/nvim-autopairs',
+        config = function() require('nvim-autopairs').setup {} end
+    }
+    use {
+        'nvim-lualine/lualine.nvim',
+        requires = { 'nvim-tree/nvim-web-devicons', opt = true }
+    }
+    use {
+        'akinsho/toggleterm.nvim',
+        tag = '*',
+        -- config = function() require('toggleterm').setup {} end
+    }
+    use {
+        'folke/noice.nvim',
+        requires = { 'MunifTanjim/nui.nvim', 'rcarriga/nvim-notify' }
+    }
 
     ---- Miscellaneous ----
     use {
