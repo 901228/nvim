@@ -1,7 +1,12 @@
 vim.cmd [[packadd nvim-tree.lua]]
 
+local nvim_tree_width = 25
+
+vim.g.loaded_newtrw = 1
+vim.g.loaded_netrwPlugin = 1
+
 vim.g.nvim_tree_side = "left"
-vim.g.nvim_tree_width = 25
+vim.g.nvim_tree_width = nvim_tree_width
 vim.g.nvim_tree_ignore = {".git", "node_modules", ".cache"}
 vim.g.nvim_tree_auto_open = true
 vim.g.nvim_tree_auto_close = true
@@ -100,12 +105,106 @@ end
 -- auto open when enter nvim
 vim.api.nvim_create_autocmd('VimEnter', { callback = open_nvim_tree })
 
+local function get_real_wins()
+    local win_list = {}
+    for _, v in pairs(vim.api.nvim_list_wins()) do
+        local name = vim.api.nvim_buf_get_name(vim.api.nvim_win_get_buf(v))
+        if name ~= nil and vim.fn.filereadable(name) == 1 then
+            table.insert(win_list, v)
+        end
+    end
+    return win_list
+end
+
+local function buf_is_file_buffer(buffer)
+    local name = vim.api.nvim_buf_get_name(buffer)
+    if vim.fn.buflisted(buffer) == 1 and name ~= nil and vim.fn.filereadable(name) == 1 then
+        return true
+    end
+    return false
+end
+
+local function get_file_buffers()
+    local buffers = {}
+    -- print(#vim.api.nvim_list_bufs())
+    for _, v in pairs(vim.api.nvim_list_bufs()) do
+        -- local name = vim.api.nvim_buf_get_name(v)
+        if buf_is_file_buffer(v) then
+            table.insert(buffers, v)
+            -- print(name)
+        end
+    end
+    return buffers
+end
+
 -- auto close when leave nvim
 vim.api.nvim_create_autocmd('BufEnter', {
-  nested = true,
-  callback = function()
-    if #vim.api.nvim_list_wins() == 1 and require("nvim-tree.utils").is_nvim_tree_buf() then
-      vim.cmd('quit')
+    nested = true,
+    callback = function()
+        -- print('current: ' .. vim.api.nvim_get_current_buf())
+        -- if #get_real_wins() == 1 and require("nvim-tree.utils").is_nvim_tree_buf() and #get_file_buffers() == 0 then
+        --     -- vim.cmd('quit')
+        --     print('FAQ')
+        -- end
     end
-  end
 })
+
+-- open another file when close file buffer
+vim.api.nvim_create_autocmd('WinClosed', {
+    callback = function(data)
+        local real_wins = get_real_wins()
+        -- print(data.match)
+
+        -- print('check nvim-tree')
+        -- print('    wins: ' .. #real_wins())
+        -- print('    is_nvim_tree_buf: ' .. require("nvim-tree.utils").is_nvim_tree_buf())
+
+        -- check whether the remain win is nvim-tree
+        if not require('utils').find_item(data.match, real_wins) then
+            return
+        end
+
+        local file_buffers = get_file_buffers()
+        -- print('WinClosed')
+        -- print('current: ' .. vim.api.nvim_get_current_buf())
+
+        print('check file buffer index')
+        -- check file buffer index
+        local closed_buf = #file_buffers
+        for _, v in pairs(file_buffers) do
+            if v == data.buf then
+                closed_buf = v
+                break
+            end
+        end
+
+        print('this: ' .. closed_buf)
+        -- check whether it close the only file win
+        if closed_buf == #file_buffers then
+            return
+        end
+
+        -- get next buffer to show
+        closed_buf = closed_buf - 1
+        if closed_buf < 0 then
+            closed_buf = #file_buffers - 1
+        end
+        print('open: ' .. closed_buf)
+
+        vim.api.nvim_set_current_buf(file_buffers[closed_buf])
+
+        -- new window & set its size
+        -- vim.cmd('vsplit')
+        -- vim.api.nvim_win_set_buf(0, file_buffers[closed_buf])
+        -- vim.api.nvim_win_set_width(0, screen_width - nvim_tree_width)
+
+        -- for k, v in pairs(vim.api.nvim_list_wins()) do
+        --     local name = vim.api.nvim_buf_get_name(vim.api.nvim_win_get_buf(v))
+        --     if name ~= nil and name ~= '' then
+        --         -- print(k .. ' : ' .. v)
+        --         -- print(name)
+        --     end
+        -- end
+    end
+})
+

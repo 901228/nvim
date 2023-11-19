@@ -51,8 +51,10 @@ M.SetGroupHint = SetGroupHint
 --  name => name to show on which-key
 
 -- leader
-Map("n", "<leader>w", ":w<CR>", opt, 'save')
-Map("n", "<leader>q", ":q<CR>", opt, 'quit')
+Map("n", "<leader>w", "<CMD>w<CR>", opt, 'save')
+Map("n", "<leader>q", "<CMD>q<CR>", opt, 'quit')
+-- Map("n", "<leader>q", "<CMD>bd<CR>", opt, 'quit')
+Map("n", "<leader>a", "<CMD>qall<CR>", opt, 'quit all')
 
 -- alt + hjkl  窗口之间跳转
 Map("n", "<A-h>", "<C-w>h", opt)
@@ -69,8 +71,8 @@ SetGroupHint('<leader>e', '+ NvimTree')
 Map("n", "<leader>i", "gg=G``", opt, 'auto format');
 
 -- bufferline 左右Tab切换
-Map("n", "<C-h>", ":BufferLineCyclePrev<CR>", opt)
-Map("n", "<C-l>", ":BufferLineCycleNext<CR>", opt)
+Map("n", "<C-h>", "<CMD>BufferLineCyclePrev<CR>", opt)
+Map("n", "<C-l>", "<CMD>BufferLineCycleNext<CR>", opt)
 
 local builtin = require('telescope.builtin')
 Map('n', '<leader>ff', builtin.find_files, {}, 'find file')
@@ -165,5 +167,38 @@ Map("n", "<leader>s", "<CMD>source $MYVIMRC<CR>", opt, 'Reload Neovim')
 
 -- inc_rename
 Map('n', '<leader>r', function() return ':IncRename ' .. vim.fn.expand('<cword>') end, { expr = true }, 'Rename')
+
+-- flash
+Map({ 'n', 'x', 'o' }, 's', function() require('flash').jump() end, opt, 'Flash')
+Map({ 'n', 'x', 'o' }, 'S', function() require('flash').treesitter() end, opt, 'Flash Treesitter')
+Map('o', 'r', function() require('flash').remote() end, opt, 'Remote Flash')
+Map({ 'o', 'x' }, 'R', function() require('flash').treesitter_search() end, opt, 'Tresitter Search')
+Map('c', '<C-s>', function() require('flash').toggle() end, opt, 'Toggle Flash Search')
+
+-- tests
+Map('n', '<leader>da', function() print(vim.fn.filereadable(vim.api.nvim_buf_get_name(0))) end, opt)
+-- Map('n', '<leader>db', function() require('plugin-config.nvim-tree').get_file_buffers() end, opt)
+Map('n', '<leader>dc', function() vim.api.nvim_set_current_buf(1) end, opt)
+Map('n', '<leader>dd', function ()
+    local to_print = 'wins: ' .. #vim.api.nvim_list_wins() .. ': '
+    for k, v in pairs(vim.api.nvim_list_wins()) do
+        to_print = to_print .. '(' .. k .. ', ' .. v .. '), '
+    end
+    print(to_print)
+end, opt)
+Map('n', '<leader>de', function ()
+    local to_print = 'real wins: '
+    for k, v in pairs(vim.api.nvim_list_wins()) do
+        local name = vim.api.nvim_buf_get_name(vim.api.nvim_win_get_buf(v))
+        if name ~= nil and vim.fn.filereadable(name) == 1 then
+            to_print = to_print .. v .. ', '
+        end
+    end
+    print(to_print)
+end, opt)
+Map('n', '<leader>df', function()
+    print(vim.api.nvim_get_current_win())
+end, opt)
+SetGroupHint('<leader>d', '+ Debug Functions')
 
 return M
