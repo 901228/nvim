@@ -105,6 +105,7 @@ return require("packer").startup(function()
         tag = '*',
         -- config = function() require('toggleterm').setup {} end
     }
+    use 'rcarriga/nvim-notify'
     use {
         'folke/noice.nvim',
         requires = { 'MunifTanjim/nui.nvim', 'rcarriga/nvim-notify' }

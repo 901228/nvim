@@ -10,20 +10,36 @@ local bubbles_theme = {
     insert = { a = { fg = colors.darkGrey, bg = colors.green } },
     visual = { a = { fg = colors.darkGrey, bg = colors.violet } },
     replace = { a = { fg = colors.darkGrey, bg = colors.coral } },
-
-    inactive = {
-        a = { fg = colors.white, bg = colors.black },
-        b = { fg = colors.white, bg = colors.black },
-        c = { fg = colors.white, bg = colors.black },
-    },
+    command = {},
+    inactive = {},
 }
+
+local win_bar_filename = {
+    'filename',
+    newfile_status = true,
+    path = 0,
+    symbols = {
+        modified = '[+]',
+        readonly = '[-]',
+        unnamed = '[]', 
+        newfile = '[]', 
+    },
+    color = {
+        fg = colors.white,
+        bg = colors.lightGrey,
+    },
+    separator = { left = '  ', right = '  ' },
+}
+
+local custom_extensions = require('plugin-config/lualine_extensions')
 
 require('lualine').setup {
     options = {
         theme = bubbles_theme,
         component_separators = '|',
-        section_separators = { left = '', right = '' },
-        disabled_filetypes = { 'packer', 'NvimTree' }
+        section_separators = { right = '', left = '' },
+        disabled_filetypes = { winbar = { 'packer', 'NvimTree' } },
+        globalstatus = true,
     },
     sections = {
         lualine_a = {
@@ -42,16 +58,26 @@ require('lualine').setup {
                     newfile = '[]',     -- Text to show for newly created file before first write
                 },
             },
-            'branch',
+            {
+                'branch',
+                separator = { right = '' },
+                padding = 1,
+            },
         },
         lualine_c = { { 'fileformat', separator = { right = '' } } },
         lualine_x = {
-            { 'diagnostics', sources = { 'nvim_lsp' } },
+            {
+                'diagnostics',
+                sources = { 'nvim_lsp' },
+                colored = true,
+            },
         },
         lualine_y = {
             {
                 'filetype',
                 colored = true,
+                separator = { left = '' },
+                padding = 1,
             },
             { 'progress', padding = 1 }
         },
@@ -59,14 +85,17 @@ require('lualine').setup {
             { 'location', separator = { left = '', right = ' ' }, padding = { right = 1 } },
         },
     },
-    inactive_sections = {
+    inactive_section = {
         lualine_a = { 'filename' },
-        lualine_b = {},
-        lualine_c = {},
-        lualine_x = {},
         lualine_y = { 'filetype' },
         lualine_z = { 'location' },
     },
     tabline = {},
-    extensions = {},
+    extensions = custom_extensions,
+    winbar = {
+        lualine_z = { win_bar_filename },
+    },
+    inactive_winbar = {
+        lualine_z = { win_bar_filename },
+    },
 }
