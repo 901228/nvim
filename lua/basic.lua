@@ -61,6 +61,7 @@ vim.o.hidden = true
 
 -- mouse
 vim.o.mouse = "a"
+vim.o.mousemoveevent = true
 
 -- forbid backup
 vim.o.backup = false

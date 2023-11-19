@@ -32,4 +32,5 @@ lua require('plugin-config/alpha')
 lua require('plugin-config/nvim-autopairs')
 lua require('plugin-config/illuminate')
 lua require('plugin-config/noice')
+lua require('plugin-config/flash')
 

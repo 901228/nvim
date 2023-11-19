@@ -19,4 +19,23 @@ M.colors = {
     darkGrey = '#242b38',
 }
 
+M.find_item = function(item, arr)
+    for _, v in pairs(arr) do
+        if v == item then
+            return true
+        end
+    end
+    return false
+end
+
+--TODO: add OS detect functions
+M.os = {
+    is_windows = function ()
+        return false
+    end,
+    is_linux = function()
+     return true
+    end,
+}
+
 return M

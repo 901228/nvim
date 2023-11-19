@@ -1,4 +1,3 @@
-vim.opt.termguicolors = true
 require("bufferline").setup {
     options = {
         -- 使用 nvim 内置lsp
@@ -9,6 +8,12 @@ require("bufferline").setup {
             text = "File Explorer",
             highlight = "Directory",
             text_align = "left"
-        }}
+        }},
+        hover = {
+            enabled = true,
+            delay = 200,
+            reveal = {'close'}
+        },
     }
 }
+

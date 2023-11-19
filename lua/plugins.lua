@@ -82,6 +82,7 @@ return require("packer").startup(function()
         config = function() require('trouble').setup {} end
     }
     use 'RRethy/vim-illuminate'
+    use 'folke/flash.nvim'
     use { 'akinsho/bufferline.nvim', requires = 'kyazdani42/nvim-web-devicons' }
     use {
         'nvim-treesitter/nvim-treesitter',

@@ -97,12 +97,12 @@ end
 
 local set_group_hint = require('keybindings').SetGroupHint
 
-map('n', "<leader>ta", toggleA, {}, 'Float')
-map('n', "<leader>tb", toggleB, {}, 'Vertical')
-map('n', "<leader>tc", toggleC, {}, 'Horizontal')
-map('n', "<leader>tg", toggleG, {}, 'Lazygit')
-map('t', "<leader>ta", toggleA, {}, 'Float')
-map('t', "<leader>tb", toggleB, {}, 'Vertical')
-map('t', "<leader>tc", toggleC, {}, 'Horizontal')
-map('t', "<leader>tg", toggleG, {}, 'Lazygit')
+map({ 'n', 't' }, "<leader>ta", toggleA, {}, 'Float')
+map({ 'n', 't' }, "<leader>tb", toggleB, {}, 'Vertical')
+map({ 'n', 't' }, "<leader>tc", toggleC, {}, 'Horizontal')
+map({ 'n', 't' }, "<leader>tg", toggleG, {}, 'Lazygit')
+-- map('t', "<leader>ta", toggleA, {}, 'Float')
+-- map('t', "<leader>tb", toggleB, {}, 'Vertical')
+-- map('t', "<leader>tc", toggleC, {}, 'Horizontal')
+-- map('t', "<leader>tg", toggleG, {}, 'Lazygit')
 set_group_hint('<leader>t', '+ ToggleTerm')
