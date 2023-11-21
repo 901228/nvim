@@ -19,7 +19,8 @@ lua require('lsp/setup')
 lua require('cmp/setup')
 
 " plugins
-lua require('plugin-config/nvim-tree')
+lua require('plugin-config/neo-tree')
+lua require('plugin-config/oil')
 lua require('plugin-config/bufferline')
 lua require('plugin-config/web-devicons')
 lua require('plugin-config/nvim-treesitter')

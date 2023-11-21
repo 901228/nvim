@@ -62,10 +62,11 @@ Map("n", "<A-j>", "<C-w>j", opt)
 Map("n", "<A-k>", "<C-w>k", opt)
 Map("n", "<A-l>", "<C-w>l", opt)
 
--- nvimTree
-Map("n", "<leader>et", function() return require("nvim-tree.api").tree.toggle() end, opt, 'toggle NvimTree')
-Map("n", "<leader>ec", function() return require("nvim-tree.api").tree.focus() end, opt, 'focus NvimTree')
-SetGroupHint('<leader>e', '+ NvimTree')
+-- file explorers
+Map("n", "<leader>nt", function() return require('neo-tree.command').execute({ toggle = true }) end, opt, 'toggle NeoTree')
+Map("n", "<leader>nc", function() return require('neo-tree.command').execute({ action = 'focus' }) end, opt, 'focus NeoTree')
+Map('n', '<leader>nf', function() return 'todo with oil' end, opt, 'open floating Oil')
+SetGroupHint('<leader>n', '+ File Explorer')
 
 -- format by nvimtree-sitter
 Map("n", "<leader>i", "gg=G``", opt, 'auto format');

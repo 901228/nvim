@@ -9,11 +9,11 @@ local function default_name(name)
     }
 end
 
-M.nvim_tree = {
+M.neo_tree = {
     sections = {
-        lualine_a = { default_name('NvimTree') },
+        lualine_a = { default_name('NeoTree') },
     },
-    filetypes = { 'NvimTree' },
+    filetypes = { 'neo-tree' },
 }
 
 M.toggleterm = {
@@ -28,6 +28,28 @@ M.telescope = {
         lualine_a = { default_name('Telescope') },
     },
     filetypes = { 'TelescopePrompt' }
+}
+
+M.alpha = {
+    sections = {
+        -- lualine_a = { default_name('Alpha') },
+    },
+    filetypes = { 'alpha' },
+}
+
+M.oil = {
+    sections = {
+        lualine_a = {
+            {
+                [['Oil']],
+                separator = { left = ' ', right = '' },
+                padding = 1,
+                icons_enabled = false,
+            },
+        },
+        lualine_z = {{ 'mode', separator = { left = '', right = ' ' }, padding = 1 }},
+    },
+    filetypes = { 'oil' },
 }
 
 return M

@@ -17,7 +17,7 @@ dashboard.section.buttons.val = {
     dashboard.button("f", "  > Find file", "<cmd>Telescope find_files hidden=true path_display=smart<CR>"),
     dashboard.button("g", "  > Search file", "<cmd>Telescope live_grep path_display=smart<CR>"),
     dashboard.button("u", "  > Update plugins"   , "<cmd>PackerSync<CR>"),
-    dashboard.button("s", "  > Settings" , "<cmd>e $MYVIMRC | :cd %:p:h | split . | wincmd k | pwd<CR>"),
+    dashboard.button("s", "  > Settings" , "<cmd>e $MYVIMRC | :cd %:p:h | Neotree<CR>"),
     dashboard.button("q", "  > Quit NVIM", "<cmd>qa!<CR>"),
 }
 

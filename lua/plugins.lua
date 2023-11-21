@@ -4,12 +4,15 @@ vim.cmd [[packadd packer.nvim]]
 return require("packer").startup(function()
     use 'wbthomason/packer.nvim'
     use {
-        'nvim-tree/nvim-tree.lua',
-        requires = 'nvim-tree/nvim-web-devicons',
-        -- cmd = { "NvimTreeToggle", "NvimTreeRefresh", "NvimTreeFocus" },
-        opt = true,
-        config = function() require'nvim-tree'.setup {} end
+        'nvim-neo-tree/neo-tree.nvim',
+        branch = 'v3.x',
+        requires = {
+            'nvim-lua/plenary.nvim',
+            'nvim-tree/nvim-web-devicons',
+            'MunifTanjim/nui.nvim',
+        }
     }
+    use 'stevearc/oil.nvim'
     use {
         'nvim-telescope/telescope.nvim',
         tag = '0.1.4',

@@ -38,7 +38,7 @@ require('lualine').setup {
         theme = bubbles_theme,
         component_separators = '|',
         section_separators = { right = '', left = '' },
-        disabled_filetypes = { winbar = { 'packer', 'NvimTree' } },
+        disabled_filetypes = { winbar = { 'packer', 'neo-tree', 'alpha', 'oil' } },
         globalstatus = true,
     },
     sections = {
