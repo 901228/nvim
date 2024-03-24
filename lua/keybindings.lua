@@ -83,7 +83,7 @@ Map('n', '<leader>fh', builtin.help_tags, {}, 'helps')
 SetGroupHint('<leader>f', '+ Telescope')
 
 -- lsp 回调函数快捷键设置
-M.maplsp = function(bufnr)
+M.mapLSP = function(bufnr)
 
     local lsp_opt = {
         noremap = true,
