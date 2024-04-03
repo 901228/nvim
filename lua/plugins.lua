@@ -114,6 +114,8 @@ return require("packer").startup(function()
         requires = { 'MunifTanjim/nui.nvim', 'rcarriga/nvim-notify' }
     }
 
+    -- color highlighter
+    use 'NvChad/nvim-colorizer.lua'
     ---- Miscellaneous ----
     use {
         "folke/which-key.nvim",
