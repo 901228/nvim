@@ -115,6 +115,11 @@ return require("packer").startup(function()
 
     -- color highlighter
     use 'NvChad/nvim-colorizer.lua'
+    use {
+        'folke/todo-comments.nvim',
+        requires = { 'nvim-lua/plenary.nvim' }
+    }
+
     ---- Miscellaneous ----
     use {
         "folke/which-key.nvim",
