@@ -52,4 +52,14 @@ M.oil = {
     filetypes = { 'oil' },
 }
 
+M.trouble = {
+    sections = {
+        lualine_a = { default_name('Trouble') },
+    },
+    winbar = {
+        lualine_z = {},
+    },
+    filetypes = { 'Trouble' },
+}
+
 return M
