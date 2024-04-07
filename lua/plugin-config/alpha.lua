@@ -14,11 +14,11 @@ dashboard.section.buttons.val = {
     -- dashboard.button("l", "   Load session", "<cmd>lua require('persisted').load()<CR>"),
     dashboard.button("e", "  > New file" , "<cmd>ene<CR>"),
     dashboard.button("r", "  > Recent file"   , "<cmd>Telescope oldfiles<CR>"),
-    dashboard.button("f", "  > Find file", "<cmd>Telescope find_files hidden=true path_display=smart<CR>"),
-    dashboard.button("g", "  > Search file", "<cmd>Telescope live_grep path_display=smart<CR>"),
+    dashboard.button("f", "󰈞  > Find file", "<cmd>Telescope find_files hidden=true path_display=smart<CR>"),
+    dashboard.button("g", "  > Search file", "<cmd>Telescope live_grep path_display=smart<CR>"),
     dashboard.button("u", "  > Update plugins"   , "<cmd>PackerSync<CR>"),
     dashboard.button("s", "  > Settings" , "<cmd>e $MYVIMRC | :cd %:p:h | Neotree<CR>"),
-    dashboard.button("q", "  > Quit NVIM", "<cmd>qa!<CR>"),
+    dashboard.button("q", "󰈆  > Quit NVIM", "<cmd>qa!<CR>"),
 }
 
 -- Footer
@@ -31,7 +31,7 @@ local function footer()
 
     local v = vim.version()
     local datetime = os.date " %d-%m-%Y   %H:%M:%S"
-    local platform = vim.fn.has "win32" == 1 and "" or ""
+    local platform = require('utils').os.is_windows() and "" or ""
     -- return string.format("󰂖 %d  %s %d.%d.%d  %s", plugins, platform, v.major, v.minor, v.patch, datetime)
     return string.format("%s %d.%d.%d  %s", platform, v.major, v.minor, v.patch, datetime)
 end

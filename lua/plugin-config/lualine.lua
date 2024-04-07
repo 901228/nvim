@@ -21,8 +21,8 @@ local win_bar_filename = {
     symbols = {
         modified = '[+]',
         readonly = '[-]',
-        unnamed = '[]', 
-        newfile = '[]', 
+        unnamed = '[]',
+        newfile = '[]',
     },
     color = {
         fg = colors.white,

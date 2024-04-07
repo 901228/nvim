@@ -31,10 +31,10 @@ end
 --TODO: add OS detect functions
 M.os = {
     is_windows = function ()
-        return false
+        return vim.fn.has "win32" == 1
     end,
     is_linux = function()
-     return true
+        return vim.fn.has "win32" == 0
     end,
 }
 
