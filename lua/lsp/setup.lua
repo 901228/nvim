@@ -60,6 +60,7 @@ local servers = {
     cmake = require('lsp.config.cmake'),
     dockerls = require('lsp.config.dockerls'),
     lemminx = require('lsp.config.lemminx'),
+    vala_ls = require('lsp.config.vala'),
 }
 
 for name, config in pairs(servers) do
