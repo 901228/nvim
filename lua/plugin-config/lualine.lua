@@ -16,19 +16,25 @@ local bubbles_theme = {
 
 local win_bar_filename = {
     'filename',
+    file_status = false,
     newfile_status = true,
     path = 0,
-    symbols = {
-        modified = '[+]',
-        readonly = '[-]',
-        unnamed = '[]',
-        newfile = '[]',
-    },
     color = {
         fg = colors.white,
         bg = colors.lightGrey,
     },
     separator = { left = '  ', right = '  ' },
+}
+
+local navic = require("nvim-navic")
+local navic_bar = {
+    'navic',
+    color = {
+        fg = colors.white,
+        bg = colors.transparent,
+    },
+    color_correction = nil,
+    navic_opts = nil,
 }
 
 local custom_extensions = require('plugin-config/lualine_extensions')
@@ -93,6 +99,7 @@ require('lualine').setup {
     tabline = {},
     extensions = custom_extensions,
     winbar = {
+        lualine_c = { navic_bar },
         lualine_z = { win_bar_filename },
     },
     inactive_winbar = {

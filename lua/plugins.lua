@@ -83,6 +83,10 @@ return require("packer").startup(function()
         'folke/trouble.nvim',
         requires = 'nvim-tree/nvim-web-devicons',
     }
+    use {
+        'SmiteshP/nvim-navic',
+        requires = 'neovim/nvim-lspconfig',
+    }
     use 'RRethy/vim-illuminate'
     use 'folke/flash.nvim'
     use { 'akinsho/bufferline.nvim', requires = 'kyazdani42/nvim-web-devicons' }
