@@ -8,7 +8,7 @@ vim.o.sidescrolloff = 4
 
 -- line number
 vim.wo.number = true
-vim.wo.relativenumber = false
+vim.wo.relativenumber = true
 
 -- cursor highlight
 vim.wo.cursorline = true
