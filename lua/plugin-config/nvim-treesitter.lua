@@ -1,7 +1,22 @@
-require'nvim-treesitter.configs'.setup {
+require('nvim-treesitter.configs').setup {
     -- 安装 language parser
     -- :TSInstallInfo 命令查看支持的语言
-    ensure_installed = {"html", "css", "vim", "lua", "javascript", "typescript", "cpp", "dart", "c_sharp", "cmake", "dockerfile", "dot", "glsl", "java", "json", "markdown", "python", "sql", "toml", "yaml", "regex"},
+    ensure_installed = {
+        "vim",
+        "lua",
+        "cpp",
+        "cmake",
+        "dockerfile",
+        "dot",
+        "json",
+        "markdown",
+        "python",
+        "toml",
+        "yaml",
+        "regex",
+    },
+    ignore_install = {},
+    modules = {},
     -- 启用代码高亮功能
     highlight = {
         enable = true,
@@ -22,7 +37,7 @@ require'nvim-treesitter.configs'.setup {
         enable = true
     },
     auto_install = true,
-    sync_install = true
+    sync_install = true,
 }
 -- 开启 Folding
 -- vim.wo.foldmethod = 'expr'

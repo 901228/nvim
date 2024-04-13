@@ -49,6 +49,14 @@ return require("packer").startup(function()
     use 'rafamadriz/friendly-snippets'
     -- lspkind
     use 'onsails/lspkind-nvim'
+    -- treesitter
+    use {
+        'nvim-treesitter/nvim-treesitter',
+        run = function()
+            local ts_update = require('nvim-treesitter.install').update({ with_sync = true })
+            ts_update()
+        end,
+    }
 
     --- language enhancement ---
     -- Lua
@@ -76,8 +84,6 @@ return require("packer").startup(function()
         'MaximilianLloyd/ascii.nvim',
         requires = 'MunifTanjim/nui.nvim'
     }
-    -- symbol table
-    -- use 'simrat39/symbols-outline.nvim'
     -- pretty list of LSP, quickfix, telescope ...
     use {
         'folke/trouble.nvim',
@@ -89,13 +95,9 @@ return require("packer").startup(function()
     }
     use 'RRethy/vim-illuminate'
     use 'folke/flash.nvim'
-    use { 'akinsho/bufferline.nvim', requires = 'kyazdani42/nvim-web-devicons' }
     use {
-        'nvim-treesitter/nvim-treesitter',
-        run = function()
-            local ts_update = require('nvim-treesitter.install').update({ with_sync = true })
-            ts_update()
-        end,
+        'akinsho/bufferline.nvim',
+        requires = 'kyazdani42/nvim-web-devicons',
     }
     use 'glepnir/zephyr-nvim'
     use {
