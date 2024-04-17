@@ -130,6 +130,10 @@ return require("packer").startup(function()
         'folke/todo-comments.nvim',
         requires = { 'nvim-lua/plenary.nvim' }
     }
+    -- rainbow brackets
+    use 'HiPhish/rainbow-delimiters.nvim'
+    -- indent indicatior
+    use 'lukas-reineke/indent-blankline.nvim' 
 
     ---- Miscellaneous ----
     use {
