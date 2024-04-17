@@ -6,16 +6,8 @@ vim.g.maplocalleader = ","
 
 local wk = require('which-key')
 
-local keymap = vim.api.nvim_set_keymap
-local keyset = vim.keymap.set
 local opt = { noremap = true, silent = true }
 function Map(mode, lhs, rhs, opts, name)
-    -- if type(rhs) == 'string' then
-    --     keymap(mode, lhs, rhs, opts)
-    -- elseif type(rhs) == 'function' then
-    --     keyset(mode, lhs, rhs, opts)
-    -- end
-
     if name == nil then
         if type(rhs) == 'string' then
             name = rhs
