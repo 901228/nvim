@@ -57,6 +57,7 @@ Map("n", "<A-l>", "<C-w>l", opt)
 -- file explorers
 Map("n", "<leader>nt", function() return require('neo-tree.command').execute({ toggle = true }) end, opt, 'toggle NeoTree')
 Map("n", "<leader>nc", function() return require('neo-tree.command').execute({ action = 'focus' }) end, opt, 'focus NeoTree')
+-- TODO: open oil
 Map('n', '<leader>nf', function() return 'todo with oil' end, opt, 'open floating Oil')
 SetGroupHint('<leader>n', '+ File Explorer')
 
@@ -67,12 +68,22 @@ Map("n", "<leader>i", "gg=G``", opt, 'auto format');
 Map("n", "<C-h>", "<CMD>BufferLineCyclePrev<CR>", opt)
 Map("n", "<C-l>", "<CMD>BufferLineCycleNext<CR>", opt)
 
+-- telescope
 local builtin = require('telescope.builtin')
 Map('n', '<leader>ff', builtin.find_files, {}, 'find file')
 Map('n', '<leader>fg', builtin.live_grep, {}, 'find')
 Map('n', '<leader>fb', builtin.buffers, {}, 'find buffers')
 Map('n', '<leader>fh', builtin.help_tags, {}, 'helps')
 SetGroupHint('<leader>f', '+ Telescope')
+
+-- trouble
+-- Map('n', '<leader>xx', function() require('trouble').toggle() end, opt, 'trouble')
+Map('n', '<leader>xw', function() require('trouble').toggle('workspace_diagnostics') end, opt, 'workspace diagnostics')
+Map('n', '<leader>xd', function() require('trouble').toggle('document_diagnostics') end, opt, 'document diagnostics')
+Map('n', '<leader>xq', function() require('trouble').toggle('quickfix') end, opt, 'quickfix')
+-- Map('n', '<leader>xl', function() require('trouble').toggle('loclist') end, opt, 'loclist')
+Map('n', '<leader>xr', function() require('trouble').toggle('lsp_references') end, opt, 'symbol references')
+SetGroupHint('<leader>x', '+ Truoble')
 
 -- lsp 回调函数快捷键设置
 M.mapLSP = function(bufnr)
