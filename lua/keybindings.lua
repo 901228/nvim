@@ -34,13 +34,18 @@ function SetGroupHint(prefix, name)
 end
 M.SetGroupHint = SetGroupHint
 
--- map(<mode>, <lhs>, <rhs>, opts)
--- keyset(<mode>, <lhs>, <rhs>, opts)
--- mode => normal, visual, insert, select, command-line, terminal ...
---  lhs => key
---  rhs => mapping function
---  opts => silent, noremap, expr, buffer ...
---  name => name to show on which-key
+-------------------------------------------------------------------------
+-- Map(<mode>, <lhs>, <rhs>, opts, name)
+--   mode   => normal, visual, insert, select, command-line, terminal ...
+--   lhs    => key
+--   rhs    => mapping function
+--   opts   => silent, noremap, expr, buffer ...
+--   name   => name to show on which-key
+-------------------------------------------------------------------------
+-- SetGroupHint(prefix, name)
+--   prefix => prefix of this group
+--   name   => name of this group
+-------------------------------------------------------------------------
 
 -- leader
 Map("n", "<leader>w", "<CMD>w<CR>", opt, 'save')
@@ -69,11 +74,11 @@ Map("n", "<C-h>", "<CMD>BufferLineCyclePrev<CR>", opt)
 Map("n", "<C-l>", "<CMD>BufferLineCycleNext<CR>", opt)
 
 -- telescope
-local builtin = require('telescope.builtin')
-Map('n', '<leader>ff', builtin.find_files, {}, 'find file')
-Map('n', '<leader>fg', builtin.live_grep, {}, 'find')
-Map('n', '<leader>fb', builtin.buffers, {}, 'find buffers')
-Map('n', '<leader>fh', builtin.help_tags, {}, 'helps')
+local tel_builtin = require('telescope.builtin')
+Map('n', '<leader>ff', tel_builtin.find_files, {}, 'find file')
+Map('n', '<leader>fg', tel_builtin.live_grep, {}, 'find')
+Map('n', '<leader>fb', tel_builtin.buffers, {}, 'find buffers')
+Map('n', '<leader>fh', tel_builtin.help_tags, {}, 'helps')
 SetGroupHint('<leader>f', '+ Telescope')
 
 -- trouble
