@@ -79,6 +79,11 @@ Map('n', '<leader>ff', tel_builtin.find_files, {}, 'find file')
 Map('n', '<leader>fg', tel_builtin.live_grep, {}, 'find')
 Map('n', '<leader>fb', tel_builtin.buffers, {}, 'find buffers')
 Map('n', '<leader>fh', tel_builtin.help_tags, {}, 'helps')
+Map('n', '<leader>fn', function()
+    local tel = require('telescope')
+    tel.load_extension('notify')
+    tel.extensions.notify.notify()
+end, {}, 'notify history')
 SetGroupHint('<leader>f', '+ Telescope')
 
 -- trouble

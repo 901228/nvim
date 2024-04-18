@@ -136,6 +136,8 @@ return require("packer").startup(function()
     use 'lukas-reineke/indent-blankline.nvim' 
 
     ---- Miscellaneous ----
+
+    -- show keymaps
     use {
         "folke/which-key.nvim",
         config = function()
