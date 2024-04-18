@@ -13,9 +13,8 @@ require('neo-tree').setup({
         statusline = false,
         sources = {
             { source = "filesystem" },
-            -- { source = "buffers" },
-            -- { source = "git_status" },
             { source = "document_symbols" },
+            { source = "git_status" },
         },
         content_layout = "start",
         tabs_layout = "focus",
