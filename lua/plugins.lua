@@ -192,4 +192,11 @@ return require("packer").startup(function()
             })
         end
     }
+    -- animation of cursor moving
+    use {
+        'echasnovski/mini.animate',
+        config = function()
+            require('mini.animate').setup()
+        end
+    }
 end)
