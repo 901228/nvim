@@ -95,7 +95,10 @@ Map('n', '<leader>xq', function() require('trouble').toggle('quickfix') end, opt
 Map('n', '<leader>xr', function() require('trouble').toggle('lsp_references') end, opt, 'symbol references')
 SetGroupHint('<leader>x', '+ Truoble')
 
--- lsp 回调函数快捷键设置
+-- whitespace
+Map('n', '<leader>k', require('whitespace-nvim').trim, opt, 'trim whitespaces')
+
+-- lsp keybinds
 M.mapLSP = function(bufnr)
 
     local lsp_opt = {
@@ -128,7 +131,7 @@ M.mapLSP = function(bufnr)
     -- map('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', lsp_opt)
 end
 
--- nvim-cmp 自动补全
+-- nvim-cmp auto completion
 M.cmp = function(cmp)
     local enterBehavior = function(fallback)
         if cmp.visible() and cmp.get_active_entry() then
@@ -176,18 +179,15 @@ end
 Map("n", "<leader>cd", "<CMD>CMakeGenerate<CR><CMD>CMakeBuild<CR><CMD>CMakeRun<CR>", opt, 'Debug')
 SetGroupHint('<leader>c', '+ CMake')
 
--- source
-Map("n", "<leader>s", "<CMD>source $MYVIMRC<CR>", opt, 'Reload Neovim')
-
 -- inc_rename
-Map('n', '<leader>r', function() return ':IncRename ' .. vim.fn.expand('<cword>') end, { expr = true }, 'Rename')
+Map('n', '<leader>r', function() return ':IncRename ' .. vim.fn.expand('<cword>') end, { expr = true }, 'rename')
 
 -- flash
-Map({ 'n', 'x', 'o' }, 's', function() require('flash').jump() end, opt, 'Flash')
-Map({ 'n', 'x', 'o' }, 'S', function() require('flash').treesitter() end, opt, 'Flash Treesitter')
+Map({ 'n', 'x', 'o' }, '<leader>ss', function() require('flash').jump() end, opt, 'Flash')
+Map({ 'n', 'x', 'o' }, '<leader>sS', function() require('flash').treesitter() end, opt, 'Flash Treesitter')
 Map('o', 'r', function() require('flash').remote() end, opt, 'Remote Flash')
 Map({ 'o', 'x' }, 'R', function() require('flash').treesitter_search() end, opt, 'Tresitter Search')
-Map('c', '<C-s>', function() require('flash').toggle() end, opt, 'Toggle Flash Search')
+SetGroupHint('<leader>s', '+ flash')
 
 -- tests
 Map('n', '<leader>da', function() print(vim.fn.filereadable(vim.api.nvim_buf_get_name(0))) end, opt)

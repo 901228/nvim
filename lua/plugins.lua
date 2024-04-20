@@ -3,6 +3,8 @@ vim.cmd [[packadd packer.nvim]]
 
 return require("packer").startup(function()
     use 'wbthomason/packer.nvim'
+
+    -- file explorer
     use {
         'nvim-neo-tree/neo-tree.nvim',
         branch = 'v3.x',
@@ -12,20 +14,36 @@ return require("packer").startup(function()
             'MunifTanjim/nui.nvim',
         }
     }
+    -- file manager
     use 'stevearc/oil.nvim'
+
+    -- view many things in a panel
     use {
         'nvim-telescope/telescope.nvim',
         tag = '0.1.4',
         requires = 'nvim-lua/plenary.nvim'
     }
+    -- comment lines or blocks
     use {
         'numToStr/Comment.nvim',
-        config = function() require('Comment').setup {} end
+        config = function()
+            require('Comment').setup()
+        end
     }
+    -- able to manipulate surround brackets or something
     use {
         'kylechui/nvim-surround',
         tag = "*", -- Use for stability; omit to use `main` branch for the latest features
-        config = function() require("nvim-surround").setup {} end
+        config = function()
+            require("nvim-surround").setup()
+        end
+    }
+    -- auto add brackets or something in pair
+    use {
+        'windwp/nvim-autopairs',
+        config = function()
+            require('nvim-autopairs').setup()
+        end
     }
 
     ---- LSP ----
@@ -65,6 +83,8 @@ return require("packer").startup(function()
     use 'b0o/schemastore.nvim'
     -- CMake
     use 'Civitasv/cmake-tools.nvim'
+    -- markdown
+    -- use 'tadmccorkle/markdown.nvim'
 
     --- others ---
     -- rename
@@ -102,10 +122,6 @@ return require("packer").startup(function()
         requires = 'kyazdani42/nvim-web-devicons',
     }
     use 'glepnir/zephyr-nvim'
-    use {
-        'windwp/nvim-autopairs',
-        config = function() require('nvim-autopairs').setup {} end
-    }
     -- window status line & buffer name
     use {
         'nvim-lualine/lualine.nvim',
@@ -115,7 +131,6 @@ return require("packer").startup(function()
     use {
         'akinsho/toggleterm.nvim',
         tag = '*',
-        -- config = function() require('toggleterm').setup {} end
     }
     -- notification system of nvim
     use 'rcarriga/nvim-notify'
@@ -133,17 +148,35 @@ return require("packer").startup(function()
     -- rainbow brackets
     use 'HiPhish/rainbow-delimiters.nvim'
     -- indent indicatior
-    use 'lukas-reineke/indent-blankline.nvim' 
+    use 'lukas-reineke/indent-blankline.nvim'
 
     ---- Miscellaneous ----
-
     -- show keymaps
     use {
         "folke/which-key.nvim",
         config = function()
             vim.o.timeout = true
             vim.o.timeoutlen = 300
-            require("which-key").setup {}
+            require("which-key").setup()
+        end,
+    }
+    -- to increase or decrease numbers
+    use {
+        'zegervdv/nrpattern.nvim',
+        config = function()
+            require('nrpattern').setup()
+        end,
+    }
+    -- to trim whitespaces
+    use {
+        'johnfrankmorgan/whitespace.nvim',
+        config = function()
+            require('whitespace-nvim').setup({
+                highlight = 'DiffDelete',
+                ignored_filetypes = { 'TelescopePrompt', 'Trouble', 'help', 'alpha' },
+                ignore_terminal = true,
+                return_cursor = true,
+            })
         end
     }
 end)
