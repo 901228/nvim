@@ -31,11 +31,47 @@ end
 --TODO: add OS detect functions
 M.os = {
     is_windows = function ()
-        return vim.fn.has "win32" == 1
+        return vim.fn.has("win32") == 1
     end,
     is_linux = function()
-        return vim.fn.has "win32" == 0
+        return vim.fn.has("win32") == 0
     end,
 }
+
+M.is_version_10 = (tonumber(vim.version().minor) >= 10)
+
+M.setup_diagnostics_icon = function()
+    local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
+
+    if M.is_version_10 then
+        vim.diagnostic.config({
+            signs = {
+                text = {
+                    [vim.diagnostic.severity.ERROR] = signs.Error,
+                    [vim.diagnostic.severity.WARN] = signs.Warn,
+                    [vim.diagnostic.severity.HINT] = signs.Hint,
+                    [vim.diagnostic.severity.INFO] = signs.Info,
+                },
+                linehl = {
+                    [vim.diagnostic.severity.ERROR] = 'ErrorMsg',
+                    [vim.diagnostic.severity.WARN] = 'WarnMsg',
+                    [vim.diagnostic.severity.HINT] = 'HintMsg',
+                    [vim.diagnostic.severity.INFO] = 'InfoMsg',
+                },
+                numhl = {
+                    [vim.diagnostic.severity.ERROR] = 'ErrorMsg',
+                    [vim.diagnostic.severity.WARN] = 'WarnMsg',
+                    [vim.diagnostic.severity.HINT] = 'HintMsg',
+                    [vim.diagnostic.severity.INFO] = 'InfoMsg',
+                },
+            },
+        })
+    else
+        for type, icon in pairs(signs) do
+            local hl = "DiagnosticSign" .. type
+            vim.fn.sign_define(hl, { text = icon, texthl = hl })
+        end
+    end
+end
 
 return M

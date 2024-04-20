@@ -73,7 +73,7 @@ for name, config in pairs(servers) do
     end
 end
 
-require('lsp.ui')
+require('lsp.ui').setup()
 
 -- local lsp_defaults = lspconfig.util.default_config
 --
