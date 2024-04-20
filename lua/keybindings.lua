@@ -183,11 +183,11 @@ SetGroupHint('<leader>c', '+ CMake')
 Map('n', '<leader>r', function() return ':IncRename ' .. vim.fn.expand('<cword>') end, { expr = true }, 'rename')
 
 -- flash
-Map({ 'n', 'x', 'o' }, '<leader>ss', function() require('flash').jump() end, opt, 'Flash')
-Map({ 'n', 'x', 'o' }, '<leader>sS', function() require('flash').treesitter() end, opt, 'Flash Treesitter')
-Map('o', 'r', function() require('flash').remote() end, opt, 'Remote Flash')
-Map({ 'o', 'x' }, 'R', function() require('flash').treesitter_search() end, opt, 'Tresitter Search')
-SetGroupHint('<leader>s', '+ flash')
+-- Map({ 'n', 'x', 'o' }, '<leader>ss', function() require('flash').jump() end, opt, 'Flash')
+-- Map({ 'n', 'x', 'o' }, '<leader>sS', function() require('flash').treesitter() end, opt, 'Flash Treesitter')
+-- Map('o', 'r', function() require('flash').remote() end, opt, 'Remote Flash')
+-- Map({ 'o', 'x' }, 'R', function() require('flash').treesitter_search() end, opt, 'Tresitter Search')
+-- SetGroupHint('<leader>s', '+ flash')
 
 -- tests
 Map('n', '<leader>da', function() print(vim.fn.filereadable(vim.api.nvim_buf_get_name(0))) end, opt)

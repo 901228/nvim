@@ -114,8 +114,20 @@ return require("packer").startup(function()
         'SmiteshP/nvim-navic',
         requires = 'neovim/nvim-lspconfig',
     }
+    -- highlight other same words of thr word under cursor
     use 'RRethy/vim-illuminate'
-    use 'folke/flash.nvim'
+    -- enhance some searching funcitons
+    -- use 'folke/flash.nvim'
+    -- quick look of f/F word moving
+    use {
+        'jinh0/eyeliner.nvim',
+        config = function()
+            require('eyeliner').setup({
+                highlight_on_key = true,
+                dim = true,
+            })
+        end
+    }
     -- to indicate buffers
     use {
         'akinsho/bufferline.nvim',
@@ -134,6 +146,7 @@ return require("packer").startup(function()
     }
     -- notification system of nvim
     use 'rcarriga/nvim-notify'
+    -- panels of nvim
     use {
         'folke/noice.nvim',
         requires = { 'MunifTanjim/nui.nvim', 'rcarriga/nvim-notify' }
