@@ -186,7 +186,7 @@ return require("packer").startup(function()
         config = function()
             require('whitespace-nvim').setup({
                 highlight = 'DiffDelete',
-                ignored_filetypes = { 'TelescopePrompt', 'Trouble', 'help', 'alpha' },
+                ignored_filetypes = { 'TelescopePrompt', 'Trouble', 'help', 'alpha', 'toggleterm' },
                 ignore_terminal = true,
                 return_cursor = true,
             })
