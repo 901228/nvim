@@ -196,7 +196,9 @@ return require("packer").startup(function()
     use {
         'echasnovski/mini.animate',
         config = function()
-            require('mini.animate').setup()
+            require('mini.animate').setup(
+                require('plugin-config/mini_animate')()
+            )
         end
     }
 end)
