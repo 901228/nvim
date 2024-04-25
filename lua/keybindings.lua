@@ -62,8 +62,10 @@ Map("n", "<A-l>", "<C-w>l", opt)
 -- file explorers
 Map("n", "<leader>nt", function() return require('neo-tree.command').execute({ toggle = true }) end, opt, 'toggle NeoTree')
 Map("n", "<leader>nc", function() return require('neo-tree.command').execute({ action = 'focus' }) end, opt, 'focus NeoTree')
--- TODO: open oil
-Map('n', '<leader>nf', function() return 'todo with oil' end, opt, 'open floating Oil')
+Map('n', '<leader>nf', function()
+    local oil = require('oil')
+    oil.toggle_float(oil.get_current_dir())
+end, opt, 'open floating Oil')
 SetGroupHint('<leader>n', '+ File Explorer')
 
 -- format by nvimtree-sitter
