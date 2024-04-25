@@ -85,6 +85,8 @@ return require("packer").startup(function()
     use 'Civitasv/cmake-tools.nvim'
     -- markdown
     -- use 'tadmccorkle/markdown.nvim'
+    -- yuck (for eww)
+    use 'elkowar/yuck.vim'
 
     --- others ---
     -- rename
