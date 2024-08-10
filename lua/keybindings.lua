@@ -86,8 +86,8 @@ Map('n', '<leader>fn', function()
     tel.load_extension('notify')
     tel.extensions.notify.notify()
 end, {}, 'notify history')
-Map('n', '<leader>fp', tel_builtin.commands, {}, 'helps')
-Map('n', '<leader>fk', tel_builtin.keymaps, {}, 'helps')
+Map('n', '<leader>fp', tel_builtin.commands, {}, 'commands')
+Map('n', '<leader>fk', tel_builtin.keymaps, {}, 'keymaps')
 SetGroupHint('<leader>f', '+ Telescope')
 
 -- trouble
