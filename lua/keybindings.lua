@@ -6,6 +6,8 @@ vim.g.maplocalleader = ","
 
 local wk = require('which-key')
 
+M.mappings = {}
+
 local opt = { noremap = true, silent = true }
 function Map(mode, lhs, rhs, opts, name)
     if name == nil then
@@ -17,20 +19,29 @@ function Map(mode, lhs, rhs, opts, name)
     end
 
     local wk_opts = {
+        lhs,
+        rhs,
+        desc = name,
+        -- group = ,
         mode = mode,
         silent = opts.silent,
         noremap = opts.noremap,
+        -- remap = not opts.noremap,
         nowait = opts.nowait,
         expr = opts.expr,
         buffer = opts.buffer,
     }
 
-    wk.register( { [lhs] = { rhs, name } }, wk_opts )
+    -- wk.register( { [lhs] = { rhs, name } }, wk_opts )
+    wk.add(wk_opts)
+    table.insert(M.mappings, wk_opts)
 end
 M.Map = Map
 
 function SetGroupHint(prefix, name)
-    wk.register({ [prefix] = { name = name } })
+    -- wk.register({ [prefix] = { name = name } })
+    wk.add({ prefix, group = name })
+    table.insert(M.mappings, wk_opts)
 end
 M.SetGroupHint = SetGroupHint
 
@@ -51,7 +62,7 @@ M.SetGroupHint = SetGroupHint
 Map("n", "<leader>w", "<CMD>w<CR>", opt, 'save')
 Map("n", "<leader>q", "<CMD>q<CR>", opt, 'quit')
 -- Map("n", "<leader>q", "<CMD>bd<CR>", opt, 'quit')
-Map("n", "<leader>a", "<CMD>qall<CR>", opt, 'quit all')
+-- Map("n", "<leader>a", "<CMD>qall<CR>", opt, 'quit all')
 
 -- alt + hjkl  窗口之间跳转
 Map("n", "<A-h>", "<C-w>h", opt)
@@ -114,7 +125,7 @@ M.mapLSP = function(bufnr)
     -- rename
     -- Map('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', lsp_opt)
     -- code action
-    Map('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', lsp_opt)
+    Map('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', lsp_opt)
     -- go xx
     Map('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', lsp_opt)
     Map('n', 'gh', '<cmd>lua vim.lsp.buf.hover()<CR>', lsp_opt)
