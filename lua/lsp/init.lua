@@ -1,19 +1,19 @@
-local status, mason = pcall(require, 'mason')
-if not status then
+local mason_status, mason = pcall(require, 'mason')
+if not mason_status then
     vim.notify("missing mason")
     return
 end
 
-local status, mason_config = pcall(require, 'mason-lspconfig')
-if not status then
+local mason_lspconfig_status, mason_config = pcall(require, 'mason-lspconfig')
+if not mason_lspconfig_status then
     vim.notify("missing mason-lspconfig")
     return
 end
 
 require('neodev').setup({})
 
-local status, lspconfig = pcall(require, 'lspconfig')
-if not status then
+local lspconfig_status, lspconfig = pcall(require, 'lspconfig')
+if not lspconfig_status then
     vim.notify("missing lspconfig")
     return
 end
@@ -23,6 +23,9 @@ end
 --     vim.notify("missing lspconfig.util")
 --     return
 -- end
+
+-- code action
+require('clear-action').setup()
 
 mason.setup({
     ui = {
@@ -77,9 +80,6 @@ end
 
 require('lsp.ui').setup()
 
--- rustacean
-require('lsp.config.rust')
-
 -- local lsp_defaults = lspconfig.util.default_config
 --
 -- lsp_defaults.capabilities = vim.tbl_deep_extend(
@@ -88,3 +88,11 @@ require('lsp.config.rust')
 --   require('cmp_nvim_lsp').default_capabilities()
 -- )
 
+-- rustacean
+require('lsp.config.rust')
+
+-- cmp
+require('lsp.cmp')
+
+-- formatting
+require('lsp.formatting')

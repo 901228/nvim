@@ -1,5 +1,5 @@
--- local common = require("lsp.common-config")
---
+local common = require("lsp.common-config")
+
 -- return {
 --     on_setup = function(server)
 --         server.setup({
@@ -33,13 +33,12 @@
 --     end,
 -- }
 
-local keybindings = require('keybindings')
-
 vim.g.rustaceanvim = {
     tools = {},
     server = {
         on_attach = function(client, bufnr)
-            keybindings.Map('n', '<leader>a', function() vim.cmd.RustLsp('codeAction') end, { silent = true, buffer = bufnr })
+            -- keybindings.Map('n', '<leader>a', function() vim.cmd.RustLsp('codeAction') end, { silent = true, buffer = bufnr }, 'code actions')
+            common.on_attach(client, bufnr)
         end,
         default_settings = {
             ['rust-analyzer'] = {},

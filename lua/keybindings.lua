@@ -41,7 +41,7 @@ M.Map = Map
 function SetGroupHint(prefix, name)
     -- wk.register({ [prefix] = { name = name } })
     wk.add({ prefix, group = name })
-    table.insert(M.mappings, wk_opts)
+    table.insert(M.mappings, { prefix, group = name })
 end
 M.SetGroupHint = SetGroupHint
 
@@ -102,7 +102,7 @@ Map('n', '<leader>fk', tel_builtin.keymaps, {}, 'keymaps')
 SetGroupHint('<leader>f', '+ Telescope')
 
 -- trouble
--- Map('n', '<leader>xx', function() require('trouble').toggle() end, opt, 'trouble')
+Map('n', '<leader>xx', function() require('trouble').toggle('diagnostics') end, opt, 'diagnostics')
 Map('n', '<leader>xw', function() require('trouble').toggle('workspace_diagnostics') end, opt, 'workspace diagnostics')
 Map('n', '<leader>xd', function() require('trouble').toggle('document_diagnostics') end, opt, 'document diagnostics')
 Map('n', '<leader>xq', function() require('trouble').toggle('quickfix') end, opt, 'quickfix')
@@ -122,23 +122,20 @@ M.mapLSP = function(bufnr)
         buffer = bufnr,
     }
 
-    -- rename
-    -- Map('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', lsp_opt)
+    local code_action = require('clear-action.actions')
+    local conform = require('conform')
+
+    SetGroupHint('<leader>l', '+ LSP actions')
     -- code action
-    Map('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', lsp_opt)
+    Map('n', '<leader>la', function() code_action.code_action() end, lsp_opt, 'code actions')
     -- go xx
-    Map('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', lsp_opt)
-    Map('n', 'gh', '<cmd>lua vim.lsp.buf.hover()<CR>', lsp_opt)
-    Map('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', lsp_opt)
-    Map('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', lsp_opt)
-    Map('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', lsp_opt)
-    -- diagnostic
-    Map('n', 'go', '<cmd>lua vim.diagnostic.open_float()<CR>', lsp_opt)
-    Map('n', 'gp', '<cmd>lua vim.diagnostic.goto_prev()<CR>', lsp_opt)
-    Map('n', 'gn', '<cmd>lua vim.diagnostic.goto_next()<CR>', lsp_opt)
-    -- map('n', '<leader>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', lsp_opt)
+    Map('n', '<leader>ld', '<cmd>lua vim.lsp.buf.definition()<CR>', lsp_opt, 'definition')
+    Map('n', '<leader>lh', '<cmd>lua vim.lsp.buf.hover()<CR>', lsp_opt, 'hover')
+    Map('n', '<leader>lD', '<cmd>lua vim.lsp.buf.declaration()<CR>', lsp_opt, 'declaration')
+    Map('n', '<leader>li', '<cmd>lua vim.lsp.buf.implementation()<CR>', lsp_opt, 'implementation')
+    Map('n', '<leader>lr', '<cmd>lua vim.lsp.buf.references()<CR>', lsp_opt, 'references')
     -- leader + =
-    Map('n', '<leader>=', '<cmd>lua vim.lsp.buf.formatting()<CR>', lsp_opt)
+    Map('n', '<leader>lf', function() conform.format() end, lsp_opt, 'format')
     -- map('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', lsp_opt)
     -- map('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', lsp_opt)
     -- map('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', lsp_opt)
@@ -217,7 +214,7 @@ Map('n', '<leader>dd', function ()
 end, opt)
 Map('n', '<leader>de', function ()
     local to_print = 'real wins: '
-    for k, v in pairs(vim.api.nvim_list_wins()) do
+    for _, v in pairs(vim.api.nvim_list_wins()) do
         local name = vim.api.nvim_buf_get_name(vim.api.nvim_win_get_buf(v))
         if name ~= nil and vim.fn.filereadable(name) == 1 then
             to_print = to_print .. v .. ', '

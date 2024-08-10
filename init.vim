@@ -15,8 +15,7 @@ lua require('keybindings')
 lua require('gui')
 
 " lsp
-lua require('lsp/setup')
-lua require('cmp/setup')
+lua require('lsp')
 
 " plugins
 lua require('plugin-config/neo-tree')
