@@ -164,6 +164,13 @@ return require("packer").startup(function()
     use 'HiPhish/rainbow-delimiters.nvim'
     -- indent indicatior
     use 'lukas-reineke/indent-blankline.nvim'
+    -- transparent
+    -- use {
+    --     'xiyaowong/transparent.nvim',
+    --     config = function()
+    --         require('transparent').setup()
+    --     end
+    -- }
 
     ---- Miscellaneous ----
     -- show keymaps

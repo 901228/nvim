@@ -79,3 +79,5 @@ require('neo-tree').setup({
         hijack_netrw_behavior = 'disabled',
     },
 })
+
+-- require('transparent').clear_prefix('NeoTree')
