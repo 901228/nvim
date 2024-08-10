@@ -87,6 +87,12 @@ return require("packer").startup(function()
     -- use 'tadmccorkle/markdown.nvim'
     -- yuck (for eww)
     use 'elkowar/yuck.vim'
+    -- Rust
+    use {
+        'mrcjkb/rustaceanvim',
+        bufread = true,
+        ft = { 'rust', 'rs' },
+    }
 
     --- others ---
     -- rename

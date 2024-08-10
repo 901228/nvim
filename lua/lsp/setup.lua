@@ -62,7 +62,7 @@ local servers = {
     lemminx = require('lsp.config.lemminx'),
     vala_ls = require('lsp.config.vala'),
     css_ls = require('lsp.config.css'),
-    rust_analyzer = require('lsp.config.rust'),
+    -- rust_analyzer = require('lsp.config.rust'),
 }
 
 for name, config in pairs(servers) do
@@ -76,6 +76,9 @@ for name, config in pairs(servers) do
 end
 
 require('lsp.ui').setup()
+
+-- rustacean
+require('lsp.config.rust')
 
 -- local lsp_defaults = lspconfig.util.default_config
 --
