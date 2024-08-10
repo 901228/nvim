@@ -61,6 +61,7 @@ local servers = {
     dockerls = require('lsp.config.dockerls'),
     lemminx = require('lsp.config.lemminx'),
     vala_ls = require('lsp.config.vala'),
+    rust_analyzer = require('lsp.config.rust'),
 }
 
 for name, config in pairs(servers) do
