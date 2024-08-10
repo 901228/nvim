@@ -75,6 +75,8 @@ return require("packer").startup(function()
             ts_update()
         end,
     }
+    -- code action
+    use { 'luckasRanarison/clear-action.nvim' }
 
     --- language enhancement ---
     -- Lua
