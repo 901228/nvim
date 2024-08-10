@@ -61,6 +61,7 @@ local servers = {
     dockerls = require('lsp.config.dockerls'),
     lemminx = require('lsp.config.lemminx'),
     vala_ls = require('lsp.config.vala'),
+    css_ls = require('lsp.config.css'),
     rust_analyzer = require('lsp.config.rust'),
 }
 
