@@ -77,6 +77,8 @@ return require("packer").startup(function()
     }
     -- code action
     use { 'luckasRanarison/clear-action.nvim' }
+    -- formatting
+    use { 'stevearc/conform.nvim' }
 
     --- language enhancement ---
     -- Lua
