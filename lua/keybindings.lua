@@ -1,9 +1,5 @@
 local M = {}
 
--- leader
-vim.g.mapleader = ","
-vim.g.maplocalleader = ","
-
 local wk = require('which-key')
 
 M.mappings = {}
