@@ -62,14 +62,6 @@ return {
     'rafamadriz/friendly-snippets',
     -- lspkind
     'onsails/lspkind-nvim',
-    -- treesitter
-    {
-        'nvim-treesitter/nvim-treesitter',
-        run = function()
-            local ts_update = require('nvim-treesitter.install').update({ with_sync = true })
-            ts_update()
-        end,
-    },
     -- code action
     'luckasRanarison/clear-action.nvim',
     -- formatting
@@ -101,11 +93,6 @@ return {
     },
 
     ---- UI ----
-    -- alpha
-    {
-        'goolord/alpha-nvim',
-        dependencies = 'nvim-tree/nvim-web-devicons',
-    },
     -- ascii arts
     {
         'MaximilianLloyd/ascii.nvim',

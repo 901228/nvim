@@ -1,6 +1,8 @@
-
 set background=dark
 colorscheme zephyr
+
+lua require('config.options')
+lua require('config.lazy')
 
 " basic
 lua require('basic')
@@ -21,8 +23,7 @@ lua require('lsp')
 lua require('plugin-config/neo-tree')
 lua require('plugin-config/oil')
 lua require('plugin-config/bufferline')
-lua require('plugin-config/web-devicons')
-lua require('plugin-config/nvim-treesitter')
+" lua require('plugin-config/web-devicons')
 lua require('plugin-config/telescope')
 lua require('plugin-config/comment')
 lua require('plugin-config/lualine')

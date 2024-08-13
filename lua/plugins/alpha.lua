@@ -1,9 +1,9 @@
 return {
     'goolord/alpha-nvim',
     dependencies = 'nvim-tree/nvim-web-devicons',
-    config = function()
+    lazy = false,
+    opts = function()
 
-        local alpha = require("alpha")
         local dashboard = require("alpha.themes.dashboard")
 
         dashboard.section.header.val = require('ascii').art.text.neovim.sharp
@@ -50,12 +50,11 @@ return {
         }
         dashboard.config.opts.noautocmd = false
 
-        -- Send config to alpha
-        alpha.setup(dashboard.opts)
-
         -- Disable folding on alpha buffer
         vim.cmd([[
             autocmd FileType alpha setlocal nofoldenable
         ]])
+
+        return dashboard.opts
     end,
 }

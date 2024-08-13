@@ -1,7 +1,7 @@
 require('illuminate').configure({
 
     providers = {
-        'treesitter',
+        -- 'treesitter',
         'lsp',
         'regex',
     }
