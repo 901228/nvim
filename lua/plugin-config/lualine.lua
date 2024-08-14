@@ -1,4 +1,4 @@
-local colors = require('utils').colors
+local colors = require('util').colors
 
 local bubbles_theme = {
     normal = {

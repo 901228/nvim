@@ -19,7 +19,7 @@ M.colors = {
     darkGrey = '#242b38',
 }
 
-M.find_item = function(item, arr)
+function M.find_item(item, arr)
     for _, v in pairs(arr) do
         if v == item then
             return true
@@ -28,19 +28,24 @@ M.find_item = function(item, arr)
     return false
 end
 
---TODO: add OS detect functions
-M.os = {
-    is_windows = function ()
-        return vim.fn.has("win32") == 1
-    end,
-    is_linux = function()
-        return vim.fn.has("win32") == 0
-    end,
-}
+M.os = {}
+
+function M.os.is_win()
+    return vim.fn.has("win32") == 1
+end
+
+function M.os.is_linux()
+    return vim.fn.has("win32") == 0
+end
+
+function M.os.is_mac()
+    --TODO: add mac detect functions
+    return false
+end
 
 M.is_version_10 = (tonumber(vim.version().minor) >= 10)
 
-M.setup_diagnostics_icon = function()
+function M.setup_diagnostics_icon()
     local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
 
     if M.is_version_10 then
@@ -78,15 +83,20 @@ end
 ---@param list T[]
 ---@return T[]
 function M.dedup(list)
-  local ret = {}
-  local seen = {}
-  for _, v in ipairs(list) do
-    if not seen[v] then
-      table.insert(ret, v)
-      seen[v] = true
+    local ret = {}
+    local seen = {}
+    for _, v in ipairs(list) do
+        if not seen[v] then
+            table.insert(ret, v)
+            seen[v] = true
+        end
     end
-  end
-  return ret
+    return ret
 end
+
+M = vim.tbl_deep_extend('error',
+    M,
+    require('util.plugin')
+)
 
 return M

@@ -42,7 +42,7 @@ return {
                 -- local total_plugins = require('packer').stats().count
                 local v = vim.version()
                 local datetime = os.date " %Y-%m-%d   %H:%M:%S"
-                local platform = require('utils').os.is_windows() and "" or ""
+                local platform = require('util').os.is_win() and "" or ""
                 return string.format("%s v%d.%d.%d  %s", ' Neovim', v.major, v.minor, v.patch, datetime)
             end
 
