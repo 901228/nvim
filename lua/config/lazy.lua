@@ -20,6 +20,7 @@ require('utils.plugin').lazy_file()
 require('lazy').setup({
     spec = {
         { import = 'plugins' },
+        { import = 'plugins.ui' },
     },
     defaults = {
         lazy = false,
