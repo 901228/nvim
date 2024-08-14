@@ -93,11 +93,6 @@ return {
     },
 
     ---- UI ----
-    -- ascii arts
-    {
-        'MaximilianLloyd/ascii.nvim',
-        dependencies = 'MunifTanjim/nui.nvim'
-    },
     -- pretty list of LSP, quickfix, telescope ...
     {
         'folke/trouble.nvim',
