@@ -21,6 +21,7 @@ require('lazy').setup({
     spec = {
         { import = 'plugins' },
         { import = 'plugins.ui' },
+        { import = 'plugins.editor' },
     },
     defaults = {
         lazy = false,

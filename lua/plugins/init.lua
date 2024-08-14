@@ -1,17 +1,4 @@
 return {
-    -- file explorer
-    {
-        'nvim-neo-tree/neo-tree.nvim',
-        branch = 'v3.x',
-        dependencies = {
-            'nvim-lua/plenary.nvim',
-            'nvim-tree/nvim-web-devicons',
-            'MunifTanjim/nui.nvim',
-        }
-    },
-    -- file manager
-    'stevearc/oil.nvim',
-
     -- view many things in a panel
     {
         'nvim-telescope/telescope.nvim',

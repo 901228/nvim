@@ -18,14 +18,13 @@ function Map(mode, lhs, rhs, opts, name)
         lhs,
         rhs,
         desc = name,
-        -- group = ,
         mode = mode,
         silent = opts.silent,
         noremap = opts.noremap,
-        -- remap = not opts.noremap,
         nowait = opts.nowait,
         expr = opts.expr,
         buffer = opts.buffer,
+        icon = opts.icon,
     }
 
     -- wk.register( { [lhs] = { rhs, name } }, wk_opts )
@@ -67,12 +66,6 @@ Map("n", "<A-k>", "<C-w>k", opt)
 Map("n", "<A-l>", "<C-w>l", opt)
 
 -- file explorers
-Map("n", "<leader>nt", function() return require('neo-tree.command').execute({ toggle = true }) end, opt, 'toggle NeoTree')
-Map("n", "<leader>nc", function() return require('neo-tree.command').execute({ action = 'focus' }) end, opt, 'focus NeoTree')
-Map('n', '<leader>nf', function()
-    local oil = require('oil')
-    oil.toggle_float(oil.get_current_dir())
-end, opt, 'open floating Oil')
 SetGroupHint('<leader>n', '+ File Explorer')
 
 -- format by nvimtree-sitter
