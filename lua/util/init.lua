@@ -96,7 +96,8 @@ end
 
 M = vim.tbl_deep_extend('error',
     M,
-    require('util.plugin')
+    require('util.plugin'),
+    require('util.ui')
 )
 
 return M

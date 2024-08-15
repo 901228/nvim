@@ -104,17 +104,7 @@ return {
             })
         end
     },
-    -- to indicate buffers
-    {
-        'akinsho/bufferline.nvim',
-        dependencies = 'kyazdani42/nvim-web-devicons',
-    },
     'glepnir/zephyr-nvim',
-    -- window status line & buffer name
-    {
-        'nvim-lualine/lualine.nvim',
-        dependencies = { 'nvim-tree/nvim-web-devicons', opt = true }
-    },
     -- popup terminals
     {
         'akinsho/toggleterm.nvim',
