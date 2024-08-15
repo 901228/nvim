@@ -56,7 +56,6 @@ M.SetGroupHint = SetGroupHint
 -- leader
 Map("n", "<leader>w", "<CMD>w<CR>", opt, 'save')
 Map("n", "<leader>q", "<CMD>q<CR>", opt, 'quit')
--- Map("n", "<leader>q", "<CMD>bd<CR>", opt, 'quit')
 -- Map("n", "<leader>a", "<CMD>qall<CR>", opt, 'quit all')
 
 -- alt + hjkl  窗口之间跳转
@@ -70,10 +69,6 @@ SetGroupHint('<leader>n', '+ File Explorer')
 
 -- format by nvimtree-sitter
 Map("n", "<leader>i", "gg=G``", opt, 'auto format');
-
--- bufferline 左右Tab切换
-Map("n", "<C-h>", "<CMD>BufferLineCyclePrev<CR>", opt)
-Map("n", "<C-l>", "<CMD>BufferLineCycleNext<CR>", opt)
 
 -- telescope
 local tel_builtin = require('telescope.builtin')

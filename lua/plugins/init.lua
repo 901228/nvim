@@ -120,8 +120,6 @@ return {
         'akinsho/toggleterm.nvim',
         version = '*',
     },
-    -- notification system of nvim
-    'rcarriga/nvim-notify',
     -- panels of nvim
     {
         'folke/noice.nvim',
