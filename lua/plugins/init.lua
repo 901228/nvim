@@ -122,10 +122,6 @@ return {
         'folke/todo-comments.nvim',
         dependencies = { 'nvim-lua/plenary.nvim' }
     },
-    -- rainbow brackets
-    'HiPhish/rainbow-delimiters.nvim',
-    -- indent indicatior
-    'lukas-reineke/indent-blankline.nvim',
     -- transparent
     -- use {
     --     'xiyaowong/transparent.nvim',
