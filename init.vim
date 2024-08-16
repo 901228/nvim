@@ -1,8 +1,9 @@
 set background=dark
 colorscheme zephyr
 
-lua require('config.options')
-lua require('config.lazy')
+lua require('util')
+lua require('types')
+lua require('config')
 
 " basic
 lua require('basic')
