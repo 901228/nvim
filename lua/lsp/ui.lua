@@ -20,7 +20,7 @@ M.setup = function()
         },
     })
 
-    require('util').setup_diagnostics_icon()
+    Util.setup_diagnostics_icon()
 end
 
 return M

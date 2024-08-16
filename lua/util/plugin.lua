@@ -40,6 +40,7 @@ function M.has(plugin)
   return require('lazy.core.config').spec.plugins[plugin] ~= nil
 end
 
+---@param fn function
 function M.on_very_lazy(fn)
     vim.api.nvim_create_autocmd("User", {
     pattern = "VeryLazy",

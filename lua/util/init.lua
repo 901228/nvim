@@ -19,25 +19,36 @@ M.colors = {
     darkGrey = '#242b38',
 }
 
-function M.find_item(item, arr)
-    for _, v in pairs(arr) do
-        if v == item then
-            return true
+---@param tbl table
+function M.find_item(tbl, a0)
+    for i, v in pairs(tbl) do
+        if type(a0) == 'function' then
+            if a0(v) then
+                return i
+            end
+        else
+            if v == a0 then
+                return i
+            end
         end
     end
-    return false
+
+    return nil
 end
 
 M.os = {}
 
+---@return boolean
 function M.os.is_win()
     return vim.fn.has("win32") == 1
 end
 
+---@return boolean
 function M.os.is_linux()
     return vim.fn.has("win32") == 0
 end
 
+---@return boolean
 function M.os.is_mac()
     --TODO: add mac detect functions
     return false
@@ -94,10 +105,60 @@ function M.dedup(list)
     return ret
 end
 
-M = vim.tbl_deep_extend('error',
-    M,
-    require('util.plugin'),
-    require('util.ui')
-)
+---@param msg string
+---@param opts table?
+function M.log(msg, opts)
+    local _opts = opts or {}
+    _opts.title = _opts.title or 'Notification'
+
+    vim.notify(msg, _opts.level, opts)
+end
+
+---@param msg string
+---@param opts table?
+function M.notify(msg, opts)
+    M.log(msg, opts)
+end
+
+---@param msg string
+---@param title string?
+function M.info(msg, title)
+    local opts = {
+        level = vim.log.levels.INFO,
+        title = title,
+    }
+    M.log(msg, opts)
+end
+
+---@param msg string
+---@param title string?
+function M.warn(msg, title)
+    local opts = {
+        level = vim.log.levels.WARN,
+        title = title,
+    }
+    M.log(msg, opts)
+end
+
+---@param msg string
+---@param title string?
+function M.error(msg, title)
+    local opts = {
+        level = vim.log.levels.ERROR,
+        title = title,
+    }
+    M.log(msg, opts)
+end
+
+-- M = vim.tbl_deep_extend('error',
+--     M,
+--     require('util.plugin'),
+--     require('util.ui'),
+--     require('util.path')
+-- )
+
+require('util.path').path.lsmod('lua.util', function(mod)
+    M = vim.tbl_deep_extend('error', M, require(mod))
+end)
 
 return M
