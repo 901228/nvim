@@ -14,7 +14,7 @@ require('toggleterm').setup {
 }
 
 local Terminal  = require('toggleterm.terminal').Terminal
-local map = require('keybindings').Map
+local map = Util.keymap.keymap
 
 local lazygit = Terminal:new {
     cmd = "lazygit",
@@ -95,7 +95,7 @@ local toggleG = function()
     lazygit:toggle()
 end
 
-local set_group_hint = require('keybindings').SetGroupHint
+local set_group_hint = Util.keymap.key_group
 
 map({ 'n', 't' }, "<leader>ta", toggleA, {}, 'Float')
 map({ 'n', 't' }, "<leader>tb", toggleB, {}, 'Vertical')

@@ -1,10 +1,13 @@
+---@class MochiUtil.plugin
 local M = {}
 
-M.lazy_file_events = { "BufReadPost", "BufNewFile", "BufWritePre" }
-M.lazy_file = function()
-    -- This autocmd will only trigger when a file was loaded from the cmdline.
-    -- It will render the file as quickly as possible.
-    vim.api.nvim_create_autocmd("BufReadPost", {
+function M.setup()
+    M.lazy_file()
+end
+
+M.lazy_file_events = { 'BufReadPost', 'BufNewFile', 'BufWritePre' }
+function M.lazy_file()
+    vim.api.nvim_create_autocmd('BufReadPost', {
         once = true,
         callback = function(event)
             -- Skip if we already entered vim
@@ -27,27 +30,45 @@ M.lazy_file = function()
         end,
     })
 
-    -- Add support for the LazyFile event
-    local Event = require("lazy.core.handler.event")
+    M.register_LazyFile_event()
+end
 
-    Event.mappings.LazyFile = { id = "LazyFile", event = M.lazy_file_events }
-    Event.mappings["User LazyFile"] = Event.mappings.LazyFile
+function M.register_LazyFile_event()
+    -- Add support for the LazyFile event
+    local Event = require('lazy.core.handler.event')
+
+    Event.mappings.LazyFile = { id = 'LazyFile', event = M.lazy_file_events }
+    Event.mappings['User LazyFile'] = Event.mappings.LazyFile
+end
+
+---@param fn fun()
+function M.on_very_lazy(fn)
+    vim.api.nvim_create_autocmd("User", {
+        pattern = "VeryLazy",
+        callback = function()
+            fn()
+        end,
+    })
+end
+
+---@param name string
+function M.get_plugin(name)
+    return require('lazy.core.config').spec.plugins[name]
 end
 
 ---@param plugin string
 ---@return boolean
 function M.has(plugin)
-  return require('lazy.core.config').spec.plugins[plugin] ~= nil
+    return M.get_plugin(plugin) ~= nil
 end
 
----@param fn function
-function M.on_very_lazy(fn)
-    vim.api.nvim_create_autocmd("User", {
-    pattern = "VeryLazy",
-    callback = function()
-      fn()
-    end,
-  })
+---@param name string
+function M.opts(name)
+    local plugin = M.get_plugin(name)
+    if not plugin then
+        return {}
+    end
+    return require('lazy.core.plugin').values(plugin, 'opts', false)
 end
 
 return M

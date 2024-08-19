@@ -1,6 +1,7 @@
+---@class MochiUtil.ui
 local M = {}
 
----@param buf number?
+---@param buf? number
 function M.bufremove(buf)
     buf = buf or 0
     buf = buf == 0 and vim.api.nvim_get_current_buf() or buf

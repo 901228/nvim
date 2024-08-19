@@ -25,8 +25,8 @@ return {
             end,
         },
         init = function()
-            if not Util.has('noice.nvim') then
-                Util.on_very_lazy(function()
+            if not Util.plugin.has('noice.nvim') then
+                Util.plugin.on_very_lazy(function()
                     vim.notify = require('notify')
                 end)
             end

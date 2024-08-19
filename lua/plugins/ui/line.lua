@@ -5,7 +5,7 @@ return {
         dependencies = 'nvim-tree/nvim-web-devicons',
         event = 'VeryLazy',
         keys = {
-            { '<leader>bd', function() Util.bufremove() end, desc = 'Close Buffer' },
+            { '<leader>bd', function() Util.ui.bufremove() end, desc = 'Close Buffer' },
             { '<C-h>', '<CMD>BufferLineCyclePrev<CR>', desc = 'Prev Buffer' },
             { '<C-l>', '<CMD>BufferLineCycleNext<CR>', desc = 'Next Buffer' },
             { '<leader>bh', '<CMD>BufferLineMovePrev<CR>', desc = 'Move Buffer Prev' },
@@ -48,8 +48,8 @@ return {
                 },
 
                 right_mouse_command = nil,
-                middle_mouse_command = function(n) Util.bufremove(n) end,
-                close_command = function(n) Util.bufremove(n) end,
+                middle_mouse_command = function(n) Util.ui.bufremove(n) end,
+                close_command = function(n) Util.ui.bufremove(n) end,
             }
         },
         config = function(_, opts)

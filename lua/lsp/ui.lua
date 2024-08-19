@@ -20,7 +20,7 @@ M.setup = function()
         },
     })
 
-    Util.setup_diagnostics_icon()
+    Util.diagnostic.setup()
 end
 
 return M

@@ -1,4 +1,34 @@
+---@class MochiUtil
+---@field plugin MochiUtil.plugin
+---@field path MochiUtil.path
+---@field ui MochiUtil.ui
+---@field diagnostic MochiUtil.diagnostic
+---@field format MochiUtil.format
+---@field lsp MochiUtil.lsp
+---@field cmp MochiUtil.cmp
+---@field keymap MochiUtil.keymap
 local M = {}
+
+setmetatable(M, {
+    __index = function(t, k)
+        t[k] = require('util.' .. k)
+        return t[k]
+    end,
+})
+
+function M.setup()
+    Util.format.setup()
+end
+
+M.did_init = false
+function M.init()
+    if M.did_init then
+        return
+    end
+    M.did_init = true
+
+    Util.plugin.setup()
+end
 
 M.colors = {
     blue   = '#80a0ff',
@@ -56,40 +86,6 @@ end
 
 M.is_version_10 = (tonumber(vim.version().minor) >= 10)
 
-function M.setup_diagnostics_icon()
-    local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
-
-    if M.is_version_10 then
-        vim.diagnostic.config({
-            signs = {
-                text = {
-                    [vim.diagnostic.severity.ERROR] = signs.Error,
-                    [vim.diagnostic.severity.WARN] = signs.Warn,
-                    [vim.diagnostic.severity.HINT] = signs.Hint,
-                    [vim.diagnostic.severity.INFO] = signs.Info,
-                },
-                linehl = {
-                    [vim.diagnostic.severity.ERROR] = 'ErrorMsg',
-                    [vim.diagnostic.severity.WARN] = 'WarnMsg',
-                    [vim.diagnostic.severity.HINT] = 'HintMsg',
-                    [vim.diagnostic.severity.INFO] = 'InfoMsg',
-                },
-                numhl = {
-                    [vim.diagnostic.severity.ERROR] = 'ErrorMsg',
-                    [vim.diagnostic.severity.WARN] = 'WarnMsg',
-                    [vim.diagnostic.severity.HINT] = 'HintMsg',
-                    [vim.diagnostic.severity.INFO] = 'InfoMsg',
-                },
-            },
-        })
-    else
-        for type, icon in pairs(signs) do
-            local hl = "DiagnosticSign" .. type
-            vim.fn.sign_define(hl, { text = icon, texthl = hl })
-        end
-    end
-end
-
 ---@generic T
 ---@param list T[]
 ---@return T[]
@@ -105,60 +101,207 @@ function M.dedup(list)
     return ret
 end
 
----@param msg string
----@param opts table?
-function M.log(msg, opts)
-    local _opts = opts or {}
-    _opts.title = _opts.title or 'Notification'
+---@param opts? {level?: number}
+function M.pretty_trace(opts)
+    opts = opts or {}
+    -- local Config
+    local trace = {}
+    local level = opts.level or vim.log.levels.INFO
 
-    vim.notify(msg, _opts.level, opts)
+    while true do
+        local info debug.getinfo(level, 'Sln')
+        if not info then
+            break
+        end
+
+        if info.what ~= 'C' then
+            local source = info.source:sub(2)
+            source = vim.fn.fnamemodify(source, ':p:~:.') --[[@as string]]
+            local line = '  - ' .. source .. ':' .. info.currentline
+            if info.name then
+                line = line .. ' _in_ **' .. info.name .. '**'
+            end
+            table.insert(trace, line)
+        end
+
+        level = level + 1
+    end
+
+    return #trace > 0 and ('\n\n# stacktrace:\n' .. table.concat(trace, '\n')) or ''
 end
 
----@param msg string
----@param opts table?
+---@alias MochiNotifyOpts {lang?: string, title?: string, level?: number, once?: boolean, stacktrace?: boolean, stacklevel?: number}
+
+---@param msg string | string[]
+---@param opts? MochiNotifyOpts
 function M.notify(msg, opts)
-    M.log(msg, opts)
+    if vim.in_fast_event() then
+        return vim.schedule(function()
+            M.notify(msg, opts)
+        end)
+    end
+
+    opts = opts or {}
+    opts.level = opts.level or vim.log.levels.INFO
+    opts.title = opts.title or 'Mochi'
+
+    if type(msg) == 'table' then
+        msg = table.concat(
+            vim.tbl_filter(function(line)
+                return line or false
+            end, msg),
+            '\n'
+        )
+    end
+
+    if opts.stacktrace then
+        msg = msg .. M.pretty_trace({ lavel = opts.stacklevel or vim.log.levels.INFO })
+    end
+
+    local lang = opts.lang or 'markdown'
+    local notify = opts.once and vim.notify_once or vim.notify
+    notify(msg, opts.level, {
+        on_open = function(win)
+            local ok = pcall(function()
+                vim.treesitter.language.add('markdown')
+            end)
+            if not ok then
+                pcall(require, 'nvim-treesitter')
+            end
+
+            -- https://neovim.io/doc/user/options.html#'conceallevel'
+            vim.wo[win].conceallevel = 3
+            vim.wo[win].concealcursor = ''
+            vim.wo[win].spell = false
+
+            local buf = vim.api.nvim_win_get_buf(win)
+            if not pcall(vim.treesitter.start, buf, lang) then
+                vim.bo[buf].filetype = lang
+                vim.bo[buf].syntax = lang
+            end
+        end,
+        title = opts.title,
+    })
 end
 
----@param msg string
----@param title string?
-function M.info(msg, title)
-    local opts = {
-        level = vim.log.levels.INFO,
-        title = title,
-    }
-    M.log(msg, opts)
+---@param msg string | string[]
+---@param opts? MochiNotifyOpts
+function M.log(msg, opts)
+    M.notify(msg, opts)
 end
 
----@param msg string
----@param title string?
-function M.warn(msg, title)
-    local opts = {
-        level = vim.log.levels.WARN,
-        title = title,
-    }
-    M.log(msg, opts)
+---@param msg string | string[]
+---@param opts? MochiNotifyOpts
+function M.info(msg, opts)
+    opts = opts or {}
+    opts.level = vim.log.levels.INFO
+    M.notify(msg, opts)
 end
 
----@param msg string
----@param title string?
-function M.error(msg, title)
-    local opts = {
-        level = vim.log.levels.ERROR,
-        title = title,
-    }
-    M.log(msg, opts)
+---@param msg string | string[]
+---@param opts? MochiNotifyOpts
+function M.warn(msg, opts)
+    opts = opts or {}
+    opts.level = vim.log.levels.WARN
+    M.notify(msg, opts)
 end
 
--- M = vim.tbl_deep_extend('error',
---     M,
---     require('util.plugin'),
---     require('util.ui'),
---     require('util.path')
--- )
+---@param msg string | string[]
+---@param opts? MochiNotifyOpts
+function M.error(msg, opts)
+    opts = opts or {}
+    opts.level = vim.log.levels.ERROR
+    M.notify(msg, opts)
+end
 
-require('util.path').path.lsmod('lua.util', function(mod)
-    M = vim.tbl_deep_extend('error', M, require(mod))
-end)
+---@generic R
+---@param fn fun(): R?
+---@param opts? string | {msg: string, on_error: fun(msg)}
+---@return R?
+function M.try(fn, opts)
+    opts = type(opts) == 'string' and { msg = opts } or opts or {}
+    local msg = opts.msg
+
+    -- error handler
+    local error_handler = function(err)
+        msg = (msg and (msg .. '\n\n') or '') .. err .. M.pretty_trace()
+        if opts.on_error then
+            opts.on_error(msg)
+        else
+            vim.schedule(function()
+                M.error(msg)
+            end)
+        end
+        return err
+    end
+
+    ---@type boolean, any
+    local ok, result = xpcall(fn, error_handler)
+    return ok and result or nil
+end
+
+---@param t table
+---@return boolean
+function M.is_list(t)
+    local i = 0
+    for _ in pairs(t) do
+        i = i + 1
+        if t[i] == nil then
+            return false
+        end
+    end
+    return true
+end
+
+-- check if table is not a list
+---@return boolean
+local function can_merge(v)
+    return type(v) == 'table' and (vim.tbl_isempty(v) or not M.is_list(v))
+end
+
+---@generic T
+---@param ... T
+---@return T
+function M.merge(...)
+    local ret = select(1, ...)
+    if ret == vim.NIL then
+        return nil
+    end
+
+    for i = 2, select('#', ...) do
+        local value = select(i, ...)
+        if can_merge(ret) and can_merge(value) then
+            for k, v in pairs(value) do
+                ret[k] = M.merge(ret[k], v)
+            end
+        elseif value == vim.NIL then
+            ret = nil
+        elseif value ~= nil then
+            ret = value
+        end
+    end
+
+    return ret
+end
+
+function M.list_extend(...)
+    local ret = select(1, ...)
+    if ret == vim.NIL or not M.is_list(ret) then
+        return nil
+    end
+
+    for i = 2, select('#', ...) do
+        local value = select(i, ...)
+        if M.is_list(value) then
+            for _, v in ipairs(value) do
+                ret[#ret + 1] = v
+            end
+        else
+            return nil
+        end
+    end
+
+    return ret
+end
 
 return M

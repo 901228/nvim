@@ -1,57 +1,9 @@
 local M = {}
 
-local wk = require('which-key')
-
-M.mappings = {}
+local Map = Util.keymap.keymap
+local SetGroupHint = Util.keymap.key_group
 
 local opt = { noremap = true, silent = true }
-function Map(mode, lhs, rhs, opts, name)
-    if name == nil then
-        if type(rhs) == 'string' then
-            name = rhs
-        else
-            name = ''
-        end
-    end
-
-    local wk_opts = {
-        lhs,
-        rhs,
-        desc = name,
-        mode = mode,
-        silent = opts.silent,
-        noremap = opts.noremap,
-        nowait = opts.nowait,
-        expr = opts.expr,
-        buffer = opts.buffer,
-        icon = opts.icon,
-    }
-
-    -- wk.register( { [lhs] = { rhs, name } }, wk_opts )
-    wk.add(wk_opts)
-    table.insert(M.mappings, wk_opts)
-end
-M.Map = Map
-
-function SetGroupHint(prefix, name)
-    -- wk.register({ [prefix] = { name = name } })
-    wk.add({ prefix, group = name })
-    table.insert(M.mappings, { prefix, group = name })
-end
-M.SetGroupHint = SetGroupHint
-
--------------------------------------------------------------------------
--- Map(<mode>, <lhs>, <rhs>, opts, name)
---   mode   => normal, visual, insert, select, command-line, terminal ...
---   lhs    => key
---   rhs    => mapping function
---   opts   => silent, noremap, expr, buffer ...
---   name   => name to show on which-key
--------------------------------------------------------------------------
--- SetGroupHint(prefix, name)
---   prefix => prefix of this group
---   name   => name of this group
--------------------------------------------------------------------------
 
 -- leader
 Map("n", "<leader>w", "<CMD>w<CR>", opt, 'save')
@@ -102,7 +54,7 @@ M.mapLSP = function(bufnr)
 
     local lsp_opt = {
         noremap = true,
-        silen = true,
+        silent = true,
         buffer = bufnr,
     }
 
@@ -176,7 +128,7 @@ Map("n", "<leader>cd", "<CMD>CMakeGenerate<CR><CMD>CMakeBuild<CR><CMD>CMakeRun<C
 SetGroupHint('<leader>c', '+ CMake')
 
 -- inc_rename
-Map('n', '<leader>r', function() return ':IncRename ' .. vim.fn.expand('<cword>') end, { expr = true }, 'rename')
+Map('n', '<leader>r', ':IncRename ' .. vim.fn.expand('<cword>'), { expr = true }, 'rename')
 
 -- flash
 -- Map({ 'n', 'x', 'o' }, '<leader>ss', function() require('flash').jump() end, opt, 'Flash')
