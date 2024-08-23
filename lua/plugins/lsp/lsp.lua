@@ -121,13 +121,6 @@ return {
             Util.lsp.words.setup(opts.document_highlight)
 
             ---- diagnostic ----
-            -- diagnostic icons under nvim version 10
-            if not Util.is_version_10 then
-                if type(opts.diagnostic.signs) ~= 'boolean' then
-                    Util.diagnostic.setup9(opts.diagnostic.signs)
-                end
-            end
-
             if Util.is_version_10 then
                 -- inlay hints
                 if opts.inlay_hints.enabled then
@@ -167,6 +160,7 @@ return {
 
             -- setup diagnostic config
             vim.diagnostic.config(vim.deepcopy(opts.diagnostic))
+            Util.diagnostic.setup(opts.diagnostic.signs)
 
             ---- servers ----
             local servers = opts.servers
