@@ -149,13 +149,13 @@ return {
             -- virtual text
             if type(opts.diagnostic.virtual_text) == 'table' and opts.diagnostic.virtual_text.prefix == 'icons' then
                 opts.diagnostic.virtual_text.prefix = (not Util.is_version_10) and '●'
-                or function(diagnostic)
-                    for d, icon in pairs(Util.diagnostic.icons) do
-                        if diagnostic.severity == vim.diagnostic.severity[d:upper()] then
-                            return icon
+                    or function(diagnostic)
+                        for d, icon in pairs(Util.diagnostic.icons) do
+                            if diagnostic.severity == vim.diagnostic.severity[d:upper()] then
+                                return icon
+                            end
                         end
                     end
-                end
             end
 
             -- setup diagnostic config

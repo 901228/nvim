@@ -19,8 +19,7 @@ Map("n", "<A-l>", "<C-w>l", opt)
 -- file explorers
 SetGroupHint('<leader>n', '+ File Explorer')
 
--- format by nvimtree-sitter
-Map("n", "<leader>i", "gg=G``", opt, 'auto format');
+Map("n", "<leader>i", function() Util.format() end, opt, 'format');
 
 -- telescope
 local tel_builtin = require('telescope.builtin')

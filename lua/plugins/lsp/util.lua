@@ -4,4 +4,10 @@ return {
         'luckasRanarison/clear-action.nvim',
         opts = {},
     },
+
+    {
+        'NMAC427/guess-indent.nvim',
+        event = 'LazyFile',
+        opts = {},
+    },
 }

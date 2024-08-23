@@ -81,8 +81,9 @@ return {
                     settings = {
                         Lua = {
                             workspace = {
-                                -- significatnly slower when add this lne
+                                -- significatnly slower when adding this lne
                                 -- library = vim.api.nvim_get_runtime_file('', true),
+                                library = {},
                                 checkThirdParty = false,
                             },
                             diagnostics = {
@@ -104,6 +105,13 @@ return {
                                 paramName = 'Disable',
                                 semicolon = 'Disable',
                                 arrayIndex = 'Disable',
+                            },
+                            format = {
+                                enable = true,
+                                defaultConfig = {
+                                    indent_style = 'space',
+                                    indent_size = '2',
+                                },
                             },
                         },
                     },
