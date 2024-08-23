@@ -353,6 +353,13 @@ function M.words.setup(opts)
             end,
         })
     end)
+
+    -- setup hl
+    vim.schedule(function()
+        -- vim.api.nvim_set_hl(0, 'LspReferenceText', { bold = true, underline = true })
+        vim.api.nvim_set_hl(0, 'LspReferenceRead', { bold = true, underline = true })
+        vim.api.nvim_set_hl(0, 'LspReferenceWrite', { bold = true, underline = true })
+    end)
 end
 
 ---@return LspWord[] words, number? current
