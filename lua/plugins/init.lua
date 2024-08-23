@@ -1,4 +1,7 @@
+Util.init()
+
 return {
+    { 'folke/lazy.nvim', version = '*' },
     -- view many things in a panel
     {
         'nvim-telescope/telescope.nvim',
@@ -29,11 +32,6 @@ return {
     },
 
     ---- LSP ----
-    {
-        'williamboman/mason.nvim',
-        'williamboman/mason-lspconfig.nvim',
-        'neovim/nvim-lspconfig',
-    },
     -- nvim-cmp
     'hrsh7th/cmp-nvim-lsp', -- { name = nvim_lsp }
     'hrsh7th/cmp-buffer',   -- { name = 'buffer' },
@@ -49,28 +47,8 @@ return {
     'rafamadriz/friendly-snippets',
     -- lspkind
     'onsails/lspkind-nvim',
-    -- code action
-    'luckasRanarison/clear-action.nvim',
     -- formatting
     'stevearc/conform.nvim',
-
-    --- language enhancement ---
-    -- Lua
-    'folke/neodev.nvim',
-    -- Json
-    'b0o/schemastore.nvim',
-    -- CMake
-    'Civitasv/cmake-tools.nvim',
-    -- markdown
-    -- use 'tadmccorkle/markdown.nvim'
-    -- yuck (for eww)
-    'elkowar/yuck.vim',
-    -- Rust
-    {
-        'mrcjkb/rustaceanvim',
-        bufread = true,
-        ft = { 'rust', 'rs' },
-    },
 
     --- others ---
     -- rename
@@ -84,11 +62,6 @@ return {
     {
         'folke/trouble.nvim',
         dependencies = 'nvim-tree/nvim-web-devicons',
-    },
-    -- navigation bar of functions
-    {
-        'SmiteshP/nvim-navic',
-        dependencies = 'neovim/nvim-lspconfig',
     },
     -- highlight other same words of thr word under cursor
     'RRethy/vim-illuminate',
