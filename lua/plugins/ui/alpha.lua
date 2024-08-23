@@ -32,7 +32,7 @@ return {
                 dashboard.button("r", "  > Recent file"   , "<cmd>Telescope oldfiles<CR>"),
                 dashboard.button("f", "󰈞  > Find file", "<cmd>Telescope find_files hidden=true path_display=smart<CR>"),
                 dashboard.button("g", "  > Search file", "<cmd>Telescope live_grep path_display=smart<CR>"),
-                dashboard.button("u", "  > Update plugins"   , "<cmd>PackerSync<CR>"),
+                dashboard.button("l", "  > Lazy"   , "<cmd>Lazy<CR>"),
                 dashboard.button("s", "  > Settings" , "<cmd>e $MYVIMRC | :cd %:p:h | Neotree<CR>"),
                 dashboard.button("q", "󰈆  > Quit NVIM", "<cmd>qa!<CR>"),
             }
