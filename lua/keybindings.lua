@@ -48,36 +48,6 @@ SetGroupHint('<leader>x', '+ Truoble')
 -- whitespace
 Map('n', '<leader>k', require('whitespace-nvim').trim, opt, 'trim whitespaces')
 
--- lsp keybinds
-M.mapLSP = function(bufnr)
-
-    local lsp_opt = {
-        noremap = true,
-        silent = true,
-        buffer = bufnr,
-    }
-
-    local code_action = require('clear-action.actions')
-    local conform = require('conform')
-
-    SetGroupHint('<leader>l', '+ LSP actions')
-    -- code action
-    Map('n', '<leader>la', function() code_action.code_action() end, lsp_opt, 'code actions')
-    -- go xx
-    Map('n', '<leader>ld', '<cmd>lua vim.lsp.buf.definition()<CR>', lsp_opt, 'definition')
-    Map('n', '<leader>lh', '<cmd>lua vim.lsp.buf.hover()<CR>', lsp_opt, 'hover')
-    Map('n', '<leader>lD', '<cmd>lua vim.lsp.buf.declaration()<CR>', lsp_opt, 'declaration')
-    Map('n', '<leader>li', '<cmd>lua vim.lsp.buf.implementation()<CR>', lsp_opt, 'implementation')
-    Map('n', '<leader>lr', '<cmd>lua vim.lsp.buf.references()<CR>', lsp_opt, 'references')
-    -- leader + =
-    Map('n', '<leader>lf', function() conform.format() end, lsp_opt, 'format')
-    -- map('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', lsp_opt)
-    -- map('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', lsp_opt)
-    -- map('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', lsp_opt)
-    -- map('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', lsp_opt)
-    -- map('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', lsp_opt)
-end
-
 -- nvim-cmp auto completion
 M.cmp = function(cmp)
     local enterBehavior = function(fallback)
@@ -126,8 +96,6 @@ end
 Map("n", "<leader>cd", "<CMD>CMakeGenerate<CR><CMD>CMakeBuild<CR><CMD>CMakeRun<CR>", opt, 'Debug')
 SetGroupHint('<leader>c', '+ CMake')
 
--- inc_rename
-Map('n', '<leader>r', ':IncRename ' .. vim.fn.expand('<cword>'), { expr = true }, 'rename')
 
 -- flash
 -- Map({ 'n', 'x', 'o' }, '<leader>ss', function() require('flash').jump() end, opt, 'Flash')

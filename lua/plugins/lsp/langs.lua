@@ -83,7 +83,6 @@ return {
                             workspace = {
                                 -- significatnly slower when adding this lne
                                 -- library = vim.api.nvim_get_runtime_file('', true),
-                                library = {},
                                 checkThirdParty = false,
                             },
                             diagnostics = {

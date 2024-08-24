@@ -105,17 +105,17 @@ return {
             Util.format.register(Util.lsp.formatter())
 
             -- setup keymaps
-            local keymaps = {}
-            -- TODO:
-            -- Util.lsp.on_attach(function(client, bufnr)
-            --     keymaps.on_attach(client, bufnr)
-            -- end)
+            Util.lsp.on_attach(function(client, bufnr)
+                common.key.attach(bufnr)
+            end)
 
             -- setup lsp
             Util.lsp.setup()
 
             -- setup keymap dynamic capability
-            -- TODO: Util.lsp.on_dynamic_capability(keymaps.on_attach)
+            Util.lsp.on_dynamic_capability(function(client, bufnr)
+                common.key.on_attach(bufnr)
+            end)
 
             -- setup words
             Util.lsp.words.setup(opts.document_highlight)

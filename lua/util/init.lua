@@ -109,7 +109,7 @@ function M.pretty_trace(opts)
     local level = opts.level or vim.log.levels.INFO
 
     while true do
-        local info debug.getinfo(level, 'Sln')
+        local info = debug.getinfo(level, 'Sln')
         if not info then
             break
         end
