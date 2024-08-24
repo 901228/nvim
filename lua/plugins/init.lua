@@ -50,15 +50,6 @@ return {
     -- formatting
     'stevearc/conform.nvim',
 
-    --- others ---
-    -- rename
-    {
-        'smjonas/inc-rename.nvim',
-        config = function()
-            require('inc_rename').setup()
-        end,
-    },
-
     ---- UI ----
     -- pretty list of LSP, quickfix, telescope ...
     {
