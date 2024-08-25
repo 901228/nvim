@@ -1,6 +1,6 @@
 return {
     {
-        'folke/which-key.nvim',
+        'which-key.nvim',
         opts = {
             spec = {
                 { '<BS>', desc = 'Decrement Selection', mode = 'x' },

@@ -52,7 +52,7 @@ return {
 
     -- lspconfig for langs
     {
-        'neovim/nvim-lspconfig',
+        'nvim-lspconfig',
         opts = {
             -- lsp server settings
             servers = {

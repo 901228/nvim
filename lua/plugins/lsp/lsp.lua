@@ -53,13 +53,13 @@ return {
     {
         'neovim/nvim-lspconfig',
         dependencies = {
-            'williamboman/mason.nvim',
-            'williamboman/mason-lspconfig.nvim',
-            'SmiteshP/nvim-navic',
-            'b0o/schemastore.nvim',
-            'mrcjkb/rustaceanvim',
-            'luckasRanarison/clear-action.nvim',
-            'hrsh7th/nvim-cmp',
+            'mason.nvim',
+            'mason-lspconfig.nvim',
+            'nvim-navic',
+            'schemastore.nvim',
+            'rustaceanvim',
+            'clear-action.nvim',
+            'nvim-cmp',
         },
         event = 'LazyFile',
         opts = {

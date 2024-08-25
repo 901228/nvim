@@ -2,15 +2,15 @@ return {
     -- ascii arts
     {
         'MaximilianLloyd/ascii.nvim',
-        dependencies = 'MunifTanjim/nui.nvim',
+        dependencies = 'nui.nvim',
     },
 
     -- dashboard
     {
         'goolord/alpha-nvim',
         dependencies = {
-            'nvim-tree/nvim-web-devicons',
-            'MaximilianLloyd/ascii.nvim',
+            'nvim-web-devicons',
+            'ascii.nvim',
         },
         lazy = false,
         opts = function()

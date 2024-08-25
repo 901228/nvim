@@ -2,6 +2,8 @@ Util.init()
 
 return {
     { 'folke/lazy.nvim', version = '*' },
+    { 'nvim-lua/plenary.nvim' },
+    { 'MunifTanjim/nui.nvim' },
     -- view many things in a panel
     {
         'nvim-telescope/telescope.nvim',
@@ -54,7 +56,7 @@ return {
     -- pretty list of LSP, quickfix, telescope ...
     {
         'folke/trouble.nvim',
-        dependencies = 'nvim-tree/nvim-web-devicons',
+        dependencies = 'nvim-web-devicons',
     },
     -- highlight other same words of thr word under cursor
     -- 'RRethy/vim-illuminate',
@@ -79,14 +81,14 @@ return {
     -- panels of nvim
     {
         'folke/noice.nvim',
-        dependencies = { 'MunifTanjim/nui.nvim', 'rcarriga/nvim-notify' }
+        dependencies = { 'nui.nvim', 'nvim-notify' }
     },
     -- color highlighter
     'NvChad/nvim-colorizer.lua',
     -- toto highlight
     {
         'folke/todo-comments.nvim',
-        dependencies = { 'nvim-lua/plenary.nvim' }
+        dependencies = 'plenary.nvim',
     },
     -- transparent
     -- use {

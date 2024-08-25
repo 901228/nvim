@@ -2,7 +2,7 @@ return {
     -- to indicate buffers
     {
         'akinsho/bufferline.nvim',
-        dependencies = 'nvim-tree/nvim-web-devicons',
+        dependencies = 'nvim-web-devicons',
         event = 'VeryLazy',
         keys = {
             { '<leader>bd', function() Util.ui.bufremove() end, desc = 'Close Buffer' },
@@ -69,7 +69,7 @@ return {
     -- window status line & buffer name
     {
         'nvim-lualine/lualine.nvim',
-        dependencies = { 'nvim-tree/nvim-web-devicons' },
+        dependencies = 'nvim-web-devicons',
         event = 'VeryLazy',
         init = function()
             vim.g.lualine_laststatus = vim.o.laststatus
