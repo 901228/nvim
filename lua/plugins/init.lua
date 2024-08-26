@@ -43,8 +43,6 @@ return {
         'folke/trouble.nvim',
         dependencies = 'nvim-web-devicons',
     },
-    -- highlight other same words of thr word under cursor
-    -- 'RRethy/vim-illuminate',
     -- enhance some searching funcitons
     -- use 'folke/flash.nvim'
     -- quick look of f/F word moving
