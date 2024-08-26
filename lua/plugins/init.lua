@@ -25,13 +25,6 @@ return {
             require("nvim-surround").setup()
         end
     },
-    -- auto add brackets or something in pair
-    {
-        'windwp/nvim-autopairs',
-        config = function()
-            require('nvim-autopairs').setup()
-        end
-    },
 
     ---- LSP ----
     -- formatting
