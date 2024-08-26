@@ -11,9 +11,6 @@ lua require('basic')
 " key bindings
 lua require('keybindings')
 
-" gui font
-lua require('gui')
-
 " plugins
 lua require('plugin-config/telescope')
 lua require('plugin-config/comment')
