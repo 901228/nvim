@@ -34,21 +34,6 @@ return {
     },
 
     ---- LSP ----
-    -- nvim-cmp
-    'hrsh7th/cmp-nvim-lsp', -- { name = nvim_lsp }
-    'hrsh7th/cmp-buffer',   -- { name = 'buffer' },
-    'hrsh7th/cmp-path',     -- { name = 'path' }
-    'hrsh7th/cmp-cmdline',  -- { name = 'cmdline' }
-    'hrsh7th/nvim-cmp',
-    -- snippets
-    'hrsh7th/cmp-nvim-lsp-signature-help', -- { name = 'nvim_lsp_signature_help' }
-    'L3MON4D3/LuaSnip',
-    'saadparwaiz1/cmp_luasnip',
-    'hrsh7th/cmp-vsnip',    -- { name = 'vsnip' }
-    'hrsh7th/vim-vsnip',
-    'rafamadriz/friendly-snippets',
-    -- lspkind
-    'onsails/lspkind-nvim',
     -- formatting
     'stevearc/conform.nvim',
 

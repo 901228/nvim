@@ -7,6 +7,7 @@
 ---@field lsp MochiUtil.lsp
 ---@field cmp MochiUtil.cmp
 ---@field keymap MochiUtil.keymap
+---@field icon MochiUtil.icon
 local M = {}
 
 setmetatable(M, {

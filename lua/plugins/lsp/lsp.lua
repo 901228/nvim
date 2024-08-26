@@ -53,11 +53,7 @@ return {
     {
         'neovim/nvim-lspconfig',
         dependencies = {
-            'mason.nvim',
-            'mason-lspconfig.nvim',
             'nvim-navic',
-            'schemastore.nvim',
-            'rustaceanvim',
             'clear-action.nvim',
             'nvim-cmp',
         },

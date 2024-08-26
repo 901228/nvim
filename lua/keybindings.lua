@@ -49,53 +49,48 @@ SetGroupHint('<leader>x', '+ Truoble')
 Map('n', '<leader>k', require('whitespace-nvim').trim, opt, 'trim whitespaces')
 
 -- nvim-cmp auto completion
-M.cmp = function(cmp)
-    local enterBehavior = function(fallback)
-        if cmp.visible() and cmp.get_active_entry() then
-            cmp.confirm({ select = true, behavior = cmp.ConfirmBehavior.Replace })
-        else
-            fallback()
-        end
-    end
-    return {
-        -- next candidated item
-        ['<C-j>'] = cmp.mapping(cmp.mapping.select_next_item(), { 'i', 'c' }),
-        -- previous candidated item
-        ['<C-k>'] = cmp.mapping(cmp.mapping.select_prev_item(), { 'i', 'c' }),
-        -- show the completion list
-        ['<A-.>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
-        -- cancel
-        ['<A-,>'] = cmp.mapping(cmp.mapping.abort(), { 'i', 'c' }),
-        -- Accept currently selected item. If none selected, `select` first item.
-        -- Set `select` to `false` to only confirm explicitly selected items.
-        ['<CR>'] = cmp.mapping({
-            i = enterBehavior,
-            s = cmp.mapping.confirm({ select = true }),
-            c = enterBehavior,
-        }),
-        ['<Tab>'] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-                local entry = cmp.get_selected_entry()
-                if not entry then
-                    cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
-                    -- cmp.confirm({ select = true, behavior = cmp.ConfirmBehavior.Replace })
-                else
-                    cmp.confirm()
-                end
-            else
-                fallback()
-            end
-        end, { 'i', 's', 'c' }),
-        -- ['<C-y>'] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
-        ['<C-u>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
-        ['<C-d>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
-    }
-end
-
--- cmake-tools
-Map("n", "<leader>cd", "<CMD>CMakeGenerate<CR><CMD>CMakeBuild<CR><CMD>CMakeRun<CR>", opt, 'Debug')
-SetGroupHint('<leader>c', '+ CMake')
-
+-- M.cmp = function(cmp)
+--     local enterBehavior = function(fallback)
+--         if cmp.visible() and cmp.get_active_entry() then
+--             cmp.confirm({ select = true, behavior = cmp.ConfirmBehavior.Replace })
+--         else
+--             fallback()
+--         end
+--     end
+--     return {
+--         -- next candidated item
+--         ['<C-j>'] = cmp.mapping(cmp.mapping.select_next_item(), { 'i', 'c' }),
+--         -- previous candidated item
+--         ['<C-k>'] = cmp.mapping(cmp.mapping.select_prev_item(), { 'i', 'c' }),
+--         -- show the completion list
+--         ['<A-.>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
+--         -- cancel
+--         ['<A-,>'] = cmp.mapping(cmp.mapping.abort(), { 'i', 'c' }),
+--         -- Accept currently selected item. If none selected, `select` first item.
+--         -- Set `select` to `false` to only confirm explicitly selected items.
+--         ['<CR>'] = cmp.mapping({
+--             i = enterBehavior,
+--             s = cmp.mapping.confirm({ select = true }),
+--             c = enterBehavior,
+--         }),
+--         ['<Tab>'] = cmp.mapping(function(fallback)
+--             if cmp.visible() then
+--                 local entry = cmp.get_selected_entry()
+--                 if not entry then
+--                     cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
+--                     -- cmp.confirm({ select = true, behavior = cmp.ConfirmBehavior.Replace })
+--                 else
+--                     cmp.confirm()
+--                 end
+--             else
+--                 fallback()
+--             end
+--         end, { 'i', 's', 'c' }),
+--         -- ['<C-y>'] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
+--         -- ['<C-u>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
+--         -- ['<C-d>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
+--     }
+-- end
 
 -- flash
 -- Map({ 'n', 'x', 'o' }, '<leader>ss', function() require('flash').jump() end, opt, 'Flash')

@@ -29,14 +29,14 @@ return {
         'folke/lazydev.nvim',
         ft = 'lua',
         dependencies = {
-            { 'Bilal2453/luvit-meta', lazy = true },
+            { 'Bilal2453/luvit-meta',        lazy = true },
             { 'justinsgithub/wezterm-types', lazy = true },
             { 'LelouchHe/xmake-luals-addon', lazy = true },
         },
         opts = {
             library = {
-                { path = 'luvit-meta/library', words = { 'vim%.uv' } },
-                { path = 'wezterm-types', mods = { 'wezterm' } },
+                { path = 'luvit-meta/library',        words = { 'vim%.uv' } },
+                { path = 'wezterm-types',             mods = { 'wezterm' } },
                 { path = 'xmake-luala-addon/library', files = { 'xmake.lua' } },
             },
             enabled = function()
@@ -136,5 +136,22 @@ return {
                 ['*'] = function(server, opts) end,
             },
         },
-    }
+    },
+
+    -- cmp for langs
+    {
+        'nvim-cmp',
+        dependencies = {
+            'hrsh7th/cmp-nvim-lua', -- { name = 'nvim_lua' }
+        },
+        opts = function(_, opts)
+            if Util.plugin.has('lazydev.nvim') then
+                table.insert(opts.sources, { name = 'lazydev', group_index = 0 })
+            end
+
+            if Util.plugin.has('cmp-nvim-lua') then
+                table.insert(opts.sources, { name = 'nvim_lua', group_index = 0 })
+            end
+        end,
+    },
 }
