@@ -27,10 +27,6 @@ return {
         end
     },
 
-    ---- LSP ----
-    -- formatting
-    'stevearc/conform.nvim',
-
     ---- UI ----
     -- pretty list of LSP, quickfix, telescope ...
     {

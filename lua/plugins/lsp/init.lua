@@ -7,10 +7,8 @@ M = Util.list_extend(
     require('plugins.lsp.util'),
     require('plugins.lsp.lint'),
     require('plugins.lsp.cmp'),
+    require('plugins.lsp.format'),
     require('plugins.lsp.langs')
 )
-
--- formatting
-require('lsp.formatting')
 
 return M
