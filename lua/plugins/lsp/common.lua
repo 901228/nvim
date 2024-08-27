@@ -16,25 +16,26 @@ M.key.keys = {
     {
         'g', '+ LSP actions',
         {
-            { 'n', 'a', require('clear-action.actions').code_action, 'Code Actions' },
-            { 'n', 'd', vim.lsp.buf.definition, 'Goto Definition', has_method = 'definition' },
-            { 'n', 'h', vim.lsp.buf.hover, 'Hover' },
-            { 'n', 'D', vim.lsp.buf.declaration, 'Goto Declaration' },
-            { 'n', 'I', vim.lsp.buf.implementation, 'Goto Implementation' },
-            { 'n', 'r', vim.lsp.buf.references, 'List References', nowait = true },
-            { 'n', 'H', vim.lsp.buf.signature_help, 'Signature Help', has_method = 'signatureHelp' },
-            { 'i', '<C-k>', vim.lsp.buf.signature_help, 'Signature Help', has_method = 'signatureHelp' },
-            { 'n', 'r', '<CMD>IncRename ' .. vim.fn.expand('<cword>') .. '<CR>', 'Rename', expr = true, has_method = 'rename' },
-            { 'n', 'R', Util.lsp.rename_file, 'Rename File', has_method = { 'workspace/willRenameFiles', 'workspace/didRenameFiles' } },
-            { 'n', '[', function() Util.lsp.words.jump(-vim.v.count1, true) end, 'Prev Reference', has_method = 'documentHighlight', cond = function() return Util.lsp.words.enabled end },
-            { 'n', ']', function() Util.lsp.words.jump(vim.v.count1, true) end, 'Next Reference', has_method = 'documentHighlight', cond = function() return Util.lsp.words.enabled end },
+            { 'n', 'a',     require('clear-action.actions').code_action,             'Code Actions' },
+            { 'n', 'd',     vim.lsp.buf.definition,                                  'Goto Definition', has_method = 'definition' },
+            { 'n', 'h',     vim.lsp.buf.hover,                                       'Hover' },
+            { 'n', 'D',     vim.lsp.buf.declaration,                                 'Goto Declaration' },
+            { 'n', 'I',     vim.lsp.buf.implementation,                              'Goto Implementation' },
+            { 'n', 'r',     vim.lsp.buf.references,                                  'List References', nowait = true },
+            { 'n', 'H',     vim.lsp.buf.signature_help,                              'Signature Help',  has_method = 'signatureHelp' },
+            { 'i', '<C-k>', vim.lsp.buf.signature_help,                              'Signature Help',  has_method = 'signatureHelp' },
+            { 'n', 'r',     '<CMD>IncRename ' .. vim.fn.expand('<cword>') .. '<CR>', 'Rename',          has_method = 'rename', expr = true },
+            { 'n', 'R',     Util.lsp.rename_file,                                    'Rename File',     has_method = { 'workspace/willRenameFiles', 'workspace/didRenameFiles' } },
+            { 'n', '[',     function() Util.lsp.words.jump(-vim.v.count1, true) end, 'Prev Reference',  has_method = 'documentHighlight', cond = function() return Util.lsp.words.enabled end },
+            { 'n', ']',     function() Util.lsp.words.jump(vim.v.count1, true) end,  'Next Reference',  has_method = 'documentHighlight', cond = function() return Util.lsp.words.enabled end },
         },
     },
+    { 'n', '<leader>i', function() Util.format() end, 'format' },
 }
 
 ---@param keys? (MochiLspKeyGroup | MochiLspKey)[]
 ---@param bufnr? number
-function M.resolve(keys, bufnr)
+function M.key.resolve(keys, bufnr)
     keys = keys or {}
 
     for _, key in ipairs(keys) do
@@ -57,7 +58,7 @@ function M.resolve(keys, bufnr)
                 opts.has_method = nil
                 opts.cond = nil
                 Util.keymap.key_group(key.lhs, key.name, opts)
-                M.resolve(key.keys, bufnr)
+                M.key.resolve(key.keys, bufnr)
             end
         else
             ---@cast key MochiKey
@@ -95,8 +96,8 @@ function M.key.has_method(bufnr, method)
 end
 
 M.key.attach = function(bufnr)
-    local keys = Util.keymap.parse(vim.deepcopy(M.key.keys))
-    M.resolve(keys, bufnr)
+    local keys = Util.keymap.parse(M.key.keys)
+    M.key.resolve(keys, bufnr)
 end
 
 M.navic = {}

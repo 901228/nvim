@@ -5,9 +5,6 @@ lua require('util')
 lua require('types')
 lua require('config')
 
-" basic
-lua require('basic')
-
 " key bindings
 lua require('keybindings')
 

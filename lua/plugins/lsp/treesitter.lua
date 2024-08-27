@@ -67,6 +67,10 @@ return {
             },
         },
         config = function(_, opts)
+            -- fold
+            vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+            vim.opt.foldtext = "v:lua.vim.treesitter.foldtext()"
+
             if type(opts.ensure_installed) == 'table' then
                 opts.ensure_installed = Util.dedup(opts.ensure_installed)
             end
