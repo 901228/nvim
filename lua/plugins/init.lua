@@ -2,8 +2,9 @@ Util.init()
 
 return {
     { 'folke/lazy.nvim', version = '*' },
-    { 'nvim-lua/plenary.nvim' },
-    { 'MunifTanjim/nui.nvim' },
+    { 'nvim-lua/plenary.nvim', lazy = true },
+    { 'MunifTanjim/nui.nvim', lazy = true },
+
     -- view many things in a panel
     {
         'nvim-telescope/telescope.nvim',
@@ -53,11 +54,6 @@ return {
     {
         'akinsho/toggleterm.nvim',
         version = '*',
-    },
-    -- panels of nvim
-    {
-        'folke/noice.nvim',
-        dependencies = { 'nui.nvim', 'nvim-notify' }
     },
     -- color highlighter
     'NvChad/nvim-colorizer.lua',
