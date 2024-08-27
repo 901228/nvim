@@ -50,11 +50,6 @@ return {
         end
     },
     'glepnir/zephyr-nvim',
-    -- popup terminals
-    {
-        'akinsho/toggleterm.nvim',
-        version = '*',
-    },
     -- color highlighter
     'NvChad/nvim-colorizer.lua',
     -- toto highlight
