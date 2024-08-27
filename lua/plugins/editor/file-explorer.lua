@@ -9,6 +9,7 @@ return {
         },
         cmd = 'Neotree',
         keys = {
+            { '<leader>n', '', desc = '+ File Explorer' },
             {
                 '<leader>nt',
                 function()
