@@ -18,10 +18,6 @@ return {
         'smjonas/inc-rename.nvim',
         cmd = 'IncRename',
         opts = {},
-        config = function(_, opts)
-            -- FIXME: key
-            require('inc_rename').setup(opts)
-        end,
     },
     {
         'noice.nvim',

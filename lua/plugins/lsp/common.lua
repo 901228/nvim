@@ -4,73 +4,53 @@ local M = {}
 ---@field has_method? string | string[]
 ---@field cond? fun(): boolean
 
----@alias MochiLspKeySpec MochiKeySpec | MochiKeyOpts.extra.lsp
----@alias MochiLspKey MochiKey | MochiKeyOpts.extra.lsp
----@alias MochiLspKeyGroupSpec MochiKeyGroupSpec | MochiKeyOpts.extra.lsp
----@alias MochiLspKeyGroup MochiKeyGroup | MochiKeyOpts.extra.lsp
-
 M.key = {}
 
----@type (MochiLspKeyGroupSpec | MochiLspKeySpec)[]
 M.key.keys = {
+    { 'n', 'ga',    require('clear-action.actions').code_action, 'Code Actions' },
+    { 'n', 'gd',    vim.lsp.buf.definition,                      'Goto Definition',    has_method = 'definition' },
+    { 'n', 'gh',    vim.lsp.buf.hover,                           'Hover' },
+    { 'n', 'gD',    vim.lsp.buf.declaration,                     'Goto Declaration' },
+    { 'n', 'gI',    vim.lsp.buf.implementation,                  'Goto Implementation' },
+    { 'n', 'gr',    vim.lsp.buf.references,                      'List References',    nowait = true },
+    { 'n', 'gH',    vim.lsp.buf.signature_help,                  'Signature Help',     has_method = 'signatureHelp' },
+    { 'i', '<C-k>', vim.lsp.buf.signature_help,                  'Signature Help',     has_method = 'signatureHelp' },
     {
-        'g', '+ LSP actions',
-        {
-            { 'n', 'a',     require('clear-action.actions').code_action,             'Code Actions' },
-            { 'n', 'd',     vim.lsp.buf.definition,                                  'Goto Definition', has_method = 'definition' },
-            { 'n', 'h',     vim.lsp.buf.hover,                                       'Hover' },
-            { 'n', 'D',     vim.lsp.buf.declaration,                                 'Goto Declaration' },
-            { 'n', 'I',     vim.lsp.buf.implementation,                              'Goto Implementation' },
-            { 'n', 'r',     vim.lsp.buf.references,                                  'List References', nowait = true },
-            { 'n', 'H',     vim.lsp.buf.signature_help,                              'Signature Help',  has_method = 'signatureHelp' },
-            { 'i', '<C-k>', vim.lsp.buf.signature_help,                              'Signature Help',  has_method = 'signatureHelp' },
-            { 'n', 'r',     '<CMD>IncRename ' .. vim.fn.expand('<cword>') .. '<CR>', 'Rename',          has_method = 'rename', expr = true },
-            { 'n', 'R',     Util.lsp.rename_file,                                    'Rename File',     has_method = { 'workspace/willRenameFiles', 'workspace/didRenameFiles' } },
-            { 'n', '[',     function() Util.lsp.words.jump(-vim.v.count1, true) end, 'Prev Reference',  has_method = 'documentHighlight', cond = function() return Util.lsp.words.enabled end },
-            { 'n', ']',     function() Util.lsp.words.jump(vim.v.count1, true) end,  'Next Reference',  has_method = 'documentHighlight', cond = function() return Util.lsp.words.enabled end },
-        },
+        'n',
+        'gr',
+        function()
+            local inc_rename = require('inc_rename')
+            return ':' .. inc_rename.config.cmd_name .. ' ' .. vim.fn.expand('<cword>')
+        end,
+        'Rename',
+        has_method = 'rename',
+        expr = true
+    },
+    { 'n', 'gR',        Util.lsp.rename_file,         'Rename File', has_method = { 'workspace/willRenameFiles', 'workspace/didRenameFiles' } },
+    {
+        'n',
+        'g[',
+        function() Util.lsp.words.jump(-vim.v.count1, true) end,
+        'Prev Reference',
+        has_method = 'documentHighlight',
+        cond = function()
+            return
+                Util.lsp.words.enabled
+        end
+    },
+    {
+        'n',
+        'g]',
+        function() Util.lsp.words.jump(vim.v.count1, true) end,
+        'Next Reference',
+        has_method = 'documentHighlight',
+        cond = function()
+            return
+                Util.lsp.words.enabled
+        end
     },
     { 'n', '<leader>i', function() Util.format() end, 'format' },
 }
-
----@param keys? (MochiLspKeyGroup | MochiLspKey)[]
----@param bufnr? number
-function M.key.resolve(keys, bufnr)
-    keys = keys or {}
-
-    for _, key in ipairs(keys) do
-        ---@type MochiKeyOpts.extra.lsp
-        local opts = vim.tbl_extend('force',
-            {
-                noremap = true,
-                silent = true,
-            },
-            key.opts,
-            { buffer = bufnr }
-        )
-        local has_method = not opts.has_method or M.key.has_method(bufnr, opts.has_method)
-        local cond = not (opts.cond == false or ((type(opts.cond) == 'function') and not opts.cond()))
-
-        ---@diagnostic disable-next-line
-        if Util.keymap.is_group(key) then
-            ---@cast key MochiKeyGroup
-            if has_method and cond then
-                opts.has_method = nil
-                opts.cond = nil
-                Util.keymap.key_group(key.lhs, key.name, opts)
-                M.key.resolve(key.keys, bufnr)
-            end
-        else
-            ---@cast key MochiKey
-
-            if has_method and cond then
-                opts.has_method = nil
-                opts.cond = nil
-                Util.keymap.keymap(key.mode, key.lhs, key.rhs, opts, key.desc)
-            end
-        end
-    end
-end
 
 ---@param bufnr? number
 ---@param method string | string[]
@@ -95,9 +75,44 @@ function M.key.has_method(bufnr, method)
     return false
 end
 
+local function parse_key(key)
+    key = key or {}
+    local mode = table.remove(key, 1)
+    local lhs = table.remove(key, 1)
+    local rhs = table.remove(key, 1)
+    local desc = table.remove(key, 1)
+    return {
+        mode = mode,
+        lhs = lhs,
+        rhs = rhs,
+        desc = desc,
+        opts = key,
+    }
+end
+
 M.key.attach = function(bufnr)
-    local keys = Util.keymap.parse(M.key.keys)
-    M.key.resolve(keys, bufnr)
+    Util.keymap.key_group('g', '+ LSP actions')
+
+    for _, key in ipairs(vim.deepcopy(M.key.keys)) do
+        key = parse_key(key)
+        local opts = vim.tbl_extend('force',
+            {
+                noremap = true,
+                silent = true,
+            },
+            key.opts
+        )
+        opts.buffer = bufnr
+
+        local has_method = not opts.has_method or M.key.has_method(bufnr, opts.has_method)
+        local cond = not (opts.cond == false or ((type(opts.cond) == 'function') and not opts.cond()))
+
+        if has_method and cond then
+            opts.has_method = nil
+            opts.cond = nil
+            Util.keymap(key.mode, key.lhs, key.rhs, opts, key.desc)
+        end
+    end
 end
 
 M.navic = {}
