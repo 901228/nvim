@@ -26,8 +26,6 @@ return {
         end
     },
     'glepnir/zephyr-nvim',
-    -- color highlighter
-    'NvChad/nvim-colorizer.lua',
     -- transparent
     -- use {
     --     'xiyaowong/transparent.nvim',

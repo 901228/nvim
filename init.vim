@@ -11,4 +11,3 @@ lua require('keybindings')
 " plugins
 lua require('plugin-config/telescope')
 " lua require('plugin-config/flash')
-lua require('plugin-config/colorizer')
