@@ -25,14 +25,6 @@ return {
             })
         end
     },
-    'glepnir/zephyr-nvim',
-    -- transparent
-    -- use {
-    --     'xiyaowong/transparent.nvim',
-    --     config = function()
-    --         require('transparent').setup()
-    --     end
-    -- }
 
     ---- Miscellaneous ----
     -- show keymaps
