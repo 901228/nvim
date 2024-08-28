@@ -11,13 +11,6 @@ return {
         version = '0.1.4',
         dependencies = 'nvim-lua/plenary.nvim'
     },
-    -- comment lines or blocks
-    {
-        'numToStr/Comment.nvim',
-        config = function()
-            require('Comment').setup()
-        end
-    },
     -- able to manipulate surround brackets or something
     {
         'kylechui/nvim-surround',
