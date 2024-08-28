@@ -9,5 +9,4 @@ lua require('config')
 lua require('keybindings')
 
 " plugins
-lua require('plugin-config/telescope')
 " lua require('plugin-config/flash')

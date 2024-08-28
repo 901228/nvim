@@ -5,13 +5,6 @@ return {
     { 'nvim-lua/plenary.nvim', lazy = true },
     { 'MunifTanjim/nui.nvim', lazy = true },
 
-    -- view many things in a panel
-    {
-        'nvim-telescope/telescope.nvim',
-        version = '0.1.4',
-        dependencies = 'nvim-lua/plenary.nvim'
-    },
-
     ---- UI ----
     -- enhance some searching funcitons
     -- use 'folke/flash.nvim'
