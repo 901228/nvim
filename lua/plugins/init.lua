@@ -13,11 +13,6 @@ return {
     },
 
     ---- UI ----
-    -- pretty list of LSP, quickfix, telescope ...
-    {
-        'folke/trouble.nvim',
-        dependencies = 'nvim-web-devicons',
-    },
     -- enhance some searching funcitons
     -- use 'folke/flash.nvim'
     -- quick look of f/F word moving

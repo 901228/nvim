@@ -18,15 +18,6 @@ Map('n', '<leader>fp', tel_builtin.commands, {}, 'commands')
 Map('n', '<leader>fk', tel_builtin.keymaps, {}, 'keymaps')
 SetGroupHint('<leader>f', '+ Telescope')
 
--- trouble
-Map('n', '<leader>xx', function() require('trouble').toggle('diagnostics') end, opt, 'diagnostics')
-Map('n', '<leader>xw', function() require('trouble').toggle('workspace_diagnostics') end, opt, 'workspace diagnostics')
-Map('n', '<leader>xd', function() require('trouble').toggle('document_diagnostics') end, opt, 'document diagnostics')
-Map('n', '<leader>xq', function() require('trouble').toggle('quickfix') end, opt, 'quickfix')
--- Map('n', '<leader>xl', function() require('trouble').toggle('loclist') end, opt, 'loclist')
-Map('n', '<leader>xr', function() require('trouble').toggle('lsp_references') end, opt, 'symbol references')
-SetGroupHint('<leader>x', '+ Truoble')
-
 -- whitespace
 Map('n', '<leader>k', require('whitespace-nvim').trim, opt, 'trim whitespaces')
 
