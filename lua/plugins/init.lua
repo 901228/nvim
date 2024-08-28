@@ -2,13 +2,10 @@ Util.init()
 
 return {
     { 'folke/lazy.nvim', version = '*' },
+
     { 'nvim-lua/plenary.nvim', lazy = true },
     { 'MunifTanjim/nui.nvim', lazy = true },
 
-    ---- UI ----
-
-    ---- Miscellaneous ----
-    -- show keymaps
     {
         "folke/which-key.nvim",
         opts = {
@@ -21,6 +18,7 @@ return {
         config = function(_, opts)
             vim.o.timeout = true
             vim.o.timeoutlen = 300
+
             require("which-key").setup(opts)
         end,
     },

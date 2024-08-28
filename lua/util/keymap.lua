@@ -43,7 +43,10 @@ function M.keymap(mode, lhs, rhs, opts, desc)
         end
     end
 
-    opts = opts or { noremap = true, silent = true }
+    opts = vim.tbl_extend('force', opts or {},{
+        noremap = true,
+        silent = true,
+    })
     if lhs == nil then
         return
     end
