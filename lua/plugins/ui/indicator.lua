@@ -8,26 +8,14 @@ local highlight = {
     'RainbowCyan',
 }
 
-local exclude_ft = {
-    'help',
-    'alpha',
-    'neo-tree',
-    'Trouble',
-    'trouble',
-    'lazy',
-    'mason',
-    'notify',
-    'toggleterm',
-}
-
 return {
-    -- indent indicatior
+    -- indent indicator
     {
         'lukas-reineke/indent-blankline.nvim',
         event = 'LazyFile',
         opts = {
             scope = { highlight = highlight },
-            exclude = { filetypes = exclude_ft },
+            exclude = { filetypes = Util.plugin.non_editor_ft },
         },
         config = function(_, opts)
             local hooks = require('ibl.hooks')
@@ -53,7 +41,7 @@ return {
         event = 'LazyFile',
         opts = {
             highlight = highlight,
-            blacklist = exclude_ft,
+            blacklist = Util.plugin.non_editor_ft,
         },
         config = function(_, opts)
             require('rainbow-delimiters.setup').setup(opts)
