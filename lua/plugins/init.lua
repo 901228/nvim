@@ -6,18 +6,6 @@ return {
     { 'MunifTanjim/nui.nvim', lazy = true },
 
     ---- UI ----
-    -- enhance some searching funcitons
-    -- use 'folke/flash.nvim'
-    -- quick look of f/F word moving
-    {
-        'jinh0/eyeliner.nvim',
-        config = function()
-            require('eyeliner').setup({
-                highlight_on_key = true,
-                dim = true,
-            })
-        end
-    },
 
     ---- Miscellaneous ----
     -- show keymaps
