@@ -6,18 +6,20 @@ local M = {}
 
 M.key = {}
 
+-- stylua: ignore
 M.key.keys = {
-    { 'n', 'ga',    require('clear-action.actions').code_action, 'Code Actions' },
-    { 'n', 'gd',    vim.lsp.buf.definition,                      'Goto Definition',    has_method = 'definition' },
-    { 'n', 'gh',    vim.lsp.buf.hover,                           'Hover' },
-    { 'n', 'gD',    vim.lsp.buf.declaration,                     'Goto Declaration' },
-    { 'n', 'gI',    vim.lsp.buf.implementation,                  'Goto Implementation' },
-    { 'n', 'gr',    vim.lsp.buf.references,                      'List References',    nowait = true },
-    { 'n', 'gH',    vim.lsp.buf.signature_help,                  'Signature Help',     has_method = 'signatureHelp' },
-    { 'i', '<C-k>', vim.lsp.buf.signature_help,                  'Signature Help',     has_method = 'signatureHelp' },
+    { 'n', 'ga',        require('clear-action.actions').code_action, 'Code Actions' },
+    { 'n', '<leader>i', function() Util.format() end,                'format' },
+    { 'n', 'gd',        vim.lsp.buf.definition,                      'Goto Definition',    has_method = 'definition' },
+    { 'n', 'gh',        vim.lsp.buf.hover,                           'Hover' },
+    { 'n', 'gD',        vim.lsp.buf.declaration,                     'Goto Declaration' },
+    { 'n', 'gI',        vim.lsp.buf.implementation,                  'Goto Implementation' },
+    { 'n', 'gr',        vim.lsp.buf.references,                      'List References',    nowait = true },
+    { 'n', 'gH',        vim.lsp.buf.signature_help,                  'Signature Help',     has_method = 'signatureHelp' },
+    { 'i', '<C-k>',     vim.lsp.buf.signature_help,                  'Signature Help',     has_method = 'signatureHelp' },
+    { 'n', 'gR',        Util.lsp.rename_file,                        'Rename File',        has_method = { 'workspace/willRenameFiles', 'workspace/didRenameFiles' } },
     {
-        'n',
-        'gr',
+        'n', 'gr',
         function()
             local inc_rename = require('inc_rename')
             return ':' .. inc_rename.config.cmd_name .. ' ' .. vim.fn.expand('<cword>')
@@ -26,30 +28,20 @@ M.key.keys = {
         has_method = 'rename',
         expr = true
     },
-    { 'n', 'gR',        Util.lsp.rename_file,         'Rename File', has_method = { 'workspace/willRenameFiles', 'workspace/didRenameFiles' } },
     {
-        'n',
-        'g[',
+        'n', 'g[',
         function() Util.lsp.words.jump(-vim.v.count1, true) end,
         'Prev Reference',
         has_method = 'documentHighlight',
-        cond = function()
-            return
-                Util.lsp.words.enabled
-        end
+        cond = function() return Util.lsp.words.enabled end
     },
     {
-        'n',
-        'g]',
+        'n', 'g]',
         function() Util.lsp.words.jump(vim.v.count1, true) end,
         'Next Reference',
         has_method = 'documentHighlight',
-        cond = function()
-            return
-                Util.lsp.words.enabled
-        end
+        cond = function() return Util.lsp.words.enabled end
     },
-    { 'n', '<leader>i', function() Util.format() end, 'format' },
 }
 
 ---@param bufnr? number
@@ -57,9 +49,7 @@ M.key.keys = {
 function M.key.has_method(bufnr, method)
     if type(method) == 'table' then
         for _, m in ipairs(method) do
-            if M.key.has_method(bufnr, m) then
-                return true
-            end
+            if M.key.has_method(bufnr, m) then return true end
         end
         return false
     end
@@ -68,9 +58,7 @@ function M.key.has_method(bufnr, method)
     bufnr = bufnr or 0
     local clients = Util.lsp.get_clients({ bufnr = bufnr })
     for _, client in ipairs(clients) do
-        if client.supports_method(method) then
-            return true
-        end
+        if client.supports_method(method) then return true end
     end
     return false
 end
@@ -95,13 +83,10 @@ M.key.attach = function(bufnr)
 
     for _, key in ipairs(vim.deepcopy(M.key.keys)) do
         key = parse_key(key)
-        local opts = vim.tbl_extend('force',
-            {
-                noremap = true,
-                silent = true,
-            },
-            key.opts
-        )
+        local opts = vim.tbl_extend('force', {
+            noremap = true,
+            silent = true,
+        }, key.opts)
         opts.buffer = bufnr
 
         local has_method = not opts.has_method or M.key.has_method(bufnr, opts.has_method)
@@ -117,14 +102,10 @@ end
 
 M.navic = {}
 M.navic.attach = function(client, bufnr)
-    if client.server_capabilities.documentSymbolProvider then
-        require('nvim-navic').attach(client, bufnr)
-    end
+    if client.server_capabilities.documentSymbolProvider then require('nvim-navic').attach(client, bufnr) end
 end
 
-M.on_attach = function(client, bufnr)
-    M.navic.attach(client, bufnr)
-end
+M.on_attach = function(client, bufnr) M.navic.attach(client, bufnr) end
 
 M.flags = {
     debounce_text_changes = 150,
