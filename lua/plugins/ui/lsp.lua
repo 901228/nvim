@@ -49,6 +49,7 @@ return {
     -- color highlighter
     {
         'NvChad/nvim-colorizer.lua',
+        event = 'LazyFile',
         opts = {
             filetypes = {
                 '*',
@@ -74,6 +75,18 @@ return {
 
                 always_update = false,
             },
+        },
+    },
+
+    -- to trim whitespaces
+    {
+        'johnfrankmorgan/whitespace.nvim',
+        event = 'LazyFile',
+        keys = {
+            { '<leader>k', require('whitespace-nvim').trim, desc = 'trim whitespaces' },
+        },
+        opts = {
+            ignored_filetypes = Util.plugin.non_editor_ft,
         },
     },
 }

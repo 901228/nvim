@@ -18,9 +18,6 @@ Map('n', '<leader>fp', tel_builtin.commands, {}, 'commands')
 Map('n', '<leader>fk', tel_builtin.keymaps, {}, 'keymaps')
 SetGroupHint('<leader>f', '+ Telescope')
 
--- whitespace
-Map('n', '<leader>k', require('whitespace-nvim').trim, opt, 'trim whitespaces')
-
 -- flash
 -- Map({ 'n', 'x', 'o' }, '<leader>ss', function() require('flash').jump() end, opt, 'Flash')
 -- Map({ 'n', 'x', 'o' }, '<leader>sS', function() require('flash').treesitter() end, opt, 'Flash Treesitter')
