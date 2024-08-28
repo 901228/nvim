@@ -43,13 +43,4 @@ return {
             require("which-key").setup(opts)
         end,
     },
-    -- animation of cursor moving
-    {
-        'echasnovski/mini.animate',
-        config = function()
-            require('mini.animate').setup(
-                require('plugin-config/mini_animate')()
-            )
-        end
-    },
 }
