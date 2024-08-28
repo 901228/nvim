@@ -45,11 +45,9 @@ function M.keymap(mode, lhs, rhs, opts, desc)
 
     opts = opts or { noremap = true, silent = true }
     if lhs == nil then
-        -- FIXME: trace
-        Util.pretty_trace()
-        Util.notify('FAQ')
         return
     end
+
     M.keymappings[lhs] = vim.tbl_extend('force',
         {
             rhs,
