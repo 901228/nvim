@@ -11,14 +11,6 @@ return {
         version = '0.1.4',
         dependencies = 'nvim-lua/plenary.nvim'
     },
-    -- able to manipulate surround brackets or something
-    {
-        'kylechui/nvim-surround',
-        version = "*", -- Use for stability; omit to use `main` branch for the latest features
-        config = function()
-            require("nvim-surround").setup()
-        end
-    },
 
     ---- UI ----
     -- pretty list of LSP, quickfix, telescope ...
@@ -58,10 +50,16 @@ return {
     -- show keymaps
     {
         "folke/which-key.nvim",
-        config = function()
+        opts = {
+            triggers = {
+                { '<leader>', mode = { 'n', 'v' } },
+                { 's', mode = { 'n', 'v' } },
+            },
+        },
+        config = function(_, opts)
             vim.o.timeout = true
             vim.o.timeoutlen = 300
-            require("which-key").setup()
+            require("which-key").setup(opts)
         end,
     },
     -- to increase or decrease numbers
