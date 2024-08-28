@@ -9,10 +9,8 @@ return {
             'nvim-cmp',
         },
         keys = {
-            { '<leader>c',  '',                                                                            desc = '+ Noice' },
             { '<S-Enter>',  function() require('noice').redirect(vim.fn.getcmdline()) end,                 mode = 'c',            desc = 'Redirect Cmdline' },
-            { '<leader>ch', function() require('noice').cmd('pick') end,                                   desc = 'Noice History' },
-            { '<leader>cd', function() require('noice').cmd('dismiss') end,                                desc = 'Dismiss All' },
+            { '<leader>c', function() require('noice').cmd('dismiss') end,                                desc = 'Dismiss All Notifications' },
             { '<C-f>',      function() if not require('noice.lsp').scroll(4) then return '<C-f>' end end,  silent = true,         expr = true,              desc = 'Scoll Forward',  mode = { 'i', 'n', 's' } },
             { '<C-b>',      function() if not require('noice.lsp').scroll(-4) then return '<C-b>' end end, silent = true,         expr = true,              desc = 'Scoll Backward', mode = { 'i', 'n', 's' } },
         },
