@@ -33,11 +33,6 @@ return {
     'glepnir/zephyr-nvim',
     -- color highlighter
     'NvChad/nvim-colorizer.lua',
-    -- toto highlight
-    {
-        'folke/todo-comments.nvim',
-        dependencies = 'plenary.nvim',
-    },
     -- transparent
     -- use {
     --     'xiyaowong/transparent.nvim',
