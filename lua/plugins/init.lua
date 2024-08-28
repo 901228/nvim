@@ -51,13 +51,6 @@ return {
             require("which-key").setup(opts)
         end,
     },
-    -- to increase or decrease numbers
-    {
-        'zegervdv/nrpattern.nvim',
-        config = function()
-            require('nrpattern').setup()
-        end,
-    },
     -- animation of cursor moving
     {
         'echasnovski/mini.animate',
