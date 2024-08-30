@@ -29,23 +29,43 @@ return {
         'folke/lazydev.nvim',
         ft = 'lua',
         dependencies = {
-            { 'Bilal2453/luvit-meta',        lazy = true },
+            { 'Bilal2453/luvit-meta', lazy = true },
             { 'justinsgithub/wezterm-types', lazy = true },
             { 'LelouchHe/xmake-luals-addon', lazy = true },
         },
         opts = {
             library = {
-                { path = 'luvit-meta/library',        words = { 'vim%.uv' } },
-                { path = 'wezterm-types',             mods = { 'wezterm' } },
+                { path = 'luvit-meta/library', words = { 'vim%.uv' } },
+                { path = 'wezterm-types', mods = { 'wezterm' } },
                 { path = 'xmake-luala-addon/library', files = { 'xmake.lua' } },
             },
-            enabled = function()
-                return vim.g.lazydev_enabled == nil and true or vim.g.lazydev_enabled
-            end,
+            enabled = function() return vim.g.lazydev_enabled == nil and true or vim.g.lazydev_enabled end,
             integration = {
                 lspconfig = true,
                 cmp = true,
                 coq = false,
+            },
+        },
+    },
+
+    -- python
+    {
+        'linux-cultist/venv-selector.nvim',
+        dependencies = {
+            'nvim-lspconfig',
+            'telescope.nvim',
+        },
+        branch = 'regexp',
+        cmd = 'VenvSelect',
+        ft = 'python',
+        keys = {
+            { '<leader>v', '<CMD>VenvSelect<CR>', desc = 'Select Venv', ft = 'python' },
+        },
+        opts = {
+            settings = {
+                options = {
+                    notify_user_on_venv_activation = true,
+                },
             },
         },
     },
@@ -89,10 +109,10 @@ return {
                                 global = { 'vim' },
                             },
                             codeLens = {
-                                enable = true
+                                enable = true,
                             },
                             completion = {
-                                callSnippet = 'Replace'
+                                callSnippet = 'Replace',
                             },
                             doc = {
                                 privateName = { '^_' },
@@ -127,7 +147,7 @@ return {
                             on_attach = common.on_attach,
                             default_settings = {
                                 ['rust-analyzer'] = {},
-                            }
+                            },
                         },
                         dap = {},
                     }

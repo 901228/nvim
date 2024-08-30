@@ -82,16 +82,17 @@ function M.on_loaded(name, fn)
 end
 
 M.non_editor_ft = {
+    'TelescopePrompt',
+    'Trouble',
+    'trouble',
     'help',
     'alpha',
     'neo-tree',
-    'Trouble',
-    'trouble',
     'lazy',
     'mason',
     'notify',
     'toggleterm',
-    'TelescopePrompt',
+    'lspinfo',
 }
 
 return M
