@@ -28,6 +28,10 @@ return {
             highlight = {
                 enable = true,
                 additional_vim_regex_highlighting = false,
+                language_tree = true,
+                is_supported = function()
+                    return not Util.is_large_file()
+                end,
             },
             indent = { enable = true },
             sync_install = false,
@@ -68,21 +72,31 @@ return {
             textobjects = {
                 move = {
                     enable = true,
-                    goto_next_start = { [']f'] = '@function.outer', [']c'] = '@class.outer', [']a'] = '@parameter.inner' },
+                    goto_next_start = {
+                        [']f'] = '@function.outer',
+                        [']c'] = '@class.outer',
+                        [']a'] = '@parameter.inner',
+                    },
                     goto_next_end = { [']F'] = '@function.outer', [']C'] = '@class.outer', [']A'] = '@parameter.inner' },
-                    goto_previous_start = { ['[f'] = '@function.outer', ['[c'] = '@class.outer', ['[a'] = '@parameter.inner' },
-                    goto_previous_end = { ['[F'] = '@function.outer', ['[C'] = '@class.outer', ['[A'] = '@parameter.inner' },
+                    goto_previous_start = {
+                        ['[f'] = '@function.outer',
+                        ['[c'] = '@class.outer',
+                        ['[a'] = '@parameter.inner',
+                    },
+                    goto_previous_end = {
+                        ['[F'] = '@function.outer',
+                        ['[C'] = '@class.outer',
+                        ['[A'] = '@parameter.inner',
+                    },
                 },
             },
         },
         config = function(_, opts)
             -- fold
-            vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
-            vim.opt.foldtext = "v:lua.vim.treesitter.foldtext()"
+            vim.opt.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+            vim.opt.foldtext = 'v:lua.vim.treesitter.foldtext()'
 
-            if type(opts.ensure_installed) == 'table' then
-                opts.ensure_installed = Util.dedup(opts.ensure_installed)
-            end
+            if type(opts.ensure_installed) == 'table' then opts.ensure_installed = Util.dedup(opts.ensure_installed) end
             require('nvim-treesitter.configs').setup(opts)
         end,
     },

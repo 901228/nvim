@@ -18,30 +18,26 @@ setmetatable(M, {
     end,
 })
 
-function M.setup()
-    Util.format.setup()
-end
+function M.setup() Util.format.setup() end
 
 M.did_init = false
 function M.init()
-    if M.did_init then
-        return
-    end
+    if M.did_init then return end
     M.did_init = true
 
     Util.plugin.setup()
 end
 
 M.colors = {
-    blue   = '#80a0ff',
-    cyan   = '#79dac8',
-    black  = '#080808',
-    lighterGrey  = '#c6c6c6',
+    blue = '#80a0ff',
+    cyan = '#79dac8',
+    black = '#080808',
+    lighterGrey = '#c6c6c6',
     white = '#ffffff',
-    red    = '#ff5189',
+    red = '#ff5189',
     pink = '#d4bfff',
     violet = '#ee82ee',
-    grey   = '#303030',
+    grey = '#303030',
     lightBlue = '#59c2ff',
     transparent = nil,
     lightGrey = '#797979',
@@ -55,13 +51,9 @@ M.colors = {
 function M.find_item(tbl, a0)
     for i, v in pairs(tbl) do
         if type(a0) == 'function' then
-            if a0(v) then
-                return i
-            end
+            if a0(v) then return i end
         else
-            if v == a0 then
-                return i
-            end
+            if v == a0 then return i end
         end
     end
 
@@ -71,14 +63,10 @@ end
 M.os = {}
 
 ---@return boolean
-function M.os.is_win()
-    return vim.fn.has("win32") == 1
-end
+function M.os.is_win() return vim.fn.has('win32') == 1 end
 
 ---@return boolean
-function M.os.is_linux()
-    return vim.fn.has("win32") == 0
-end
+function M.os.is_linux() return vim.fn.has('win32') == 0 end
 
 ---@return boolean
 function M.os.is_mac()
@@ -112,17 +100,13 @@ function M.pretty_trace(opts)
 
     while true do
         local info = debug.getinfo(level, 'Sln')
-        if not info then
-            break
-        end
+        if not info then break end
 
         if info.what ~= 'C' then
             local source = info.source:sub(2)
             source = vim.fn.fnamemodify(source, ':p:~:.') --[[@as string]]
             local line = '  - ' .. source .. ':' .. info.currentline
-            if info.name then
-                line = line .. ' _in_ **' .. info.name .. '**'
-            end
+            if info.name then line = line .. ' _in_ **' .. info.name .. '**' end
             table.insert(trace, line)
         end
 
@@ -137,39 +121,24 @@ end
 ---@param msg string | string[]
 ---@param opts? MochiNotifyOpts
 function M.notify(msg, opts)
-    if vim.in_fast_event() then
-        return vim.schedule(function()
-            M.notify(msg, opts)
-        end)
-    end
+    if vim.in_fast_event() then return vim.schedule(function() M.notify(msg, opts) end) end
 
     opts = opts or {}
     opts.level = opts.level or vim.log.levels.INFO
     opts.title = opts.title or 'Mochi'
 
     if type(msg) == 'table' then
-        msg = table.concat(
-            vim.tbl_filter(function(line)
-                return line or false
-            end, msg),
-            '\n'
-        )
+        msg = table.concat(vim.tbl_filter(function(line) return line or false end, msg), '\n')
     end
 
-    if opts.stacktrace then
-        msg = msg .. M.pretty_trace({ lavel = opts.stacklevel or vim.log.levels.INFO })
-    end
+    if opts.stacktrace then msg = msg .. M.pretty_trace({ level = opts.stacklevel or vim.log.levels.INFO }) end
 
     local lang = opts.lang or 'markdown'
     local notify = opts.once and vim.notify_once or vim.notify
     notify(msg, opts.level, {
         on_open = function(win)
-            local ok = pcall(function()
-                vim.treesitter.language.add('markdown')
-            end)
-            if not ok then
-                pcall(require, 'nvim-treesitter')
-            end
+            local ok = pcall(function() vim.treesitter.language.add('markdown') end)
+            if not ok then pcall(require, 'nvim-treesitter') end
 
             -- https://neovim.io/doc/user/options.html#'conceallevel'
             vim.wo[win].conceallevel = 3
@@ -188,9 +157,7 @@ end
 
 ---@param msg string | string[]
 ---@param opts? MochiNotifyOpts
-function M.log(msg, opts)
-    M.notify(msg, opts)
-end
+function M.log(msg, opts) M.notify(msg, opts) end
 
 ---@param msg string | string[]
 ---@param opts? MochiNotifyOpts
@@ -230,9 +197,7 @@ function M.try(fn, opts)
         if opts.on_error then
             opts.on_error(msg)
         else
-            vim.schedule(function()
-                M.error(msg)
-            end)
+            vim.schedule(function() M.error(msg) end)
         end
         return err
     end
@@ -248,27 +213,21 @@ function M.is_list(t)
     local i = 0
     for _ in pairs(t) do
         i = i + 1
-        if t[i] == nil then
-            return false
-        end
+        if t[i] == nil then return false end
     end
     return true
 end
 
 -- check if table is not a list
 ---@return boolean
-local function can_merge(v)
-    return type(v) == 'table' and (vim.tbl_isempty(v) or not M.is_list(v))
-end
+local function can_merge(v) return type(v) == 'table' and (vim.tbl_isempty(v) or not M.is_list(v)) end
 
 ---@generic T
 ---@param ... T
 ---@return T
 function M.merge(...)
     local ret = select(1, ...)
-    if ret == vim.NIL then
-        return nil
-    end
+    if ret == vim.NIL then return nil end
 
     for i = 2, select('#', ...) do
         local value = select(i, ...)
@@ -288,9 +247,7 @@ end
 
 function M.list_extend(...)
     local ret = select(1, ...)
-    if ret == vim.NIL or not M.is_list(ret) then
-        return nil
-    end
+    if ret == vim.NIL or not M.is_list(ret) then return nil end
 
     for i = 2, select('#', ...) do
         local value = select(i, ...)
@@ -304,6 +261,15 @@ function M.list_extend(...)
     end
 
     return ret
+end
+
+---@return boolean
+function M.is_large_file()
+    if vim.fn.strwidth(vim.fn.getline('.')) > 300 or vim.fn.getfsize(vim.fn.expand('%')) > 1024 * 1024 then
+        return true
+    else
+        return false
+    end
 end
 
 return M
