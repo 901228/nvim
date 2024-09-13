@@ -1,4 +1,4 @@
-local common = require('plugins.lsp.common')
+local common = require('Mochi.plugins.lsp.common')
 
 return {
     -- Automatically add closing tags for HTML and JSX

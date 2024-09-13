@@ -125,7 +125,7 @@ return {
                 },
             }
         end,
-        main = 'util.cmp',
+        main = 'Mochi.util.cmp',
     },
 
     -- snippets

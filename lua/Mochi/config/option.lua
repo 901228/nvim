@@ -100,6 +100,3 @@ vim.o.pumheight = 10
 
 -- always show tabline
 vim.o.showtabline = 2
-
--- some highlight settings
-vim.api.nvim_set_hl(0, "NonText", { fg = "Blue" })

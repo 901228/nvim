@@ -2,7 +2,10 @@ return {
     -- to indicate buffers
     {
         'akinsho/bufferline.nvim',
-        dependencies = 'nvim-web-devicons',
+        dependencies = {
+            'nvim-web-devicons',
+            'catppuccin',
+        },
         event = 'VeryLazy',
         keys = {
             { '<leader>bd', function() Util.ui.bufremove() end, desc = 'Close Buffer' },
@@ -53,6 +56,7 @@ return {
             }
         },
         config = function(_, opts)
+            opts = vim.tbl_extend('force', opts, { highlights = require('catppuccin.groups.integrations.bufferline').get() })
             require('bufferline').setup(opts)
 
             -- Fix bufferline when restoring a session
@@ -82,41 +86,18 @@ return {
             end
         end,
         opts = function()
-            local colors = Util.colors
-
-            local bubbles_theme = {
-                normal = {
-                    a = { fg = colors.darkGrey, bg = colors.lightBlue },
-                    b = { fg = colors.white, bg = colors.lightGrey },
-                    c = { fg = colors.white, bg = colors.transparent },
-                },
-
-                insert = { a = { fg = colors.darkGrey, bg = colors.green } },
-                visual = { a = { fg = colors.darkGrey, bg = colors.violet } },
-                replace = { a = { fg = colors.darkGrey, bg = colors.coral } },
-                command = {},
-                inactive = {},
-            }
 
             local win_bar_filename = {
                 'filename',
                 file_status = false,
                 newfile_status = true,
                 path = 0,
-                color = {
-                    fg = colors.white,
-                    bg = colors.lightGrey,
-                },
                 separator = { left = '  ', right = '  ' },
             }
 
-            local navic = require('nvim-navic')
+            ---@module 'navic'
             local navic_bar = {
                 'navic',
-                color = {
-                    fg = colors.white,
-                    bg = colors.transparent,
-                },
                 color_correction = nil,
                 navic_opts = nil,
             }
@@ -150,9 +131,7 @@ return {
                     filetypes = { 'TelescopePrompt' }
                 },
                 alpha = {
-                    sections = {
-                        -- lualine_a = { default_name('Alpha') },
-                    },
+                    sections = {},
                     filetypes = { 'alpha' },
                 },
                 oil = {
@@ -182,7 +161,6 @@ return {
 
             return {
                 options = {
-                    theme = bubbles_theme,
                     component_separators = '|',
                     section_separators = { right = '', left = '' },
                     disabled_filetypes = { winbar = { 'neo-tree', 'alpha', 'oil' } },

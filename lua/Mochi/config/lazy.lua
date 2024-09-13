@@ -1,10 +1,8 @@
-
 require('lazy').setup({
     spec = {
-        { import = 'plugins' },
-        { import = 'plugins.ui' },
-        { import = 'plugins.editor' },
-        -- { import = 'plugins.lsp' },
+        { import = 'Mochi.plugins' },
+        { import = 'Mochi.plugins.ui' },
+        { import = 'Mochi.plugins.editor' },
     },
     defaults = {
         lazy = false,
