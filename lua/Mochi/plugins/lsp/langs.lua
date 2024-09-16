@@ -1,5 +1,3 @@
-local common = require('Mochi.plugins.lsp.common')
-
 return {
     -- Automatically add closing tags for HTML and JSX
     {
@@ -29,14 +27,14 @@ return {
         'folke/lazydev.nvim',
         ft = 'lua',
         dependencies = {
-            { 'Bilal2453/luvit-meta', lazy = true },
+            { 'Bilal2453/luvit-meta',        lazy = true },
             { 'justinsgithub/wezterm-types', lazy = true },
             { 'LelouchHe/xmake-luals-addon', lazy = true },
         },
         opts = {
             library = {
-                { path = 'luvit-meta/library', words = { 'vim%.uv' } },
-                { path = 'wezterm-types', mods = { 'wezterm' } },
+                { path = 'luvit-meta/library',        words = { 'vim%.uv' } },
+                { path = 'wezterm-types',             mods = { 'wezterm' } },
                 { path = 'xmake-luala-addon/library', files = { 'xmake.lua' } },
             },
             enabled = function() return vim.g.lazydev_enabled == nil and true or vim.g.lazydev_enabled end,
@@ -141,6 +139,7 @@ return {
             ---@type table<string, fun(server: string, opts): boolean?>
             setup = {
                 rust_analyzer = function(server, opts)
+                    local common = require('Mochi.plugins.lsp.common')
                     vim.g.rustaceanvim = {
                         tools = {},
                         server = {

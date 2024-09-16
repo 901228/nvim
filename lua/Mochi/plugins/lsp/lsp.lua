@@ -1,5 +1,3 @@
-local common = require('Mochi.plugins.lsp.common')
-
 return {
     {
         'williamboman/mason.nvim',
@@ -97,6 +95,8 @@ return {
             },
         },
         config = function(_, opts)
+            local common = require('Mochi.plugins.lsp.common')
+
             -- setup auto format
             Util.format.register(Util.lsp.formatter())
 

@@ -72,9 +72,12 @@ function M.keymap(mode, lhs, rhs, opts, desc)
 
     local has_wk, wk = pcall(require, 'which-key')
 
-    if has_wk then
+    if has_wk and wk.add ~= nil then
         wk.add(opts)
     else
+        opts[1] = nil
+        opts[2] = nil
+        opts.mode = nil
         vim.keymap.set(mode, lhs, rhs, opts)
     end
 end
@@ -84,7 +87,7 @@ end
 ---@param opts? MochiKeyOpts
 function M.key_group(lhs, name, opts)
     local has_wk, wk = pcall(require, 'which-key')
-    if not has_wk then
+    if not has_wk or wk.add == nil then
         return
     else
         M.keymappings[lhs] = name
