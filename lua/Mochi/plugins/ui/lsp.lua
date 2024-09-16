@@ -83,7 +83,16 @@ return {
         'johnfrankmorgan/whitespace.nvim',
         event = 'LazyFile',
         keys = {
-            { '<leader>k', require('whitespace-nvim').trim, desc = 'trim whitespaces' },
+            {
+                '<leader>k',
+                function()
+                    local ok, whitespace = pcall(require, 'whitespace-nvim')
+                    if ok then
+                        whitespace.trim()
+                    end
+                end,
+                desc = 'trim whitespaces',
+            },
         },
         opts = {
             ignored_filetypes = Util.plugin.non_editor_ft,
