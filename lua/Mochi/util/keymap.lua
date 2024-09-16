@@ -93,7 +93,7 @@ function M.key_group(lhs, name, opts)
         M.keymappings[lhs] = name
         opts = opts or {}
         opts[1] = lhs
-        ---@diagnostic disable-next-line
+        ---@diagnostic disable-next-line: inject-field
         opts.group = name
         wk.add(opts)
     end
