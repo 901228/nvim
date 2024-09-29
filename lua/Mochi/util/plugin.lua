@@ -93,6 +93,7 @@ M.non_editor_ft = {
     'notify',
     'toggleterm',
     'lspinfo',
+    'MochiCheatsheet',
 }
 
 return M

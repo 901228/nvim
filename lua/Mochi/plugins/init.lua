@@ -7,7 +7,7 @@ return {
     { 'MunifTanjim/nui.nvim', lazy = true },
 
     {
-        "folke/which-key.nvim",
+        'folke/which-key.nvim',
         opts = {
             triggers = {
                 { '<leader>', mode = { 'n', 'v' } },
@@ -19,7 +19,7 @@ return {
             vim.o.timeout = true
             vim.o.timeoutlen = 300
 
-            require("which-key").setup(opts)
+            require('which-key').setup(opts)
         end,
     },
 }

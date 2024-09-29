@@ -27,14 +27,14 @@ return {
         'folke/lazydev.nvim',
         ft = 'lua',
         dependencies = {
-            { 'Bilal2453/luvit-meta',        lazy = true },
+            { 'Bilal2453/luvit-meta', lazy = true },
             { 'justinsgithub/wezterm-types', lazy = true },
             { 'LelouchHe/xmake-luals-addon', lazy = true },
         },
         opts = {
             library = {
-                { path = 'luvit-meta/library',        words = { 'vim%.uv' } },
-                { path = 'wezterm-types',             mods = { 'wezterm' } },
+                { path = 'luvit-meta/library', words = { 'vim%.uv' } },
+                { path = 'wezterm-types', mods = { 'wezterm' } },
                 { path = 'xmake-luala-addon/library', files = { 'xmake.lua' } },
             },
             enabled = function() return vim.g.lazydev_enabled == nil and true or vim.g.lazydev_enabled end,
@@ -66,6 +66,16 @@ return {
                 },
             },
         },
+    },
+
+    -- markdown
+    {
+        'MeanderingProgrammer/render-markdown.nvim',
+        dependencies = {
+            'nvim-treesitter/nvim-treesitter',
+            'echasnovski/mini.icons',
+        },
+        opts = {},
     },
 
     -- lspconfig for langs
