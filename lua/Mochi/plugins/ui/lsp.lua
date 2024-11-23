@@ -64,10 +64,10 @@ return {
                 AARRGGBB = true,
                 rgb_fn = false,
                 hsl_fn = false,
-                css = false,
-                css_fn = false,
+                css = true,
+                css_fn = true,
                 tailwind = false,
-                sass = { enable = false, parsers = { 'css' } },
+                sass = { enable = true, parsers = { 'css' } },
 
                 -- display
                 mode = 'virtualtext',

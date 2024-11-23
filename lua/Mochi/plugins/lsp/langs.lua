@@ -96,6 +96,7 @@ return {
                 lemminx = true,
                 pyright = true,
                 cssls = { single_file_support = true },
+                css_variables = true,
                 -- vala_ls = { single_file_support = true },
                 -- jsonls = {
                 --     settings = {
