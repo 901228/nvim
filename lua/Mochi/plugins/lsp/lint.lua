@@ -8,7 +8,7 @@ return {
                 -- set linters by filetypes
                 -- ['*'] = { 'global linter' },
                 -- ['_'] = { 'fallback linter' },
-                ['*'] = { 'typos' },
+                -- ['*'] = { 'typos' },
             },
             linters = {
                 -- linter settings or custom linter

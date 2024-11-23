@@ -96,15 +96,15 @@ return {
                 lemminx = true,
                 pyright = true,
                 cssls = { single_file_support = true },
-                vala_ls = { single_file_support = true },
-                jsonls = {
-                    settings = {
-                        json = {
-                            schemas = require('schemastore').json.schemas(),
-                            validate = { enable = true },
-                        },
-                    },
-                },
+                -- vala_ls = { single_file_support = true },
+                -- jsonls = {
+                --     settings = {
+                --         json = {
+                --             schemas = require('schemastore').json.schemas(),
+                --             validate = { enable = true },
+                --         },
+                --     },
+                -- },
                 lua_ls = {
                     settings = {
                         Lua = {
