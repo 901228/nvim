@@ -80,4 +80,90 @@ return {
             },
         },
     },
+
+    -- beautiful and easier code folding system
+    {
+        'kevinhwang91/nvim-ufo',
+        event = 'LazyFile',
+        dependencies = { 'kevinhwang91/promise-async' },
+        opts = function()
+            local ftMap = {
+                vim = 'indent',
+                python = 'indent',
+                git = '',
+            }
+
+            local virt_text_handler = function(virtText, lnum, endLnum, width, truncate)
+                local new_virt_text = {}
+                local foldedLines = endLnum - lnum
+                local suffix = (' 󰁂 %d '):format(foldedLines)
+                local sufWidth = vim.fn.strdisplaywidth(suffix)
+                local targetWidth = width - sufWidth
+                local curWidth = 0
+
+                for _, chunk in ipairs(virtText) do
+                    local chunkText = chunk[1]
+                    local chunkWidth = vim.fn.strdisplaywidth(chunkText)
+
+                    if targetWidth > curWidth + chunkWidth then
+                        table.insert(new_virt_text, chunk)
+                    else
+                        chunkText = truncate(chunkText, targetWidth - curWidth)
+                        local hlGroup = chunk[2]
+                        table.insert(new_virt_text, { chunkText, hlGroup })
+                        chunkWidth = vim.fn.strdisplaywidth(chunkText)
+                        -- str width returned from truncate() may less than 2nd argument, need padding
+                        if curWidth + chunkWidth < targetWidth then
+                            suffix = suffix .. (' '):rep(targetWidth - curWidth - chunkWidth)
+                        end
+                        break
+                    end
+
+                    curWidth = curWidth + chunkWidth
+                end
+
+                table.insert(new_virt_text, { suffix, 'MoreMsg' })
+                return new_virt_text
+            end
+
+            return {
+                filetype_exclude = Util.plugin.non_editor_ft,
+                close_fold_kinds_for_ft = {
+                    default = { 'imports', 'comment' },
+                    json = { 'array' },
+                    c = { 'comment', 'region' },
+                },
+                fold_virt_text_handler = virt_text_handler,
+                preview = {
+                    win_config = {
+                        border = { '', '─', '', '', '', '─', '', '' },
+                    },
+                    mappings = {
+                        scrollU = '<C-u>',
+                        scrollD = '<C-d>',
+                        jumpTop = '[',
+                        jumpBot = ']',
+                    },
+                },
+                provider_selector = function(bufnr, filetype, buftype) return ftMap[filetype] end,
+            }
+        end,
+        config = function(_, opts)
+            vim.api.nvim_create_autocmd('FileType', {
+                group = vim.api.nvim_create_augroup('local_detach_ufo', { clear = true }),
+                pattern = opts.filetype_exclude,
+                callback = function() require('ufo').detach() end,
+            })
+
+            vim.opt.foldlevelstart = 99
+            require('ufo').setup(opts)
+
+            Util.keymap.key_group('z', 'folding')
+            Util.keymap('n', 'zR', require('ufo').openAllFolds, {}, 'Unfold all')
+            Util.keymap('n', 'zM', require('ufo').closeAllFolds, {}, 'Fold all')
+            Util.keymap('n', 'zr', require('ufo').openFoldsExceptKinds, {}, 'Unfold')
+            Util.keymap('n', 'zm', require('ufo').closeFoldsWith, {}, 'Fold')
+            Util.keymap('n', 'zp', require('ufo').peekFoldedLinesUnderCursor, {}, 'Preview fold')
+        end,
+    },
 }

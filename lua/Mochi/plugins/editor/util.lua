@@ -19,7 +19,7 @@ return {
                 end,
                 mode = { 'n', 'v' },
                 desc = 'Search and Replace',
-            }
+            },
         },
     },
 }

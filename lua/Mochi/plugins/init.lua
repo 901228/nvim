@@ -13,6 +13,7 @@ return {
                 { '<leader>', mode = { 'n', 'v' } },
                 { 's', mode = { 'n', 'v' } },
                 { 'g', mode = { 'n', 'v' } },
+                { 'z', mode = { 'n', 'v' } },
             },
         },
         config = function(_, opts)

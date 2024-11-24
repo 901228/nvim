@@ -100,3 +100,9 @@ vim.o.pumheight = 10
 
 -- always show tabline
 vim.o.showtabline = 2
+
+-- folding
+vim.o.foldcolumn = '1'
+vim.o.foldlevel = 99
+vim.o.foldlevelstart = 99
+vim.o.foldenable = true

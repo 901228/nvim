@@ -24,20 +24,21 @@ return {
             require('mason').setup(opts)
             local mr = require('mason-registry')
             mr:on('package:install:success', function()
-                vim.defer_fn(function()
-                    require('lazy.core.handler.event').trigger({
-                        event = 'FileType',
-                        buf = vim.api.nvim_get_current_buf(),
-                    })
-                end, 100)
+                vim.defer_fn(
+                    function()
+                        require('lazy.core.handler.event').trigger({
+                            event = 'FileType',
+                            buf = vim.api.nvim_get_current_buf(),
+                        })
+                    end,
+                    100
+                )
             end)
 
             mr.refresh(function()
                 for _, tool in ipairs(opts.ensure_installed) do
                     local p = mr.get_package(tool)
-                    if not p:is_installed() then
-                        p:install()
-                    end
+                    if not p:is_installed() then p:install() end
                 end
             end)
         end,
@@ -101,17 +102,13 @@ return {
             Util.format.register(Util.lsp.formatter())
 
             -- setup keymaps
-            Util.lsp.on_attach(function(client, bufnr)
-                common.key.attach(bufnr)
-            end)
+            Util.lsp.on_attach(function(client, bufnr) common.key.attach(bufnr) end)
 
             -- setup lsp
             Util.lsp.setup()
 
             -- setup keymap dynamic capability
-            Util.lsp.on_dynamic_capability(function(client, bufnr)
-                common.key.on_attach(bufnr)
-            end)
+            Util.lsp.on_dynamic_capability(function(client, bufnr) common.key.on_attach(bufnr) end)
 
             -- setup words
             Util.lsp.words.setup(opts.document_highlight)
@@ -121,7 +118,8 @@ return {
                 -- inlay hints
                 if opts.inlay_hints.enabled then
                     Util.lsp.on_supports_method('textDocument/inlayHint', function(_, bufnr)
-                        if vim.api.nvim_buf_is_valid(bufnr)
+                        if
+                            vim.api.nvim_buf_is_valid(bufnr)
                             and vim.bo[bufnr].buftype == ''
                             and not vim.tbl_contains(opts.inlay_hints.exclude, vim.bo[bufnr].filetype)
                         then
@@ -147,9 +145,7 @@ return {
                 opts.diagnostic.virtual_text.prefix = (not Util.is_version_10) and '●'
                     or function(diagnostic)
                         for d, icon in pairs(Util.diagnostic.icons) do
-                            if diagnostic.severity == vim.diagnostic.severity[d:upper()] then
-                                return icon
-                            end
+                            if diagnostic.severity == vim.diagnostic.severity[d:upper()] then return icon end
                         end
                     end
             end
@@ -163,12 +159,17 @@ return {
 
             -- capabilities
             local has_cmp, cmp_nvim_lsp = pcall(require, 'cmp_nvim_lsp')
-            local capabilities = vim.tbl_deep_extend('force',
+            local capabilities = vim.tbl_deep_extend(
+                'force',
                 {},
                 vim.lsp.protocol.make_client_capabilities(),
                 has_cmp and cmp_nvim_lsp.default_capabilities() or {},
                 opts.capabilities or {}
             )
+            capabilities.textDocument.foldingRange = {
+                dynamicRegistration = false,
+                lineFoldingOnly = true,
+            }
 
             -- mason
             local has_mason, mslp = pcall(require, 'mason-lspconfig')
@@ -183,27 +184,18 @@ return {
             -- setup lsp servers
             ---@param server string
             local function setup(server)
-                local server_opts = vim.tbl_deep_extend('force',
-                    {
-                        capabilities = vim.deepcopy(capabilities),
-                        flags = common.flags,
-                        on_attach = common.on_attach,
-                    },
-                    type(servers[server]) == 'table' and servers[server] or {}
-                )
+                local server_opts = vim.tbl_deep_extend('force', {
+                    capabilities = vim.deepcopy(capabilities),
+                    flags = common.flags,
+                    on_attach = common.on_attach,
+                }, type(servers[server]) == 'table' and servers[server] or {})
 
-                if server_opts.enabled == false then
-                    return
-                end
+                if server_opts.enabled == false then return end
 
                 if opts.setup[server] then
-                    if opts.setup[server](server, server_opts) then
-                        return
-                    end
+                    if opts.setup[server](server, server_opts) then return end
                 elseif opts.setup['*'] then
-                    if opts.setup['*'](server, server_opts) then
-                        return
-                    end
+                    if opts.setup['*'](server, server_opts) then return end
                 end
 
                 require('lspconfig')[server].setup(server_opts)
@@ -223,7 +215,8 @@ return {
             end
 
             -- setup mason-lspconfig
-            ensure_installed = vim.tbl_deep_extend('force',
+            ensure_installed = vim.tbl_deep_extend(
+                'force',
                 ensure_installed,
                 Util.plugin.opts('mason-lspconfig.nvim').ensure_installed or {}
             )
@@ -239,9 +232,7 @@ return {
                 local is_deno = require('lspconfig.util').root_pattern('deno.json', 'deno,jsonc')
                 Util.lsp.disable('vtsls', is_deno)
                 Util.lsp.disable('denols', function(root_dir, config)
-                    if not is_deno(root_dir) then
-                        config.settings.deno.enable = false
-                    end
+                    if not is_deno(root_dir) then config.settings.deno.enable = false end
                     return false
                 end)
             end
