@@ -8,8 +8,8 @@ return {
         cmd = 'Telescope',
         version = false,
         dependencies = {
-            'plenary.nvim',
-            'dressing.nvim',
+            'nvim-lua/plenary.nvim',
+            'stevearc/dressing.nvim',
             {
                 'nvim-telescope/telescope-fzf-native.nvim',
                 build = have_make and 'make'
@@ -134,7 +134,7 @@ return {
 
     -- for flash
     {
-        'telescope.nvim',
+        'nvim-telescope/telescope.nvim',
         opts = function(_, opts)
             if not Util.plugin.has('flash.nvim') then return end
 

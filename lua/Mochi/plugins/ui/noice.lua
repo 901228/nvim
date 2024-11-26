@@ -4,9 +4,9 @@ return {
         'folke/noice.nvim',
         event = 'VeryLazy',
         dependencies = {
-            'nui.nvim',
-            'nvim-notify',
-            'nvim-cmp',
+            'MunifTanjim/nui.nvim',
+            'rcarriga/nvim-notify',
+            'hrsh7th/nvim-cmp',
         },
         keys = {
             {

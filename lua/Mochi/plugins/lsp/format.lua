@@ -4,7 +4,7 @@ return {
         -- formatting
         'stevearc/conform.nvim',
         dependencies = {
-            'mason.nvim',
+            'williamboman/mason.nvim',
         },
         lazy = true,
         cmd = 'ConformInfo',

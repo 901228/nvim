@@ -3,9 +3,9 @@ return {
     {
         'nvim-neo-tree/neo-tree.nvim',
         dependencies = {
-            'plenary.nvim',
-            'nvim-web-devicons',
-            'nui.nvim',
+            'nvim-lua/plenary.nvim',
+            'nvim-tree/nvim-web-devicons',
+            'MunifTanjim/nui.nvim',
         },
         cmd = 'Neotree',
         keys = {
@@ -119,7 +119,7 @@ return {
     -- file manager
     {
         'stevearc/oil.nvim',
-        dependencies = 'nvim-web-devicons',
+        dependencies = 'nvim-tree/nvim-web-devicons',
         opts = {},
         lazy = false,
         keys = {

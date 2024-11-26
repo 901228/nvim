@@ -26,8 +26,8 @@ return {
     {
         '2kabhishek/nerdy.nvim',
         dependencies = {
-            'dressing.nvim',
-            'telescope.nvim',
+            'stevearc/dressing.nvim',
+            'nvim-telescope/telescope.nvim',
         },
         cmd = 'Nerdy',
     },

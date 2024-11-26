@@ -3,7 +3,7 @@ return {
     {
         'akinsho/bufferline.nvim',
         dependencies = {
-            'nvim-web-devicons',
+            'nvim-tree/nvim-web-devicons',
             'catppuccin',
         },
         event = 'VeryLazy',
@@ -76,7 +76,7 @@ return {
     -- window status line & buffer name
     {
         'nvim-lualine/lualine.nvim',
-        dependencies = 'nvim-web-devicons',
+        dependencies = 'nvim-tree/nvim-web-devicons',
         event = 'VeryLazy',
         init = function()
             vim.g.lualine_laststatus = vim.o.laststatus

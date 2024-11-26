@@ -3,9 +3,9 @@ return {
     {
         'folke/todo-comments.nvim',
         dependencies = {
-            'plenary.nvim',
-            'trouble.nvim',
-            'telescope.nvim',
+            'nvim-lua/plenary.nvim',
+            'folke/trouble.nvim',
+            'nvim-telescope/telescope.nvim',
         },
         cmd = { 'TodoTrouble', 'TodoTelescope' },
         event = 'LazyFile',

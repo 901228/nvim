@@ -52,9 +52,9 @@ return {
     {
         'neovim/nvim-lspconfig',
         dependencies = {
-            'nvim-navic',
-            'clear-action.nvim',
-            'nvim-cmp',
+            'SmiteshP/nvim-navic',
+            'luckasRanarison/clear-action.nvim',
+            'hrsh7th/nvim-cmp',
         },
         event = 'LazyFile',
         opts = {

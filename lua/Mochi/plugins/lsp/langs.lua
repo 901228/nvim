@@ -50,8 +50,8 @@ return {
     {
         'linux-cultist/venv-selector.nvim',
         dependencies = {
-            'nvim-lspconfig',
-            'telescope.nvim',
+            'neovim/nvim-lspconfig',
+            'nvim-telescope/telescope.nvim',
         },
         branch = 'regexp',
         cmd = 'VenvSelect',
