@@ -78,6 +78,7 @@ function M.keymap(mode, lhs, rhs, opts, desc)
         opts[1] = nil
         opts[2] = nil
         opts.mode = nil
+        opts.icon = nil
         vim.keymap.set(mode, lhs, rhs, opts)
     end
 end

@@ -8,7 +8,14 @@ return {
 
     {
         'folke/which-key.nvim',
+        events = 'VeryLazy',
+        opts_extend = { 'spec' },
+        ---@class wk.Opts
         opts = {
+            icons = {
+                -- group = ' ',
+                group = '',
+            },
             triggers = {
                 { '<leader>', mode = { 'n', 'v' } },
                 { 's', mode = { 'n', 'v' } },
@@ -21,6 +28,15 @@ return {
             vim.o.timeoutlen = 300
 
             require('which-key').setup(opts)
+
+            Util.keymap('n', '<leader>w', '<CMD>w<CR>', { icon = '󰆓' }, 'Save')
+            Util.keymap('n', '<leader>q', '<CMD>q<CR>', { icon = '󰅖' }, 'Quit')
+
+            -- move between windows(panes)
+            Util.keymap('n', '<A-h>', '<C-w>h', { icon = '󰞗' }, 'Move Left')
+            Util.keymap('n', '<A-j>', '<C-w>j', { icon = '󰞖' }, 'Move Down')
+            Util.keymap('n', '<A-k>', '<C-w>k', { icon = '󰞙' }, 'Move Up')
+            Util.keymap('n', '<A-l>', '<C-w>l', { icon = '󰞘' }, 'Move Right')
         end,
     },
 }

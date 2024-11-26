@@ -9,7 +9,7 @@ return {
         },
         cmd = 'Neotree',
         keys = {
-            { '<leader>n', '', desc = '+ File Explorer' },
+            -- { '<leader>n', '', desc = 'File Explorer' },
             {
                 '<leader>nt',
                 function()
@@ -29,6 +29,9 @@ return {
         },
         deactivate = function()
             vim.cmd([[Neotree close]])
+        end,
+        init = function()
+            Util.keymap.key_group('<leader>n', 'File explorer', { icon = '󰙅' })
         end,
         opts = {
             sources = {

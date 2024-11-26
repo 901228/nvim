@@ -9,10 +9,37 @@ return {
             'nvim-cmp',
         },
         keys = {
-            { '<S-Enter>',  function() require('noice').redirect(vim.fn.getcmdline()) end,                 mode = 'c',            desc = 'Redirect Cmdline' },
-            { '<leader>c', function() require('noice').cmd('dismiss') end,                                desc = 'Dismiss All Notifications' },
-            { '<C-f>',      function() if not require('noice.lsp').scroll(4) then return '<C-f>' end end,  silent = true,         expr = true,              desc = 'Scoll Forward',  mode = { 'i', 'n', 's' } },
-            { '<C-b>',      function() if not require('noice.lsp').scroll(-4) then return '<C-b>' end end, silent = true,         expr = true,              desc = 'Scoll Backward', mode = { 'i', 'n', 's' } },
+            {
+                '<S-Enter>',
+                function() require('noice').redirect(vim.fn.getcmdline()) end,
+                mode = 'c',
+                desc = 'Redirect Cmdline',
+            },
+            {
+                '<leader>c',
+                function() require('noice').cmd('dismiss') end,
+                desc = 'Dismiss All Notifications',
+            },
+            {
+                '<C-f>',
+                function()
+                    if not require('noice.lsp').scroll(4) then return '<C-f>' end
+                end,
+                silent = true,
+                expr = true,
+                desc = 'Scoll Forward',
+                mode = { 'i', 'n', 's' },
+            },
+            {
+                '<C-b>',
+                function()
+                    if not require('noice.lsp').scroll(-4) then return '<C-b>' end
+                end,
+                silent = true,
+                expr = true,
+                desc = 'Scoll Backward',
+                mode = { 'i', 'n', 's' },
+            },
         },
         opts = {
             lsp = {
@@ -33,7 +60,7 @@ return {
                         },
                     },
                     view = 'mini',
-                }
+                },
             },
             presets = {
                 bottom_search = true,
@@ -43,9 +70,7 @@ return {
         },
         config = function(_, opts)
             -- start noice after Lazy installed plugin
-            if vim.o.filetype == 'lazy' then
-                vim.cmd([[messages clear]])
-            end
+            if vim.o.filetype == 'lazy' then vim.cmd([[messages clear]]) end
 
             require('noice').setup(opts)
         end,

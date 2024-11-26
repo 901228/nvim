@@ -87,11 +87,9 @@ return {
                 '<leader>k',
                 function()
                     local ok, whitespace = pcall(require, 'whitespace-nvim')
-                    if ok then
-                        whitespace.trim()
-                    end
+                    if ok then whitespace.trim() end
                 end,
-                desc = 'trim whitespaces',
+                desc = 'Trim Whitespaces',
             },
         },
         opts = {

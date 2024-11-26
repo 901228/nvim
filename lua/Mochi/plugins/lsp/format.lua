@@ -8,9 +8,6 @@ return {
         },
         lazy = true,
         cmd = 'ConformInfo',
-        -- keys = {
-        --     { '<leader>i', function() require('confirm').format({ formatter = { 'injected' }, timeout_ms = 3000 }) end, mode = { 'n', 'v' }, desc = 'Format' }
-        -- },
         init = function()
             -- install conform formatters on VeryLazy
             Util.plugin.on_very_lazy(function()

@@ -63,7 +63,7 @@ return {
                 { opts.mappings.highlight, desc = 'Highlight Surround' },
                 { opts.mappings.replace, desc = 'Replace Surround' },
                 { opts.mappings.update_n_lines, desc = 'Update `MiniSurround.config.n_lines`' },
-                { 's', '', desc = '+ Surround' },
+                { 's', '', desc = 'Surround' },
             }
             mappings = vim.tbl_filter(function(m) return m[1] and #m[1] > 0 end, mappings)
             return vim.list_extend(mappings, keys)

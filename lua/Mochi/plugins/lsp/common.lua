@@ -9,7 +9,7 @@ M.key = {}
 -- stylua: ignore
 M.key.keys = {
     { 'n', 'ga',        require('clear-action.actions').code_action, 'Code Actions' },
-    { 'n', '<leader>i', function() Util.format() end,                'format' },
+    { 'n', '<leader>i', function() Util.format() end,                'Format', icon = '󰉢' },
     { 'n', 'gd',        vim.lsp.buf.definition,                      'Goto Definition',    has_method = 'definition' },
     { 'n', 'gh',        vim.lsp.buf.hover,                           'Hover' },
     { 'n', 'gD',        vim.lsp.buf.declaration,                     'Goto Declaration' },

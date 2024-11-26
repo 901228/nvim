@@ -69,7 +69,7 @@ return {
                 lazygit:toggle()
             end
 
-            Util.keymap.key_group('<leader>t', '+ ToggleTerm')
+            Util.keymap.key_group('<leader>t', 'ToggleTerm', { icon = '' })
             Util.keymap({ 'n', 't' }, '<leader>ta', function() toggleT(ta) end, {}, 'Float')
             Util.keymap({ 'n', 't' }, '<leader>tb', function() toggleT(tb) end, {}, 'Vertical')
             Util.keymap({ 'n', 't' }, '<leader>tc', function() toggleT(tc) end, {}, 'Horizontal')

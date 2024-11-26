@@ -8,6 +8,7 @@ return {
         },
         event = 'VeryLazy',
         keys = {
+            -- { '<leader>b', '', desc='Buffers' },
             { '<leader>bd', function() Util.ui.bufremove() end, desc = 'Close Buffer' },
             { '<C-h>', '<CMD>BufferLineCyclePrev<CR>', desc = 'Prev Buffer' },
             { '<C-l>', '<CMD>BufferLineCycleNext<CR>', desc = 'Next Buffer' },
@@ -67,6 +68,8 @@ return {
                     end)
                 end,
             })
+
+            Util.keymap.key_group('<leader>b', 'Buffers', { icon = '' })
         end,
     },
 

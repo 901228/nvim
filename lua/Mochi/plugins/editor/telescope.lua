@@ -38,10 +38,10 @@ return {
             },
         },
         keys = {
-            { '<leader>ff', require('telescope.builtin').find_files, desc = 'find file' },
-            { '<leader>fg', require('telescope.builtin').live_grep, desc = 'find' },
-            { '<leader>fb', require('telescope.builtin').buffers, desc = 'find buffers' },
-            { '<leader>fh', require('telescope.builtin').help_tags, desc = 'helps' },
+            { '<leader>ff', require('telescope.builtin').find_files, desc = 'Find File' },
+            { '<leader>fg', require('telescope.builtin').live_grep, desc = 'Find' },
+            { '<leader>fb', require('telescope.builtin').buffers, desc = 'Find Buffers' },
+            { '<leader>fh', require('telescope.builtin').help_tags, desc = 'Helps' },
             {
                 '<leader>fn',
                 function()
@@ -49,11 +49,11 @@ return {
                     tel.load_extension('notify')
                     tel.extensions.notify.notify()
                 end,
-                desc = 'notify history',
+                desc = 'Notify History',
             },
-            { '<leader>fp', require('telescope.builtin').commands, desc = 'commands' },
-            { '<leader>fk', require('telescope.builtin').keymaps, desc = 'keymaps' },
-            { '<leader>f', desc = '+ Telescope' },
+            { '<leader>fp', require('telescope.builtin').commands, desc = 'Commands' },
+            { '<leader>fk', require('telescope.builtin').keymaps, desc = 'Keymaps' },
+            { '<leader>f', '', desc = 'Telescope' },
         },
         opts = function()
             local actions = require('telescope.actions')
@@ -103,9 +103,7 @@ return {
                         table.insert(wins, 1, vim.api.nvim_get_current_win())
                         for _, win in ipairs(wins) do
                             local buf = vim.api.nvim_win_get_buf(win)
-                            if vim.bo[buf].buftype == '' then
-                                return win
-                            end
+                            if vim.bo[buf].buftype == '' then return win end
                         end
                     end,
                     mappings = {

@@ -3,6 +3,9 @@ return {
     {
         'folke/trouble.nvim',
         cmd = 'Trouble',
+        init = function()
+            Util.keymap.key_group('<leader>x', 'Trouble', { icon = '󰔫' })
+        end,
         opts = {
             modes = {
                 lsp = {
@@ -12,12 +15,12 @@ return {
         },
         -- stylua: ignore
         keys = {
-            { '<leader>x', desc = '+ Truoble' },
+            -- { '<leader>x', '', desc = 'Trouble' },
             { '<leader>xx', function() require('trouble').toggle('diagnostics') end, desc = 'Diagnostics' },
             -- { '<leader>xw', function() require('trouble').toggle('workspace_diagnostics') end, desc = 'Workspace Diagnostics' },
             -- { '<leader>xd', function() require('trouble').toggle('document_diagnostics') end, desc = 'Document Diagnostics' },
             -- { '<leader>xq', function() require('trouble').toggle('quickfix') end, desc = 'quickfix' },
-            { '<leader>xl', function() require('trouble').toggle('lsp') end, desc = 'lsp' },
+            { '<leader>xl', function() require('trouble').toggle('lsp') end, desc = 'Lsp' },
             {
                 '[q',
                 function()
