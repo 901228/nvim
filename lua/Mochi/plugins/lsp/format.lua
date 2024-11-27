@@ -33,7 +33,9 @@ return {
             },
             formatters_by_ft = {
                 lua = { 'stylua' },
+                sh = { 'shfmt' },
                 rust = { 'rustfmt' },
+                python = { 'black' },
                 ['*'] = { 'codespell' },
                 ['_'] = { 'trim_whitespace' },
             },

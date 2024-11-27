@@ -6,6 +6,7 @@ return {
             events = { 'BufWritePost', 'BufReadPost', 'InsertLeave' },
             linters_by_ft = {
                 -- set linters by filetypes
+                python = { 'flake8' },
                 -- ['*'] = { 'global linter' },
                 -- ['_'] = { 'fallback linter' },
                 -- ['*'] = { 'typos' },
