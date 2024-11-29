@@ -1,5 +1,4 @@
 return {
-
     {
         -- formatting
         'stevearc/conform.nvim',
@@ -35,7 +34,7 @@ return {
                 lua = { 'stylua' },
                 sh = { 'shfmt' },
                 rust = { 'rustfmt' },
-                python = { 'black' },
+                python = { 'black', 'isort' },
                 ['*'] = { 'codespell' },
                 ['_'] = { 'trim_whitespace' },
             },
@@ -45,6 +44,14 @@ return {
                 injected = { options = { ignore_errors = true } },
                 rustfmt = {
                     command = 'rustfmt',
+                },
+                black = {
+                    prepend_args = {
+                        '--line-length=140',
+                    },
+                },
+                isort = {
+                    prepend_args = { '--profile', 'black' },
                 },
             },
             format_on_save = nil,
