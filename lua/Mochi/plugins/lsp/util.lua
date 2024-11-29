@@ -166,4 +166,25 @@ return {
             Util.keymap('n', 'zp', require('ufo').peekFoldedLinesUnderCursor, {}, 'Preview fold')
         end,
     },
+
+    -- code runner
+    {
+        'CRAG666/code_runner.nvim',
+        keys = {
+            { '<leader>r', '<CMD>RunCode<CR>', desc = 'Run Code', remap = false, silent = false },
+            -- { '<leader>rf', '<CMD>RunFile<CR>', remap = false, silent = false },
+            -- { '<leader>rft', '<CMD>RunFile tab<CR>', remap = false, silent = false },
+            -- { '<leader>rp', '<CMD>RunProject<CR>', remap = false, silent = false },
+            -- { '<leader>rc', '<CMD>RunClose<CR>', remap = false, silent = false },
+            -- { '<leader>rcf', '<CMD>CRFiletype<CR>', remap = false, silent = false },
+            -- { '<leader>rcp', '<CMD>CRProjects<CR>', remap = false, silent = false },
+        },
+        opts = {
+            filetype = {
+                python = 'python -u',
+            },
+        },
+        config = function(_, opts) require('code_runner').setup(opts) end,
+    },
+    c,
 }
