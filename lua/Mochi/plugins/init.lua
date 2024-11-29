@@ -21,6 +21,8 @@ return {
                 { 's', mode = { 'n', 'v' } },
                 { 'g', mode = { 'n', 'v' } },
                 { 'z', mode = { 'n', 'v' } },
+                { '[', mode = { 'n', 'v' } },
+                { ']', mode = { 'n', 'v' } },
             },
         },
         config = function(_, opts)

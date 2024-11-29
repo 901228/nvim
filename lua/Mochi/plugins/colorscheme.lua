@@ -31,10 +31,8 @@ return {
                 alpha = true,
                 cmp = true,
                 flash = true,
-                -- TODO: grug_far
-                -- grug_far = true,
-                -- TODO: gitsigns
-                -- gitsigns = true
+                grug_far = true,
+                gitsigns = true,
                 indent_blankline = {
                     enabled = true,
                     -- colored_indent_levels = true,
