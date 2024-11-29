@@ -19,7 +19,7 @@ return {
         'mrcjkb/rustaceanvim',
         bufread = true,
         version = '^5',
-        lazy = false,
+        lazy = false,  -- This plugin is already lazy
     },
 
     -- lua

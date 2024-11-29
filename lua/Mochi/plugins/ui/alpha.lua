@@ -1,15 +1,10 @@
 return {
-    -- ascii arts
-    {
-        'MaximilianLloyd/ascii.nvim',
-        dependencies = 'MunifTanjim/nui.nvim',
-    },
-
     -- dashboard
     {
         'goolord/alpha-nvim',
         dependencies = {
-            'nvim-tree/nvim-web-devicons',
+            'echasnovski/mini.icons',
+            -- ascii arts
             'MaximilianLloyd/ascii.nvim',
         },
         lazy = false,
