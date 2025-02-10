@@ -13,7 +13,7 @@ return {
             end,
             shade_terminals = false,
             float_opts = {
-                border = 'curved'
+                border = 'curved',
             },
             start_in_insert = true,
         },
@@ -32,14 +32,22 @@ return {
                     vim.cmd('startinsert!')
 
                     -- q / <leader>tg close lazygit
-                    vim.api.nvim_buf_set_keymap(term.bufnr, 'n', 'q', '<CMD>close<CR>', { noremap = true, silent = true })
-                    Util.keymap('n', '<leader>tg', '<CMD>close<CR>',
-                        { noremap = true, silent = true, buffer = term.bufnr })
+                    vim.api.nvim_buf_set_keymap(
+                        term.bufnr,
+                        'n',
+                        'q',
+                        '<CMD>close<CR>',
+                        { noremap = true, silent = true }
+                    )
+                    Util.keymap(
+                        'n',
+                        '<leader>tg',
+                        '<CMD>close<CR>',
+                        { noremap = true, silent = true, buffer = term.bufnr }
+                    )
 
                     -- disable ESC for lazygit
-                    if vim.fn.mapcheck('<Esc>', 't') ~= '' then
-                        vim.api.nvim_del_keymap('t', '<Esc>')
-                    end
+                    if vim.fn.mapcheck('<Esc>', 't') ~= '' then vim.api.nvim_del_keymap('t', '<Esc>') end
                 end,
                 on_close = function()
                     -- add ESC back
@@ -63,17 +71,14 @@ return {
                     term:close()
                     return
                 end
-                ta:open()
-            end
-            local toggleG = function()
-                lazygit:toggle()
+                term:open()
             end
 
-            Util.keymap.key_group('<leader>t', 'ToggleTerm', { icon = '' })
+            Util.keymap.key_group('<leader>t', 'ToggleTerm', { icon = '' })
             Util.keymap({ 'n', 't' }, '<leader>ta', function() toggleT(ta) end, {}, 'Float')
             Util.keymap({ 'n', 't' }, '<leader>tb', function() toggleT(tb) end, {}, 'Vertical')
             Util.keymap({ 'n', 't' }, '<leader>tc', function() toggleT(tc) end, {}, 'Horizontal')
-            Util.keymap({ 'n', 't' }, '<leader>tg', toggleG, {}, 'Lazygit')
+            Util.keymap({ 'n', 't' }, '<leader>tg', function() lazygit:toggle() end, {}, 'Lazygit')
         end,
     },
 }
