@@ -35,6 +35,8 @@ return {
                 sh = { 'shfmt' },
                 rust = { 'rustfmt' },
                 python = { 'black', 'isort' },
+                javascript = { 'prettierd' },
+                typescript = { 'prettierd' },
                 ['*'] = { 'codespell' },
                 ['_'] = { 'trim_whitespace' },
             },
@@ -42,6 +44,27 @@ return {
             formatters = {
                 -- formatter settings
                 injected = { options = { ignore_errors = true } },
+                stylua = {
+                    args = {
+                        '--search-parent-directories',
+                        '--indent-type',
+                        'Spaces',
+                        '--indent-width',
+                        '4',
+                        '--column-width',
+                        '120',
+                        '--quote-style',
+                        'AutoPreferSingle',
+                        '--call-parentheses',
+                        'Always',
+                        '--collapse-simple-statement',
+                        'Always',
+                        '--sort-requires',
+                        '--stdin-filepath',
+                        '$FILENAME',
+                        '-',
+                    },
+                },
                 rustfmt = {
                     command = 'rustfmt',
                 },

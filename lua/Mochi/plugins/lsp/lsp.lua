@@ -158,18 +158,7 @@ return {
             local servers = opts.servers
 
             -- capabilities
-            local has_cmp, cmp_nvim_lsp = pcall(require, 'cmp_nvim_lsp')
-            local capabilities = vim.tbl_deep_extend(
-                'force',
-                {},
-                vim.lsp.protocol.make_client_capabilities(),
-                has_cmp and cmp_nvim_lsp.default_capabilities() or {},
-                opts.capabilities or {}
-            )
-            capabilities.textDocument.foldingRange = {
-                dynamicRegistration = false,
-                lineFoldingOnly = true,
-            }
+            local capabilities = Util.lsp.get_capabilities(opts.capabilities)
 
             -- mason
             local has_mason, mslp = pcall(require, 'mason-lspconfig')

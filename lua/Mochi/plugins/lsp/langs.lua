@@ -19,7 +19,7 @@ return {
         'mrcjkb/rustaceanvim',
         bufread = true,
         version = '^5',
-        lazy = false,  -- This plugin is already lazy
+        lazy = false, -- This plugin is already lazy
     },
 
     -- lua
@@ -59,13 +59,12 @@ return {
         keys = {
             { '<leader>v', '<CMD>VenvSelect<CR>', desc = 'Select Venv', ft = 'python' },
         },
-        opts = {
-            settings = {
-                options = {
-                    notify_user_on_venv_activation = true,
-                },
-            },
-        },
+        opts = function()
+            return {
+                dap_enabled = false,
+                notify_user_on_activate = true,
+            }
+        end,
     },
 
     -- markdown
@@ -89,15 +88,16 @@ return {
                 --     keys = {}, -- add additional keymaps for specific lsp server
                 -- },
                 -- <lsp server> = true,
-                rust_analyzer = true,
+
                 clangd = true,
                 cmake = true,
+                rust_analyzer = true,
                 dockerls = true,
-                lemminx = true,
+                lemminx = true, -- xml
                 pyright = true,
                 cssls = { single_file_support = true },
                 css_variables = true,
-                -- vala_ls = { single_file_support = true },
+
                 -- jsonls = {
                 --     settings = {
                 --         json = {
@@ -106,6 +106,7 @@ return {
                 --         },
                 --     },
                 -- },
+
                 lua_ls = {
                     settings = {
                         Lua = {
@@ -140,6 +141,46 @@ return {
                                     indent_style = 'space',
                                     indent_size = '2',
                                 },
+                            },
+                        },
+                    },
+                },
+
+                -- javascript/typescript
+                vtsls = {
+                    -- explicitly add default filetypes, so that we can extend them in related extras
+                    filetypes = {
+                        'javascript',
+                        'javascriptreact',
+                        'javascript.jsx',
+                        'typescript',
+                        'typescriptreact',
+                        'typescript.tsx',
+                    },
+                    settings = {
+                        complete_function_calls = true,
+                        vtsls = {
+                            enableMoveToFileCodeAction = true,
+                            autoUseWorkspaceTsdk = true,
+                            experimental = {
+                                maxInlayHintLength = 30,
+                                completion = {
+                                    enableServerSideFuzzyMatch = true,
+                                },
+                            },
+                        },
+                        typescript = {
+                            updateImportsOnFileMove = { enabled = 'always' },
+                            suggest = {
+                                completeFunctionCalls = true,
+                            },
+                            inlayHints = {
+                                enumMemberValues = { enabled = true },
+                                functionLikeReturnTypes = { enabled = true },
+                                parameterNames = { enabled = 'literals' },
+                                parameterTypes = { enabled = true },
+                                propertyDeclarationTypes = { enabled = true },
+                                variableTypes = { enabled = false },
                             },
                         },
                     },

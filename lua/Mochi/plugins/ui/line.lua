@@ -18,7 +18,7 @@ return {
         opts = {
             options = {
                 -- 使用 nvim 内置 lsp
-                diagnostics = "nvim_lsp",
+                diagnostics = 'nvim_lsp',
                 diagnostics_indicator = function(_, _, diagnostics_dict)
                     local str = ''
                     for e, n in pairs(diagnostics_dict) do
@@ -34,8 +34,8 @@ return {
                         filetype = 'neo-tree',
                         text = 'File Explorer',
                         highlight = 'Directory',
-                        text_align = 'left'
-                    }
+                        text_align = 'left',
+                    },
                 },
 
                 numbers = 'buffer_id',
@@ -48,24 +48,26 @@ return {
                 hover = {
                     enabled = true,
                     delay = 200,
-                    reveal = {'close'}
+                    reveal = { 'close' },
                 },
 
                 right_mouse_command = nil,
                 middle_mouse_command = function(n) Util.ui.bufremove(n) end,
                 close_command = function(n) Util.ui.bufremove(n) end,
-            }
+            },
         },
         config = function(_, opts)
-            opts = vim.tbl_extend('force', opts, { highlights = require('catppuccin.groups.integrations.bufferline').get() })
+            opts = vim.tbl_extend(
+                'force',
+                opts,
+                { highlights = require('catppuccin.groups.integrations.bufferline').get() }
+            )
             require('bufferline').setup(opts)
 
             -- Fix bufferline when restoring a session
             vim.api.nvim_create_autocmd({ 'BufAdd', 'BufDelete' }, {
                 callback = function()
-                    vim.schedule(function()
-                        pcall(nvim_bufferline)
-                    end)
+                    vim.schedule(function() pcall(nvim_bufferline) end)
                 end,
             })
 
@@ -82,14 +84,13 @@ return {
             vim.g.lualine_laststatus = vim.o.laststatus
             if vim.fn.argc(-1) > 0 then
                 -- set an empty statusline till lualine loads
-                vim.o.statusline = " "
+                vim.o.statusline = ' '
             else
                 -- hide the statusline on the starter page
                 vim.o.laststatus = 0
             end
         end,
         opts = function()
-
             local win_bar_filename = {
                 'filename',
                 file_status = false,
@@ -105,9 +106,33 @@ return {
                 navic_opts = nil,
             }
 
+            local venv_selector = require('lualine.component'):extend()
+            function venv_selector:init(options)
+                options = vim.tbl_deep_extend('keep', options or {}, {
+                    icon = '',
+                    color = { fg = '#CDD6F4' },
+                    on_click = function() vim.cmd([[VenvSelect]]) end,
+                })
+                venv_selector.super.init(self, options)
+            end
+            function venv_selector:update_status()
+                if vim.bo.filetype == 'python' then
+                    local venv = require('venv-selector').venv()
+                    if venv ~= nil then
+                        local venv_parts = vim.fn.split(venv, '/')
+                        local venv_name = venv_parts[#venv_parts]
+                        return venv_name
+                    else
+                        return 'Select Venv'
+                    end
+                else
+                    return ''
+                end
+            end
+
             local function default_name(name)
                 return {
-                    '\'' .. name .. '\'',
+                    "'" .. name .. "'",
                     separator = { left = ' ', right = '' },
                     padding = 1,
                     icons_enabled = false,
@@ -125,13 +150,13 @@ return {
                     sections = {
                         lualine_a = { default_name('ToggleTerm') },
                     },
-                    filetypes = { 'toggleterm' }
+                    filetypes = { 'toggleterm' },
                 },
                 telescope = {
                     sections = {
                         lualine_a = { default_name('Telescope') },
                     },
-                    filetypes = { 'TelescopePrompt' }
+                    filetypes = { 'TelescopePrompt' },
                 },
                 alpha = {
                     sections = {},
@@ -147,7 +172,7 @@ return {
                                 icons_enabled = false,
                             },
                         },
-                        lualine_z = {{ 'mode', separator = { left = '', right = ' ' }, padding = 1 }},
+                        lualine_z = { { 'mode', separator = { left = '', right = ' ' }, padding = 1 } },
                     },
                     filetypes = { 'oil' },
                 },
@@ -178,12 +203,12 @@ return {
                             'filename',
                             newfile_status = true,
                             symbols = {
-                                modified = '[+]',      -- Text to show when the file is modified.
-                                readonly = '[-]',      -- Text to show when the file is non-modifiable or readonly.
+                                modified = '[+]', -- Text to show when the file is modified.
+                                readonly = '[-]', -- Text to show when the file is non-modifiable or readonly.
                                 -- unnamed = '[No Name]', -- Text to show for unnamed buffers.
                                 unnamed = '[]', -- Text to show for unnamed buffers.
                                 -- newfile = '[New]',     -- Text to show for newly created file before first write
-                                newfile = '[]',     -- Text to show for newly created file before first write
+                                newfile = '[]', -- Text to show for newly created file before first write
                             },
                         },
                         {
@@ -219,7 +244,8 @@ return {
                             separator = { left = '' },
                             padding = 1,
                         },
-                        { 'progress', padding = 1 }
+                        venv_selector,
+                        { 'progress', padding = 1 },
                     },
                     lualine_z = {
                         { 'location', separator = { left = '', right = ' ' }, padding = { right = 1 } },

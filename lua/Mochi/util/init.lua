@@ -76,6 +76,32 @@ end
 
 M.is_version_10 = (tonumber(vim.version().minor) >= 10)
 
+---@param var string
+---@return string
+function M.getenv(var)
+    local v = os.getenv(var)
+    if v == nil then
+        return ''
+    else
+        return v
+    end
+end
+
+---@class MochiUtil.os.os_dependent_item<T>: { win: T, linux: T, mac: T }
+
+---@generic T
+---@param tbl MochiUtil.os.os_dependent_item<T>
+---@return T?
+function M.os.get_os_dependent(tbl)
+    if M.os.is_win() then
+        return tbl.win
+    elseif M.os.is_linux() then
+        return tbl.linux
+    elseif M.os.is_mac() then
+        return tbl.mac
+    end
+end
+
 ---@generic T
 ---@param list T[]
 ---@return T[]
@@ -121,7 +147,9 @@ end
 ---@param msg string | string[]
 ---@param opts? MochiNotifyOpts
 function M.notify(msg, opts)
-    if vim.in_fast_event() then return vim.schedule(function() M.notify(msg, opts) end) end
+    if vim.in_fast_event() then
+        return vim.schedule(function() M.notify(msg, opts) end)
+    end
 
     opts = opts or {}
     opts.level = opts.level or vim.log.levels.INFO

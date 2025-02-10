@@ -16,9 +16,10 @@ function M.get_clients(opts)
         ret = vim.lsp.get_active_clients(opts)
         if opts and opts.method then
             ---@param client lsp.Client
-            ret = vim.tbl_filter(function(client)
-                return client.supports_method(opts.method, { bufnr = opts.bufnr })
-            end, ret)
+            ret = vim.tbl_filter(
+                function(client) return client.supports_method(opts.method, { bufnr = opts.bufnr }) end,
+                ret
+            )
         end
     end
 
@@ -33,9 +34,7 @@ function M.on_attach(on_attach, name)
         callback = function(args)
             local bufnr = args.buf ---@type number
             local client = vim.lsp.get_client_by_id(args.data.client_id)
-            if client and (not name or client.name == name) then
-                return on_attach(client, bufnr)
-            end
+            if client and (not name or client.name == name) then return on_attach(client, bufnr) end
         end,
     })
 end
@@ -71,19 +70,13 @@ end
 ---@param bufnr number
 function M._check_methods(client, bufnr)
     -- don't trigger on invalid buffers
-    if not vim.api.nvim_buf_is_valid(bufnr) then
-        return
-    end
+    if not vim.api.nvim_buf_is_valid(bufnr) then return end
 
     -- don't trigger on non-listed buffers
-    if not vim.bo[bufnr].buflisted then
-        return
-    end
+    if not vim.bo[bufnr].buflisted then return end
 
     -- don't trigger on nofile buffers
-    if vim.bo[bufnr].buftype == 'nofile' then
-        return
-    end
+    if vim.bo[bufnr].buftype == 'nofile' then return end
 
     for method, clients in pairs(M._supports_method) do
         clients[client] = clients[client] or {}
@@ -96,7 +89,7 @@ function M._check_methods(client, bufnr)
                         client_id = client.id,
                         bufnr = bufnr,
                         method = method,
-                    }
+                    },
                 })
             end
         end
@@ -113,11 +106,29 @@ function M.on_dynamic_capability(fn, opts)
         callback = function(args)
             local client = vim.lsp.get_client_by_id(args.data.client_id)
             local bufnr = args.data.bufnr ---@type number
-            if client then
-                return fn(client, bufnr)
-            end
-        end
+            if client then return fn(client, bufnr) end
+        end,
     })
+end
+
+-- get capabilities
+---@param capabilities table
+---@return table
+function M.get_capabilities(capabilities)
+    local has_cmp, cmp_nvim_lsp = pcall(require, 'cmp_nvim_lsp')
+    capabilities = vim.tbl_deep_extend(
+        'force',
+        {},
+        vim.lsp.protocol.make_client_capabilities(),
+        has_cmp and cmp_nvim_lsp.default_capabilities() or {},
+        capabilities or {}
+    )
+    capabilities.textDocument.foldingRange = {
+        dynamicRegistration = false,
+        lineFoldingOnly = true,
+    }
+
+    return capabilities
 end
 
 -- register lsp client support method
@@ -130,9 +141,7 @@ function M.on_supports_method(method, fn)
         callback = function(args)
             local client = vim.lsp.get_client_by_id(args.data.client_id)
             local bufnr = args.data.bufnr ---@type number
-            if client and method == args.data.method then
-                return fn(client, bufnr)
-            end
+            if client and method == args.data.method then return fn(client, bufnr) end
         end,
     })
 end
@@ -151,9 +160,7 @@ function M.rename_file()
         default = extra,
         completion = 'file',
     }, function(new)
-        if not new or new == '' or new == extra then
-            return
-        end
+        if not new or new == '' or new == extra then return end
 
         new = Util.path.norm(root .. '/' .. new)
         vim.fn.mkdir(vim.fs.dirname(new), 'p')
@@ -189,9 +196,7 @@ function M.on_rename(from, to, rename)
         end
     end
 
-    if rename then
-        rename()
-    end
+    if rename then rename() end
 
     for _, client in ipairs(clients) do
         if client.supports_method('workspace/didRenameFiles') then
@@ -221,12 +226,12 @@ end
 function M.disable(server, cond)
     local util = require('lspconfig.util')
     local def = M.get_config(server)
-    def.document_config.on_new_config = util.add_hook_before(def.document_config.on_new_config,
+    def.document_config.on_new_config = util.add_hook_before(
+        def.document_config.on_new_config,
         function(config, root_dir)
-            if cond(root_dir, config) then
-                config.enabled = false
-            end
-        end)
+            if cond(root_dir, config) then config.enabled = false end
+        end
+    )
 end
 
 -- get formatters provided by lsp
@@ -242,22 +247,21 @@ function M.formatter(opts)
         name = 'LSP',
         primary = true,
         priority = 1,
-        format = function(buf)
-            M.format(Util.merge({}, filter, { bufnr = buf }))
-        end,
+        format = function(buf) M.format(Util.merge({}, filter, { bufnr = buf })) end,
         sources = function(buf)
             local clients = M.get_clients(Util.merge({}, filter, { bufnr = buf }))
 
             ---@param client lsp.Client
-            local ret = vim.tbl_filter(function(client)
-                return client.supports_method('textDocument/formatting')
-                    or client.supports_method('textDocument/rangeFormatting')
-            end, clients)
+            local ret = vim.tbl_filter(
+                function(client)
+                    return client.supports_method('textDocument/formatting')
+                        or client.supports_method('textDocument/rangeFormatting')
+                end,
+                clients
+            )
 
             ---@param client lsp.Client
-            return vim.tbl_map(function(client)
-                return client.name
-            end, ret)
+            return vim.tbl_map(function(client) return client.name end, ret)
         end,
     }
 
@@ -268,7 +272,8 @@ end
 
 ---@param opts? lsp.Client.format
 function M.format(opts)
-    opts = vim.tbl_deep_extend('force',
+    opts = vim.tbl_deep_extend(
+        'force',
         {},
         opts or {},
         Util.plugin.opts('nvim-lspconfig').format or {},
@@ -293,9 +298,7 @@ function M.support(bufnr, method)
 
     if type(method) == 'table' then
         for _, m in ipairs(method) do
-            if M.support(bufnr, m) then
-                return true
-            end
+            if M.support(bufnr, m) then return true end
         end
         return false
     end
@@ -303,9 +306,7 @@ function M.support(bufnr, method)
     method = method:find('/') and method or 'textDocument/' .. method
     local clients = M.get_clients({ bufnr = bufnr })
     for _, client in ipairs(clients) do
-        if client.supports_method(method) then
-            return true
-        end
+        if client.supports_method(method) then return true end
     end
 
     return false
@@ -319,17 +320,13 @@ M.words.ns = vim.api.nvim_create_namespace('vim_lsp_references')
 ---@param opts? { enabled?: boolean }
 function M.words.setup(opts)
     opts = opts or {}
-    if not opts.enabled then
-        return
-    end
+    if not opts.enabled then return end
 
     M.words.enabled = true
 
     local handler = vim.lsp.handlers['txetDocument/documentHighlight']
     vim.lsp.handlers['txetDocument/documentHighlight'] = function(err, result, ctx, config)
-        if not vim.api.nvim_buf_is_loaded(ctx.bufnr) then
-            return
-        end
+        if not vim.api.nvim_buf_is_loaded(ctx.bufnr) then return end
 
         vim.lsp.buf.clear_references()
         return handler(err, result, ctx, config)
@@ -340,9 +337,7 @@ function M.words.setup(opts)
             group = vim.api.nvim_create_augroup('lsp_word_' .. buf, { clear = true }),
             buffer = buf,
             callback = function(ev)
-                if not M.support(buf, 'documentHighlight') then
-                    return false
-                end
+                if not M.support(buf, 'documentHighlight') then return false end
 
                 if not ({ M.words.get() })[2] then
                     if ev.event:find('CursorMoved') then
@@ -385,19 +380,13 @@ end
 ---@param cycle? boolean
 function M.words.jump(count, cycle)
     local words, idx = M.words.get()
-    if not idx then
-        return
-    end
+    if not idx then return end
 
     idx = idx + count
-    if cycle then
-        idx = (idx - 1) % #words + 1
-    end
+    if cycle then idx = (idx - 1) % #words + 1 end
 
     local target = words[idx]
-    if target then
-        vim.api.nvim_win_set_cursor(0, target.from)
-    end
+    if target then vim.api.nvim_win_set_cursor(0, target.from) end
 end
 
 M.action = setmetatable({}, {

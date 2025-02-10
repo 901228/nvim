@@ -18,6 +18,12 @@ return {
                         return vim.fs.find({ 'selene.toml' }, { path = ctx.filename, upward = true })[1]
                     end,
                 },
+                flake8 = {
+                    args = {
+                        '--max-line-length',
+                        '140',
+                    },
+                },
             },
         },
         config = function(_, opts)
@@ -58,9 +64,7 @@ return {
                 names = vim.list_extend({}, names)
 
                 -- add fallback linters
-                if #names == 0 then
-                    vim.list_extend(names, lint.linters_by_ft['_'] or {})
-                end
+                if #names == 0 then vim.list_extend(names, lint.linters_by_ft['_'] or {}) end
 
                 -- add global linters
                 vim.list_extend(names, lint.linters_by_ft['*'] or {})
@@ -70,16 +74,12 @@ return {
                 ctx.dirname = vim.fn.fnamemodify(ctx.filename, ':h')
                 names = vim.tbl_filter(function(name)
                     local linter = lint.linters[name]
-                    if not linter then
-                        Util.warn('Linter not found: ' .. name, { title = 'nvim-lint' })
-                    end
+                    if not linter then Util.warn('Linter not found: ' .. name, { title = 'nvim-lint' }) end
                     return linter and not (type(linter) == 'table' and linter.condition and not linter.condition(ctx))
                 end, names)
 
                 -- run linters
-                if #names > 0 then
-                    lint.try_lint(names)
-                end
+                if #names > 0 then lint.try_lint(names) end
             end
 
             vim.api.nvim_create_autocmd(opts.events, {
