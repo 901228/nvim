@@ -10,7 +10,7 @@ require('lazy').setup({
     },
     -- install
     checker = {
-        enabled = true,
-        notify = true,
+        enabled = false,
+        notify = false,
     },
 })
