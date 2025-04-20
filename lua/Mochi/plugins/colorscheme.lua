@@ -68,4 +68,10 @@ return {
             vim.cmd.colorscheme('catppuccin')
         end,
     },
+
+    -- sync terminal background color with nvim colorscheme
+    {
+        'typicode/bg.nvim',
+        lazy = false,
+    },
 }
