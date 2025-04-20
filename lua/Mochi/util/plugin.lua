@@ -94,6 +94,10 @@ M.non_editor_ft = {
     'toggleterm',
     'lspinfo',
     'MochiCheatsheet',
+    'leaderf',
+    'tagbar',
+    'defx',
+    'qf',
 }
 
 return M
