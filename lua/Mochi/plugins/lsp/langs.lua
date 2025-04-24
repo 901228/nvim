@@ -74,7 +74,14 @@ return {
             'nvim-treesitter/nvim-treesitter',
             'echasnovski/mini.icons',
         },
-        opts = {},
+        ---@module 'render-markdown'
+        ---@type render.md.UserConfig
+        opts = {
+            completions = {
+                lsp = { enabled = true },
+                blink = { enabled = true },
+            },
+        },
     },
 
     -- lspconfig for langs
