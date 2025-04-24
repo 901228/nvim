@@ -40,8 +40,14 @@ end
 
 M.lualine = {}
 
+---@alias MochiUtil.ui.CmpStatus
+---| nil # not available
+---| 'ok' # ok
+---| 'error' # error
+---| 'pending' # pending
+
 ---@param icon string
----@param status fun(): nil | 'ok' | 'error' | 'pending'
+---@param status fun(): MochiUtil.ui.CmpStatus
 function M.lualine.status(icon, status)
     local colors = {
         ok = 'Special',
@@ -57,21 +63,26 @@ function M.lualine.status(icon, status)
 end
 
 ---@param name string
+---@param status_cb? fun(source): MochiUtil.ui.CmpStatus
 ---@param icon? string
-function M.lualine.cmp_source(name, icon)
+function M.lualine.cmp_source(name, status_cb, icon)
     icon = icon or Util.icon.kinds[name:sub(1, 1):upper() .. name:sub(2)]
     local started = false
     return M.lualine.status(icon, function()
         if not package.loaded['cmp'] then return end
-        for _, s in ipairs(require('cmp').core.sources or {}) do
-            if s.name == name then
-                if s.source:is_available() then
+        for n, s in pairs(require('cmp').get_config().sources or {}) do
+            if n == name then
+                if s:is_available() then
                     started = true
                 else
                     return started and 'error' or nil
                 end
-                if s.status == s.SourceStatus.FETCHING then return 'pending' end
-                return 'ok'
+                -- if s.status == s.SourceStatus.FETCHING then return 'pending' end
+                if status_cb then
+                    return status_cb(s)
+                else
+                    return 'ok'
+                end
             end
         end
     end)

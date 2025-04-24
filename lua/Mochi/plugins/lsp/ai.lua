@@ -60,7 +60,20 @@ return {
     {
         'nvim-lualine/lualine.nvim',
         event = 'VeryLazy',
-        opts = function(_, opts) table.insert(opts.sections.lualine_x, 2, Util.ui.lualine.cmp_source('supermaven')) end,
+        opts = function(_, opts)
+            table.insert(
+                opts.sections.lualine_x,
+                2,
+                Util.ui.lualine.cmp_source('supermaven', function(_)
+                    local ok, api = pcall(require, 'supermaven-nvim.api')
+                    if not ok then
+                        return 'error'
+                    else
+                        return api.is_running() and 'ok' or 'pending'
+                    end
+                end)
+            )
+        end,
     },
 
     {
