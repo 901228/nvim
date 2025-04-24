@@ -46,6 +46,18 @@ return {
                 'Lang Utils',
                 { icon = require('mini.icons').get('filetype', vim.bo.filetype) }
             )
+
+            -- clear search and stop snippet on escape
+            Util.keymap({ 'i', 'n', 's' }, '<ESC>', function()
+                vim.cmd('noh')
+                Util.cmp.actions.snippet_stop()
+                return '<ESC>' ---@diagnostic disable-line: redundant-return-value
+            end, { expr = true, icon = '󱊷' }, ' Escape and Clear hlsearch')
         end,
+    },
+
+    {
+        dir = '~/things/project/nvim/',
+        lazy = false,
     },
 }

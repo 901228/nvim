@@ -34,7 +34,7 @@ return {
                 if cmp.visible() and cmp.get_active_entry() then
                     cmp.confirm({ select = true, behavior = cmp.ConfirmBehavior.Replace })
                 else
-                    fallback()
+                    Util.cmp.map({ 'snippet_forward', 'ai_accept' }, fallback)()
                 end
             end
 
@@ -59,7 +59,7 @@ return {
                     ['<CR>'] = cmp.mapping({
                         i = enterBehavior,
                         c = enterBehavior,
-                        s = cmp.mapping.confirm({ select = true }),
+                        s = cmp.mapping.confirm({ select = auto_select }),
                     }),
                     ['<Tab>'] = cmp.mapping(function(fallback)
                         if cmp.visible() then
@@ -70,30 +70,25 @@ return {
                                 cmp.confirm()
                             end
                         else
-                            fallback()
+                            Util.cmp.map({ 'snippet_forward', 'ai_accept' }, fallback)()
                         end
                     end, { 'i', 'c', 's' }),
                     ['<C-u>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
                     ['<C-d>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
                 }),
-                sources = cmp.config.sources(
-                    {
-                        { name = 'nvim_lsp' },
-                        { name = 'nvim_lsp_document_symbol' },
-                        { name = 'nvim_lsp_signature_help' },
-                        { name = 'path' },
-                    },
-                    {
-                        { name = 'emoji' },
-                        { name = 'buffer' },
-                    }
-                ),
+                sources = cmp.config.sources({
+                    { name = 'nvim_lsp' },
+                    { name = 'nvim_lsp_document_symbol' },
+                    { name = 'nvim_lsp_signature_help' },
+                    { name = 'path' },
+                }, {
+                    { name = 'emoji' },
+                    { name = 'buffer' },
+                }),
                 formatting = {
                     format = function(entry, item)
                         local icon = Util.icon.kinds
-                        if icon[item.kind] then
-                            item.kind = icon[item.kind] .. item.kind
-                        end
+                        if icon[item.kind] then item.kind = icon[item.kind] .. item.kind end
 
                         local widths = {
                             abbr = vim.g.cmp_widths and vim.g.cmp_widths.abbr or 40,
@@ -109,9 +104,9 @@ return {
                     end,
                 },
                 experimental = {
-                    ghost_text = {
+                    ghost_text = vim.g.ai_cmp and {
                         hl_group = 'CmpGhostText',
-                    }
+                    } or false,
                 },
                 sorting = defaults.sorting,
                 window = {
@@ -121,7 +116,7 @@ return {
                 view = {
                     entries = {
                         name = 'custom',
-                    }
+                    },
                 },
             }
         end,
@@ -140,17 +135,13 @@ return {
                 dependencies = {
                     'rafamadriz/friendly-snippets',
                 },
-            }
+            },
         },
         opts = function(_, opts)
             opts.snippets = {
-                expand = function(item)
-                    Util.cmp.expand(item.body)
-                end,
+                expand = function(item) Util.cmp.expand(item.body) end,
             }
-            if Util.plugin.has('nvim-snippets') then
-                table.insert(opts.sources, { name = 'snippets' })
-            end
+            if Util.plugin.has('nvim-snippets') then table.insert(opts.sources, { name = 'snippets' }) end
         end,
     },
 }

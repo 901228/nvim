@@ -1,6 +1,6 @@
 -- utf8
-vim.g.encoding = "UTF-8"
-vim.o.fileencoding = "utf-8"
+vim.g.encoding = 'UTF-8'
+vim.o.fileencoding = 'utf-8'
 
 -- preserve lines when scrolling
 vim.o.scrolloff = 4
@@ -14,10 +14,10 @@ vim.wo.relativenumber = true
 vim.wo.cursorline = true
 
 -- signs
-vim.wo.signcolumn = "yes"
+vim.wo.signcolumn = 'yes'
 
 -- ruler
-vim.wo.colorcolumn = "80"
+vim.wo.colorcolumn = '80'
 
 -- tab
 vim.o.tabstop = 4
@@ -54,13 +54,13 @@ vim.bo.autoread = true
 -- wrap
 vim.o.wrap = false
 vim.wo.wrap = false
-vim.o.whichwrap = "b,s,<,>,[,],h,l"
+vim.o.whichwrap = 'b,s,<,>,[,],h,l'
 
 -- hidden
 vim.o.hidden = true
 
 -- mouse
-vim.o.mouse = "a"
+vim.o.mouse = 'a'
 vim.o.mousemoveevent = true
 
 -- forbid backup
@@ -80,16 +80,16 @@ vim.o.splitbelow = true
 vim.o.splitright = true
 
 -- auto complete
-vim.g.completeopt = "menu,menuone,noselect,noinsert"
+vim.opt.completeopt = 'menu,menuone,noselect'
 
 -- themes
-vim.o.background = "dark"
+vim.o.background = 'dark'
 vim.o.termguicolors = true
 vim.opt.termguicolors = true
 
 -- control characters display
 vim.o.list = true
-vim.o.listchars = "tab:→\\ ,eol:↲,trail:·,extends:»,precedes:«,nbsp:×"
+vim.o.listchars = 'tab:→\\ ,eol:↲,trail:·,extends:»,precedes:«,nbsp:×'
 
 -- complete enhance
 vim.wildmenu = true

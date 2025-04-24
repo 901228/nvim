@@ -1,6 +1,35 @@
 ---@class MochiUtil.cmp
 local M = {}
 
+---@alias MochiUtil.cmp.Action fun(): boolean?
+---@type table<string, MochiUtil.cmp.Action>
+M.actions = {
+    -- Native Snippets
+    snippet_forward = function()
+        if vim.snippet.active({ direction = 1 }) then
+            vim.schedule(function() vim.snippet.jump(1) end)
+            return true
+        end
+    end,
+    snippet_stop = function()
+        if vim.snippet then vim.snippet.stop() end
+    end,
+}
+
+---@param actions string[]
+---@param fallback? string | fun()
+function M.map(actions, fallback)
+    return function()
+        for _, name in ipairs(actions) do
+            if M.actions[name] then
+                local ret = M.actions[name]()
+                if ret then return true end
+            end
+        end
+        return type(fallback) == 'function' and fallback() or fallback
+    end
+end
+
 ---@alias Placeholder { n: number, text: string }
 
 ---@param snippet string
@@ -17,13 +46,11 @@ end
 ---@param snippet string
 ---@return string
 function M.snippet_preview(snippet)
-    local ok, parsed = pcall(function()
-        return vim.lsp._snippet_grammar.parse(snippet)
-    end)
+    local ok, parsed = pcall(function() return vim.lsp._snippet_grammar.parse(snippet) end)
 
-    return ok and tostring(parsed) or M.snippet_replace(snippet, function(placeholder)
-        return M.snippet_preview(placeholder.text)
-    end):gsub('%$0', '')
+    return ok and tostring(parsed)
+        or M.snippet_replace(snippet, function(placeholder) return M.snippet_preview(placeholder.text) end)
+            :gsub('%$0', '')
 end
 
 -- This function replaces nested placeholders in a snippet with LSP placeholder
@@ -87,22 +114,15 @@ end
 ---@param opts? { select: boolean, behavior: cmp.ConfirmBehavior }
 function M.confirm(opts)
     local cmp = require('cmp')
-    opts = vim.tbl_extend(
-        'force',
-        {
-            select = true,
-            behavior = cmp.ConfirmBehavior.Insert,
-        },
-        opts or {}
-    )
+    opts = vim.tbl_extend('force', {
+        select = true,
+        behavior = cmp.ConfirmBehavior.Insert,
+    }, opts or {})
 
     return function(fallback)
         if cmp.core.view:visible() or vim.fn.pumvisible() == 1 then
-            -- TODO:
-            -- Util.create_undo()
-            if cmp.comfirm(opts) then
-                return
-            end
+            Util.create_undo()
+            if cmp.confirm(opts) then return end
         end
         fallback()
     end
@@ -135,14 +155,10 @@ function M.expand(snippet)
     end
 
     -- Restore top-level session when needed
-    if session then
-        vim.snippet._session = session
-    end
+    if session then vim.snippet._session = session end
 end
 
-function M.auto_pairs_confirm()
-    require('nvim-autopairs.completion.cmp').on_confirm_done()
-end
+function M.auto_pairs_confirm() require('nvim-autopairs.completion.cmp').on_confirm_done() end
 
 ---@param opts cmp.ConfigSchema | { auto_brackets?: string[], auto_pairs_confirm?: fun() }
 function M.setup(opts)
@@ -153,9 +169,7 @@ function M.setup(opts)
     local parse = require('cmp.utils.snippet').parse
     require('cmp.utils.snippet').parse = function(input)
         local ok, ret = pcall(parse, input)
-        if ok then
-            return ret
-        end
+        if ok then return ret end
         return Util.cmp.snippet_preview(input)
     end
 
@@ -165,32 +179,25 @@ function M.setup(opts)
     cmp.event:on('confirm_done', function(event)
         Util.cmp.auto_pairs_confirm()
 
-        if vim.tbl_contains(opts.auto_brackets or {}, vim.bo.filetype) then
-            Util.cmp.auto_brackets(event.entry)
-        end
+        if vim.tbl_contains(opts.auto_brackets or {}, vim.bo.filetype) then Util.cmp.auto_brackets(event.entry) end
     end)
 
-    cmp.event:on('menu_opened', function(event)
-        Util.cmp.add_missing_snippet_docs(event.window)
-    end)
+    cmp.event:on('menu_opened', function(event) Util.cmp.add_missing_snippet_docs(event.window) end)
 
     -- use buffer source for '/' and '?'
     cmp.setup.cmdline({ '/', '?' }, {
         sources = {
             { name = 'buffer' },
-        }
+        },
     })
 
     -- use cmdline & path source for ':'
     cmp.setup.cmdline(':', {
-        sources = cmp.config.sources(
-            {
-                { name = 'path' },
-            },
-            {
-                { name = 'cmdline' },
-            }
-        )
+        sources = cmp.config.sources({
+            { name = 'path' },
+        }, {
+            { name = 'cmdline' },
+        }),
     })
 end
 

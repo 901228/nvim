@@ -78,7 +78,7 @@ M.frappe = {
 }
 
 ---@type CtpColors<string>
-M.macchiato  = {
+M.macchiato = {
     -- rosewater = '',
     -- flamingo = '',
     -- pink = '',
@@ -138,5 +138,17 @@ M.mocha = {
     -- crust = '',
     -- none = '',
 }
+
+---@param group string | string[] hl group to get color from
+---@param prop? string property to get. Defauls to `fg`
+function M.get_color_from_group(group, prop)
+    prop = prop or 'fg'
+    group = type(group) == 'table' and group or { group }
+    ---@cast group string[]
+    for _, g in ipairs(group) do
+        local hl = vim.api.nvim_get_hl(0, { name = g, link = false })
+        if hl[prop] then return string.format('#%06x', hl[prop]) end
+    end
+end
 
 return M

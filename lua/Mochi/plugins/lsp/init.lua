@@ -8,7 +8,8 @@ M = Util.list_extend(
     require('Mochi.plugins.lsp.lint'),
     require('Mochi.plugins.lsp.cmp'),
     require('Mochi.plugins.lsp.format'),
-    require('Mochi.plugins.lsp.langs')
+    require('Mochi.plugins.lsp.langs'),
+    require('Mochi.plugins.lsp.ai')
 )
 
 return M
