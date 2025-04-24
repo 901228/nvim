@@ -11,6 +11,7 @@
   "catppuccin": { "branch": "main", "commit": "5b5e3aef9ad7af84f463d17b5479f06b87d5c429" },
   "clear-action.nvim": { "branch": "master", "commit": "2854c3fda5720c7e53b5a9537774fae212224484" },
   "code_runner.nvim": { "branch": "main", "commit": "b1f2e70bf9824ca1b7aa9478c71ec19f5984ecef" },
+  "colorful-menu.nvim": { "branch": "master", "commit": "f80feb8a6706f965321aff24d0ed3849f02a7f77" },
   "conform.nvim": { "branch": "master", "commit": "372fc521f8421b7830ea6db4d6ea3bae1c77548c" },
   "dressing.nvim": { "branch": "master", "commit": "2d7c2db2507fa3c4956142ee607431ddb2828639" },
   "flash.nvim": { "branch": "main", "commit": "3c942666f115e2811e959eabbdd361a025db8b63" },
