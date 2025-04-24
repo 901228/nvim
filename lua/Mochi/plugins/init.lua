@@ -55,9 +55,4 @@ return {
             end, { expr = true, icon = '󱊷' }, ' Escape and Clear hlsearch')
         end,
     },
-
-    {
-        dir = '~/things/project/nvim/',
-        lazy = false,
-    },
 }
