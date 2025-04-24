@@ -137,7 +137,7 @@ function M.expand(snippet)
     -- See: https://github.com/LazyVim/LazyVim/issues/3199
     local session = vim.snippet.active() and vim.snippet._session or nil
 
-    local ok, err = pcall(vim.snippet.active, snippet)
+    local ok, err = pcall(vim.snippet.expand, snippet)
     if not ok then
         local fixed = M.snippet_fix(snippet)
         ok = pcall(vim.snippet.expand, fixed)

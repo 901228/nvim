@@ -120,23 +120,15 @@ return {
                 end
             end
 
-            -- add ai_accept to <Tab> key
-            if not opts.keymap['<Tab>'] then
-                opts.keymap['<Tab>'] = {
-                    function(cmp)
-                        if cmp.snippet_active() then
-                            return cmp.accept()
-                        else
-                            return cmp.select_and_accept()
-                        end
-                    end,
-                    Util.cmp.map({ 'snippet_forward', 'ai_accept' }),
-                    'fallback',
-                }
-            end
-
             -- Unset custom prop to pass blink.cmp validation
             opts.sources.compat = nil
+
+            -- add ai_accept to <Tab> key
+            opts.keymap['<Tab>'] = {
+                require('blink.cmp.keymap.presets')['super-tab']['<Tab>'][1],
+                Util.cmp.map({ 'snippet_forward', 'ai_accept' }),
+                'fallback',
+            }
 
             -- check if we need to override symbol kinds
             for _, provider in pairs(opts.sources.providers or {}) do

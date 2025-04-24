@@ -47,9 +47,7 @@ return {
                 compat = { 'supermaven' },
                 providers = {
                     supermaven = {
-                        -- FIXME: kind_icon
                         name = 'supermaven',
-                        module = 'blink.compat.source',
                         score_offset = 100,
                         async = true,
                         kind = 'Supermaven',
