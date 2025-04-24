@@ -1,147 +1,182 @@
 return {
     -- auto completion
     {
-        'hrsh7th/nvim-cmp',
-        version = false,
-        event = 'InsertEnter',
-        dependencies = {
-            -- buffer
-            'hrsh7th/cmp-buffer', -- { name = 'buffer' },
-
-            -- lsp
-            'hrsh7th/cmp-nvim-lsp',                 -- { name = nvim_lsp }
-            'hrsh7th/cmp-nvim-lsp-document-symbol', -- { name = nvim_lsp_document_symbol }
-            'hrsh7th/cmp-nvim-lsp-signature-help',  -- { name = nvim_lsp_signature_help }
-
-            -- paths
-            'hrsh7th/cmp-path', -- { name = 'path' }
-
-            -- command line
-            'hrsh7th/cmp-cmdline', -- { name = 'cmdline' }
-
-            -- icons, symbols, emojis
-            'hrsh7th/cmp-emoji', -- { name = 'emoji' }
-
-            'windwp/nvim-autopairs',
+        'saghen/blink.cmp',
+        version = '*',
+        opts_extend = {
+            'sources.completion.enabled_providers',
+            'sources.compat',
+            'sources.default',
         },
-        opts = function()
-            vim.api.nvim_set_hl(0, 'CmpGhostText', { link = 'Comment', default = true })
+        dependencies = {
+            'rafamadriz/friendly-snippets',
 
-            local cmp = require('cmp')
-            local defaults = require('cmp.config.default')()
-            local auto_select = true
-            local enterBehavior = function(fallback)
-                if cmp.visible() and cmp.get_active_entry() then
-                    cmp.confirm({ select = true, behavior = cmp.ConfirmBehavior.Replace })
-                else
-                    Util.cmp.map({ 'snippet_forward', 'ai_accept' }, fallback)()
+            -- add blink.compat to dependencies
+            {
+                'saghen/blink.compat',
+                version = '*',
+                lazy = true,
+                opts = {},
+            },
+
+            -- emoji
+            'moyiz/blink-emoji.nvim',
+
+            -- nerdfont
+            'MahanRahmati/blink-nerdfont.nvim',
+        },
+        event = 'InsertEnter',
+
+        ---@module 'blink.cmp'
+        ---@type blink.cmp.Config
+        opts = {
+            snippets = {
+                expand = function(snippet, _) return Util.cmp.expand(snippet) end,
+            },
+
+            appearance = {
+                use_nvim_cmp_as_default = false,
+                nerd_font_variant = 'mono',
+            },
+
+            completion = {
+                accept = {
+                    auto_brackets = {
+                        enabled = true,
+                    },
+                },
+                menu = {
+                    draw = {
+                        treesitter = { 'lsp' },
+                    },
+                },
+                documentation = {
+                    auto_show = true,
+                    auto_show_delay_ms = 200,
+                },
+                ghost_text = {
+                    enabled = vim.g.ai_cmp,
+                },
+            },
+
+            signature = { enabled = true },
+
+            sources = {
+                compat = {},
+                default = { 'lsp', 'path', 'snippets', 'buffer', 'nerdfont', 'emoji' },
+                providers = {
+                    emoji = {
+                        module = 'blink-emoji',
+                        name = 'Emoji',
+                        score_offset = 15,
+                        opts = { insert = true }, -- insert emoji (default) or complete its name
+                    },
+                    nerdfont = {
+                        module = 'blink-nerdfont',
+                        name = 'Nerd Fonts',
+                        score_offset = 15,
+                        opts = { insert = true }, -- insert nerdfont (default) or complete its name
+                    },
+                },
+            },
+
+            cmdline = { enabled = true },
+
+            keymap = {
+                preset = 'none',
+
+                ['<CR>'] = { 'accept', 'fallback' },
+
+                -- ['<Tab>'] -- setting in config
+                ['<S-Tab>'] = { 'snippet_backward', 'fallback' },
+
+                -- select item
+                ['<C-k>'] = { 'select_prev', 'fallback' },
+                ['<C-j>'] = { 'select_next', 'fallback' },
+                ['<Up>'] = { 'select_prev', 'fallback' },
+                ['<Down>'] = { 'select_next', 'fallback' },
+
+                -- show completion menu
+                ['<A-,>'] = { 'show', 'fallback' },
+
+                -- documentation
+                ['<C-u>'] = { 'scroll_documentation_up', 'fallback' },
+                ['<C-d>'] = { 'scroll_documentation_down', 'fallback' },
+            },
+        },
+
+        ---@param opts blink.cmp.Config | { sources: { compat: string[] } }
+        config = function(_, opts)
+            -- setup compat sources
+            local enabled = opts.sources.default
+            for _, source in ipairs(opts.sources.compat or {}) do
+                opts.sources.providers[source] = vim.tbl_deep_extend(
+                    'force',
+                    { name = source, module = 'blink.compat.source' },
+                    opts.sources.providers[source] or {}
+                )
+                if type(enabled) == 'table' and not vim.tbl_contains(enabled, source) then
+                    table.insert(enabled, source)
                 end
             end
 
-            return {
-                auto_bracket = {
-                    -- Not all LSP servers add brackets when completing a function
-                    -- To better deal with it, add language here to configure
-                },
-                completion = {
-                    completeopt = 'menu,menuone,noinsert' .. (auto_select and '' or ',noselect'),
-                },
-                preselect = auto_select and cmp.PreselectMode.Item or cmp.PreselectMode.None,
-                mapping = cmp.mapping.preset.insert({
-                    -- next candidated item
-                    ['<C-j>'] = cmp.mapping(cmp.mapping.select_next_item(), { 'i', 'c' }),
-                    -- previous candidated item
-                    ['<C-k>'] = cmp.mapping(cmp.mapping.select_prev_item(), { 'i', 'c' }),
-                    -- show the completion list
-                    ['<A-,>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
-                    -- Accept currently selected item. If none selected, `select` first item.
-                    -- Set `select` to `false` to only confirm explicitly selected items.
-                    ['<CR>'] = cmp.mapping({
-                        i = enterBehavior,
-                        c = enterBehavior,
-                        s = cmp.mapping.confirm({ select = auto_select }),
-                    }),
-                    ['<Tab>'] = cmp.mapping(function(fallback)
-                        if cmp.visible() then
-                            local entry = cmp.get_selected_entry()
-                            if not entry then
-                                cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
-                            else
-                                cmp.confirm()
-                            end
+            -- add ai_accept to <Tab> key
+            if not opts.keymap['<Tab>'] then
+                opts.keymap['<Tab>'] = {
+                    function(cmp)
+                        if cmp.snippet_active() then
+                            return cmp.accept()
                         else
-                            Util.cmp.map({ 'snippet_forward', 'ai_accept' }, fallback)()
+                            return cmp.select_and_accept()
                         end
-                    end, { 'i', 'c', 's' }),
-                    ['<C-u>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
-                    ['<C-d>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
-                }),
-                sources = cmp.config.sources({
-                    { name = 'nvim_lsp' },
-                    { name = 'nvim_lsp_document_symbol' },
-                    { name = 'nvim_lsp_signature_help' },
-                    { name = 'path' },
-                }, {
-                    { name = 'emoji' },
-                    { name = 'buffer' },
-                }),
-                formatting = {
-                    format = function(entry, item)
-                        local icon = Util.icon.kinds
-                        if icon[item.kind] then item.kind = icon[item.kind] .. item.kind end
-
-                        local widths = {
-                            abbr = vim.g.cmp_widths and vim.g.cmp_widths.abbr or 40,
-                            menu = vim.g.cmp_widths and vim.g.cmp_widths.menu or 30,
-                        }
-                        for key, width in ipairs(widths) do
-                            if item[key] and vim.fn.strdisplaywidth(item[key]) > width then
-                                item[key] = vm.fn.strdisplaywidth(item[key], 0, width - 1) .. '…'
-                            end
-                        end
-
-                        return item
                     end,
-                },
-                experimental = {
-                    ghost_text = vim.g.ai_cmp and {
-                        hl_group = 'CmpGhostText',
-                    } or false,
-                },
-                sorting = defaults.sorting,
-                window = {
-                    completion = cmp.config.window.bordered(),
-                    documentation = cmp.config.window.bordered(),
-                },
-                view = {
-                    entries = {
-                        name = 'custom',
-                    },
-                },
-            }
+                    Util.cmp.map({ 'snippet_forward', 'ai_accept' }),
+                    'fallback',
+                }
+            end
+
+            -- Unset custom prop to pass blink.cmp validation
+            opts.sources.compat = nil
+
+            -- check if we need to override symbol kinds
+            for _, provider in pairs(opts.sources.providers or {}) do
+                ---@cast provider blink.cmp.SourceProviderConfig | { kind?: string }
+                if provider.kind then
+                    local CompletionItemKind = require('blink.cmp.types').CompletionItemKind
+                    local kind_idx = #CompletionItemKind + 1
+
+                    CompletionItemKind[kind_idx] = provider.kind
+                    ---@diagnostic disable-next-line: no-unknown
+                    CompletionItemKind[provider.kind] = kind_idx
+
+                    ---@type fun(ctx: blink.cmp.Context, items: blink.cmp.CompletionItem[]): blink.cmp.CompletionItem[]
+                    local transform_items = provider.transform_items
+                    ---@param ctx blink.cmp.Context
+                    ---@param items blink.cmp.CompletionItem[]
+                    provider.transform_items = function(ctx, items)
+                        items = transform_items and transform_items(ctx, items) or items
+                        for _, item in ipairs(items) do
+                            item.kind = kind_idx or item.kind
+                            item.kind_icon = Util.icon.kinds[item.kind_name] or item.kind_icon or nil
+                        end
+                        return items
+                    end
+                end
+
+                -- unset custom prop to pass blink.cmp validation
+                provider.kind = nil
+            end
+
+            require('blink.cmp').setup(opts)
         end,
-        main = 'Mochi.util.cmp',
     },
 
-    -- snippets
+    -- add icons
     {
-        'nvim-cmp',
-        dependencies = {
-            {
-                'garymjr/nvim-snippets',
-                opts = {
-                    friendly_snippets = true,
-                },
-                dependencies = {
-                    'rafamadriz/friendly-snippets',
-                },
-            },
-        },
+        'saghen/blink.cmp',
         opts = function(_, opts)
-            opts.snippets = {
-                expand = function(item) Util.cmp.expand(item.body) end,
-            }
-            if Util.plugin.has('nvim-snippets') then table.insert(opts.sources, { name = 'snippets' }) end
+            opts.appearance = opts.appearance or {}
+            opts.appearance.kind_icons = vim.tbl_extend('force', opts.appearance.kind_icons or {}, Util.icon.kinds)
         end,
     },
 }

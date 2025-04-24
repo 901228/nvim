@@ -54,7 +54,7 @@ return {
         dependencies = {
             'SmiteshP/nvim-navic',
             'luckasRanarison/clear-action.nvim',
-            'hrsh7th/nvim-cmp',
+            'saghen/blink.cmp',
         },
         event = 'LazyFile',
         opts = {

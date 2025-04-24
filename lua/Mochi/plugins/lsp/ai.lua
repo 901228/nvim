@@ -1,12 +1,11 @@
 return {
     {
         'supermaven-inc/supermaven-nvim',
-        dependencies = { 'hrsh7mth/nvim-cmp' },
         event = 'InsertEnter',
         cmd = { 'SupermavenUseFree', 'SupermavenUsePro' },
         opts = {
             keymaps = {
-                accept_suggestion = nil, -- handled by nvim-cmp / blink.cmp
+                accept_suggestion = nil, -- handled by blink.cmp
             },
             disable_inline_completion = vim.g.ai_cmp,
             ignore_filetypes = {
@@ -17,7 +16,7 @@ return {
             color = {
                 -- HACK: use color code directly insread of hl color
                 suggestion_color = '#9399b2',
-                -- suggestion_color = Util.color.get_color_from_group('CmpGhostText'),
+                -- suggestion_color = Util.color.get_color_from_group('BlinkCmpGhostText'),
                 cterm = 244,
             },
         },
@@ -41,15 +40,23 @@ return {
 
     -- cmp integration
     {
-        'hrsh7mth/nvim-cmp',
-        dependencies = { 'supermaven-nvim' },
-        opts = function(_, opts)
-            table.insert(opts.sources, 1, {
-                name = 'supermaven',
-                group_index = 1,
-                priority = 100,
-            })
-        end,
+        'saghen/blink.cmp',
+        dependencies = { 'supermaven-nvim', 'saghen/blink.compat' },
+        opts = {
+            sources = {
+                compat = { 'supermaven' },
+                providers = {
+                    supermaven = {
+                        -- FIXME: kind_icon
+                        name = 'supermaven',
+                        module = 'blink.compat.source',
+                        score_offset = 100,
+                        async = true,
+                        kind = 'Supermaven',
+                    },
+                },
+            },
+        },
     },
 
     {
@@ -60,6 +67,7 @@ return {
 
     {
         'folke/noice.nvim',
+        optional = true,
         opts = function(_, opts)
             vim.list_extend(opts.routes, {
                 {

@@ -209,20 +209,21 @@ return {
         },
     },
 
-    -- cmp for langs
+    -- lazydev with blink.cmp
     {
-        'nvim-cmp',
-        dependencies = {
-            'hrsh7th/cmp-nvim-lua', -- { name = 'nvim_lua' }
+        'saghen/blink.cmp',
+        opts = {
+            sources = {
+                -- add lazydev to your completion providers
+                default = { 'lazydev' },
+                providers = {
+                    lazydev = {
+                        name = 'LazyDev',
+                        module = 'lazydev.integrations.blink',
+                        score_offset = 100, -- show at a higher priority than lsp
+                    },
+                },
+            },
         },
-        opts = function(_, opts)
-            if Util.plugin.has('lazydev.nvim') then
-                table.insert(opts.sources, { name = 'lazydev', group_index = 0 })
-            end
-
-            if Util.plugin.has('cmp-nvim-lua') then
-                table.insert(opts.sources, { name = 'nvim_lua', group_index = 0 })
-            end
-        end,
     },
 }

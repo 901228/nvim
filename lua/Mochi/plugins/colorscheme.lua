@@ -29,7 +29,7 @@ return {
             default_integrations = true,
             integrations = {
                 alpha = true,
-                cmp = true,
+                blink_cmp = true,
                 flash = true,
                 grug_far = true,
                 gitsigns = true,
