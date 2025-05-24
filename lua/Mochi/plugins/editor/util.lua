@@ -31,4 +31,9 @@ return {
         },
         cmd = 'Nerdy',
     },
+
+    {
+        'rubiin/highlighturl.nvim',
+        init = function() vim.g.highlighturl = true end,
+    },
 }
