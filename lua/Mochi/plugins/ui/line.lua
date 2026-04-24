@@ -60,7 +60,7 @@ return {
             opts = vim.tbl_extend(
                 'force',
                 opts,
-                { highlights = require('catppuccin.groups.integrations.bufferline').get() }
+                { highlights = require('catppuccin.special.bufferline').get_theme() }
             )
             require('bufferline').setup(opts)
 
