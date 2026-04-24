@@ -3,8 +3,8 @@ return {
     {
         'akinsho/bufferline.nvim',
         dependencies = {
-            'nvim-tree/nvim-web-devicons',
             'catppuccin',
+            'echasnovski/mini.icons',
         },
         event = 'VeryLazy',
         keys = {
@@ -57,11 +57,7 @@ return {
             },
         },
         config = function(_, opts)
-            opts = vim.tbl_extend(
-                'force',
-                opts,
-                { highlights = require('catppuccin.special.bufferline').get_theme() }
-            )
+            opts = vim.tbl_extend('force', opts, { highlights = require('catppuccin.special.bufferline').get_theme() })
             require('bufferline').setup(opts)
 
             -- Fix bufferline when restoring a session
@@ -78,7 +74,7 @@ return {
     -- window status line & buffer name
     {
         'nvim-lualine/lualine.nvim',
-        dependencies = 'nvim-tree/nvim-web-devicons',
+        dependencies = 'echasnovski/mini.icons',
         event = 'VeryLazy',
         init = function()
             vim.g.lualine_laststatus = vim.o.laststatus
