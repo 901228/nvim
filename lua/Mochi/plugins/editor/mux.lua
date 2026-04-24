@@ -34,6 +34,35 @@ return {
                 'Move Right'
             )
 
+            Util.keymap(
+                'n',
+                '<A-Left>',
+                function() require('smart-splits').resize_left() end,
+                { icon = '󰞗' },
+                'Resize Left'
+            )
+            Util.keymap(
+                'n',
+                '<A-Down>',
+                function() require('smart-splits').resize_down() end,
+                { icon = '󰞖' },
+                'Resize Down'
+            )
+            Util.keymap(
+                'n',
+                '<A-Up>',
+                function() require('smart-splits').resize_up() end,
+                { icon = '󰞙' },
+                'Resize Up'
+            )
+            Util.keymap(
+                'n',
+                '<A-Right>',
+                function() require('smart-splits').resize_right() end,
+                { icon = '󰞘' },
+                'Resize Right'
+            )
+
             -- TODO: other APIs ?
         end,
     },
