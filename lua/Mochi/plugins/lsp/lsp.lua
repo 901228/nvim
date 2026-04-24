@@ -45,6 +45,9 @@ return {
     },
     {
         'williamboman/mason-lspconfig.nvim',
+        opts = {
+            automatic_enable = false,
+        },
         config = function() end,
     },
 
@@ -131,11 +134,7 @@ return {
                 -- code lens
                 if opts.codelens.enabled and vim.lsp.codelens then
                     Util.lsp.on_supports_method('textDocument/codeLens', function(_, bufnr)
-                        vim.lsp.codelens.refresh()
-                        vim.api.nvim_create_autocmd({ 'BufEnter', 'CursorHold', 'InsertLeave' }, {
-                            buffer = bufnr,
-                            callback = vim.lsp.codelens.refresh,
-                        })
+                        vim.lsp.codelens.enable(true, { bufnr = bufnr })
                     end)
                 end
             end
@@ -163,9 +162,7 @@ return {
             -- mason
             local has_mason, mslp = pcall(require, 'mason-lspconfig')
             local all_mslp_servers = {}
-            if has_mason then
-                all_mslp_servers = require("mason-lspconfig").get_mappings().lspconfig_to_package
-            end
+            if has_mason then all_mslp_servers = require('mason-lspconfig').get_mappings().lspconfig_to_package end
 
             -- ensure_installed
             local ensure_installed = {} ---@type string[]
@@ -187,7 +184,8 @@ return {
                     if opts.setup['*'](server, server_opts) then return end
                 end
 
-                require('lspconfig')[server].setup(server_opts)
+                vim.lsp.config(server, server_opts)
+                vim.lsp.enable(server)
             end
 
             for server, server_opts in pairs(servers) do
