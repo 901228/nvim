@@ -9,6 +9,7 @@
 ---@field keymap MochiUtil.keymap
 ---@field icon MochiUtil.icon
 ---@field color MochiUtil.color
+---@field menus MochiUtil.menus
 local M = {}
 
 setmetatable(M, {
