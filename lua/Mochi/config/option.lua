@@ -90,6 +90,7 @@ vim.opt.termguicolors = true
 -- control characters display
 vim.o.list = true
 vim.o.listchars = 'tab:→\\ ,eol:↲,trail:·,extends:»,precedes:«,nbsp:×'
+vim.o.fillchars = 'foldopen:,foldsep: ,foldclose:'
 
 -- complete enhance
 vim.wildmenu = true
