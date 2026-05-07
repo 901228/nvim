@@ -111,7 +111,7 @@ return {
             Util.lsp.setup()
 
             -- setup keymap dynamic capability
-            Util.lsp.on_dynamic_capability(function(client, bufnr) common.key.on_attach(bufnr) end)
+            Util.lsp.on_dynamic_capability(function(client, bufnr) common.key.attach(bufnr) end)
 
             -- setup words
             Util.lsp.words.setup(opts.document_highlight)

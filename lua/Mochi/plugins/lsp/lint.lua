@@ -6,7 +6,8 @@ return {
             events = { 'BufWritePost', 'BufReadPost', 'InsertLeave' },
             linters_by_ft = {
                 -- set linters by filetypes
-                python = { 'flake8' },
+                python = { 'ruff' },
+                vala = { 'vala_lint' },
                 -- ['*'] = { 'global linter' },
                 -- ['_'] = { 'fallback linter' },
                 -- ['*'] = { 'typos' },
@@ -18,12 +19,13 @@ return {
                         return vim.fs.find({ 'selene.toml' }, { path = ctx.filename, upward = true })[1]
                     end,
                 },
-                flake8 = {
+                ruff = {
                     args = {
                         '--max-line-length',
                         '140',
                     },
                 },
+                vala_lint = {},
             },
         },
         config = function(_, opts)

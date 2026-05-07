@@ -1,4 +1,4 @@
-return {
+local M = {
     -- Automatically add closing tags for HTML and JSX
     {
         'windwp/nvim-ts-autotag',
@@ -46,27 +46,6 @@ return {
         },
     },
 
-    -- python
-    {
-        'linux-cultist/venv-selector.nvim',
-        dependencies = {
-            'neovim/nvim-lspconfig',
-            'nvim-telescope/telescope.nvim',
-        },
-        branch = 'regexp',
-        cmd = 'VenvSelect',
-        ft = 'python',
-        keys = {
-            { '<leader>v', '<CMD>VenvSelect<CR>', desc = 'Select Venv', ft = 'python' },
-        },
-        opts = function()
-            return {
-                dap_enabled = false,
-                notify_user_on_activate = true,
-            }
-        end,
-    },
-
     -- markdown
     {
         'MeanderingProgrammer/render-markdown.nvim',
@@ -101,9 +80,9 @@ return {
                 rust_analyzer = true,
                 dockerls = true,
                 lemminx = true, -- xml
-                pyright = true,
                 cssls = { single_file_support = true },
                 css_variables = true,
+                vala_ls = { single_file_support = true },
 
                 -- jsonls = {
                 --     settings = {
@@ -234,3 +213,7 @@ return {
         },
     },
 }
+
+M = Util.list_extend(M, require('Mochi.plugins.lsp.langs.python'))
+
+return M

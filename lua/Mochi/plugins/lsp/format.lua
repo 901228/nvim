@@ -34,7 +34,7 @@ return {
                 lua = { 'stylua' },
                 sh = { 'shfmt' },
                 rust = { 'rustfmt' },
-                python = { 'black', 'isort' },
+                python = { 'ruff_organize_imports', 'ruff_fix', 'ruff_format' },
                 javascript = { 'prettierd' },
                 typescript = { 'prettierd' },
                 ['*'] = { 'codespell' },
@@ -68,13 +68,10 @@ return {
                 rustfmt = {
                     command = 'rustfmt',
                 },
-                black = {
+                ruff_format = {
                     prepend_args = {
                         '--line-length=140',
                     },
-                },
-                isort = {
-                    prepend_args = { '--profile', 'black' },
                 },
             },
             format_on_save = nil,
