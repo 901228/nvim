@@ -8,7 +8,7 @@ return {
         keys = {
             {
                 '<C-t>',
-                function() require('menu').open('default') end,
+                function() require('menu').open(Util.menus.default) end,
                 desc = 'Open menu',
                 mode = { 'n', 'v' },
             },
