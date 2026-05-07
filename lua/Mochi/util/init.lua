@@ -10,6 +10,7 @@
 ---@field icon MochiUtil.icon
 ---@field color MochiUtil.color
 ---@field menus MochiUtil.menus
+---@field treesitter MochiUtil.treesitter
 local M = {}
 
 setmetatable(M, {

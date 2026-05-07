@@ -49,10 +49,7 @@ local M = {
     -- markdown
     {
         'MeanderingProgrammer/render-markdown.nvim',
-        dependencies = {
-            'nvim-treesitter/nvim-treesitter',
-            'echasnovski/mini.icons',
-        },
+        dependencies = 'echasnovski/mini.icons',
         ---@module 'render-markdown'
         ---@type render.md.UserConfig
         opts = {
