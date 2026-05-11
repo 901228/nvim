@@ -62,7 +62,7 @@ return {
                     type = 'group',
                     opts = { position = 'v_center', },
                     val = {
-                        { type = 'padding', val = 2 },
+                        -- { type = 'padding', val = 2 },
                         dashboard.section.header,
                         -- dashboard.section.terminal,
                         { type = 'padding', val = 2 },
