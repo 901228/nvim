@@ -36,4 +36,13 @@ return {
         'rubiin/highlighturl.nvim',
         init = function() vim.g.highlighturl = true end,
     },
+
+    -- write readonly file
+    {
+
+        'alex-k03/sudo-write.nvim',
+        keys = {
+            { '<leader>bS', function() require('sudo-write').write() end, mode = 'n', desc = 'Sudo force save' },
+        },
+    },
 }
